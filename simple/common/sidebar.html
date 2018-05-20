@@ -1,0 +1,99 @@
+<!doctype html>
+<template>
+	<script type="text/javascript">
+	$(function(){
+		$(".sub-menu-nav").hide();
+		$(".sub-menu").on("mouseenter", function() {
+			$(".sub-menu-nav", $(this)).show();
+		});
+		$("#sidebar").on("mouseleave", function() {
+			$(".sub-menu-nav").hide();
+		});
+		
+		// alwaysが設定されているタグを調べて、対象を勝手に取得できる様にしたい
+		var alwaysMode = true;
+		
+		var changeAlwaysMode = function(_alwaysMode) {
+			
+			if (_alwaysMode) {
+				$("#sidebar").addClass("always");
+				$("#main-top").addClass("always");
+				$("#job-table").addClass("always");
+				$("iframe").addClass("always");
+				$("#menu-button").addClass("open").removeClass("close");
+				alwaysMode = true;
+			} else {
+				$("#sidebar").removeClass("always");
+				$("#main-top").removeClass("always");
+				$("#job-table").removeClass("always");
+				$("iframe").removeClass("always");
+				$("#menu-button").addClass("close").removeClass("open");
+				alwaysMode = false;
+			}
+		};
+		changeAlwaysMode(true);
+		
+		$("#menu-button").on("mouseenter", function() {
+			if (window.matchMedia('(max-width:849px)').matches) {/* 849px以下 */
+				$("#sidebar").addClass("floating");
+				changeAlwaysMode(false);
+			}
+		});
+		$("#main-top").on("mouseenter", function() {
+			if (window.matchMedia('(max-width:849px)').matches) {/* 849px以下 */
+				$("#sidebar").removeClass("floating");
+				changeAlwaysMode(true);
+			}
+		});
+		$("#menu-button").on("click", function() {
+			if (window.matchMedia('(min-width: 850px)').matches) {/* 850px以上 */
+				if(alwaysMode) {
+					changeAlwaysMode(false);
+				} else {
+					changeAlwaysMode(true);
+				}
+			} else {
+				$("#sidebar").addClass("floating");
+				changeAlwaysMode(false);
+			}
+			return false;
+		});
+	});
+	</script>
+	<aside id="sidebar">
+		<h5 id="sidebar-header">Server-Name</h5>
+		<nav>
+			<ul id="main-menu">
+				<li><a href="./top.html">トップ</a></li><!-- Top -->
+				<li class="sub-menu">
+					<a>テーブル関係</a><!-- Main-1 -->
+					<ul class="sub-menu-nav">
+						<li class="subsub-menu"><a class="subsub-menu-head">テーブル表示</a><!-- Sub1-1 -->
+							<ul class="subsub-menu-nav">
+								<li><a href="./table.html">テーブル表示１</a></li><!-- Sub1-1-1 -->
+								<li><a href="./table.html">テーブル表示２</a></li><!-- Sub1-1-2 -->
+							</ul>
+						</li>
+						<li><a href="#">工事中</a></li><!-- Sub1-2 -->
+					</ul>
+				</li>
+				<li class="sub-menu">
+					<a>メッセージ関係</a><!-- Main-2 -->
+					<ul class="sub-menu-nav">
+						<li><a href="./error.html">エラー表示</a></li><!-- Sub-2-1 -->
+						<li class="subsub-menu"><a class="subsub-menu-head">メッセージ表示</a><!-- Sub-2-2 -->
+							<ul class="subsub-menu-nav">
+								<li><a href="./message.html">メッセージ表示１</a></li><!-- Sub-2-2-1 -->
+								<li><a href="./message.html">メッセージ表示２</a></li><!-- Sub-2-2-2 -->
+								<li><a href="./message.html">メッセージ表示３</a></li><!-- Sub-2-2-3 -->
+								<li><a href="./message.html">メッセージ表示４</a></li><!-- Sub-2-2-4 -->
+							</ul>
+						</li>
+					</ul>
+				</li>
+				<li><a href="./iframe.html">インラインフレーム</a></li><!-- Main-3-->
+				<li><a href="mailto:i.feeling.song@gmail.com">問合せ</a></li>
+			</ul>
+		</nav>
+	</aside>
+</template>

@@ -1,0 +1,14 @@
+<!doctype html>
+<template>
+	<script type="text/javascript">
+	$(function(){
+		$("#title-link").attr("href", $(sidebarLinkSelector).attr("href"));
+		$("#title-link").html(titleName);
+	});
+	</script>
+	<header>
+		<div id="header-in">
+			<button id="menu-button"></button><h1><a id="title-link"></a></h1>
+		</div>
+	</header>
+</template>

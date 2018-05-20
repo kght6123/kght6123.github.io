@@ -1,0 +1,96 @@
+<!doctype html>
+
+<html lang="ja">
+<head>
+	<title>トップ</title>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+	<meta name="description" content="Original Meterial Screen.">
+	<meta name="author" content="kght6123">
+	<meta name="viewport" content="width=device-width, maximum-scale=1.0, minimum-scale=0.5,user-scalable=yes,initial-scale=1.0" />
+	<link rel="import" href="./common/sidebar.html">
+	<link rel="import" href="./common/header.html">
+	<link rel="import" href="./common/footer.html">
+	<link rel="stylesheet" href="http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" />
+	<!--link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.css" integrity="sha256-7GAtDQ79wTEOjhBKf70uBQG7A5yyb+8rigu07atXWDY=" crossorigin="anonymous" /-->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css" integrity="sha256-gvEnj2axkqIj4wbYhPjbWV7zttgpzBVEgHub9AAZQD4=" crossorigin="anonymous" />
+	<link rel="stylesheet" href="./css/modern-ui.css" />
+	<link rel="stylesheet" href="./css/modern-sidebar.css" />
+	<style type="text/css">
+		.center-middle {
+			margin: auto;
+			top: 0;
+			bottom: 0;
+			left: 0;
+			right: 0;
+			position: absolute;
+		}
+		.center-none {
+			margin: 0 auto;
+			top: 0;
+			bottom: 0;
+			left: 0;
+			right: 0;
+			position: absolute;
+		}
+		input[type="text"], input[type="password"] {
+			width:150px;
+			height:35px;
+			margin:5px;
+		}
+		input[type="submit"] {
+			width:120px;
+			height:35px;
+		}
+	</style>
+	<script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+	<script src="http://code.jquery.com/ui/1.12.1/jquery-ui.min.js" integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.blockUI/2.70/jquery.blockUI.min.js" integrity="sha256-9wRM03dUw6ABCs+AU69WbK33oktrlXamEXMvxUaF+KU=" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js" integrity="sha256-uEFhyfv3UgzRTnAZ+SEgvYepKKB0FW6RqZLrqfyUNug=" crossorigin="anonymous"></script>
+	<script src="./js/jquery/jquery-utils.js"></script>
+	<script src="./js/web-components-utils.js"></script>
+	<script type="text/javascript">
+		var sidebarLinkSelector = "";
+		var titleName = "ログイン";// "ログアウト"
+		var event = "login";// "logout"
+		$(function(){
+			$("#btn").val(titleName);
+			$("#event").val(event);
+			$("#user-id").attr("readonly", null);
+			$("#password").attr("readonly", null);
+		});
+	</script>
+</head>
+<body>
+	<x-sidebar></x-sidebar>
+	<div id="main-top" style="position: relative; height: calc(100vh - 5px);">
+		<x-header></x-header>
+		<form action="/top.html">
+			<input type="hidden" name="event" id="event" />
+			<main>
+				<section>
+					<div class="center-middle" style="width:calc(100vw / 1.5); height:calc(100vh / 1.75);">
+						<div class="center-middle" style="width:100%;top: calc( 50% - 75px );">
+							<div class="center-none" style="width:176px;">
+								<input type="text" id="user-id" name="userId" placeholder="ユーザID" required＝true readonly />
+								<input type="password" id="password" name="password" placeholder="パスワード" required＝true readonly />
+							</div>
+						</div>
+						<div class="center-middle" style="width:100%;top: calc( 50% + 60px );">
+							<div class="center-none" style="width:130px;">
+								<input type="submit" id="btn" class="center-none" />
+							</div>
+						</div>
+					</div>
+				</section>
+			</main>
+		</form>
+		<x-footer></x-footer>
+	</div>
+	<script>
+		importHtml("sidebar", false);
+		importHtml("header", false);
+		importHtml("footer", false);
+	</script>
+</body>
+</html>
