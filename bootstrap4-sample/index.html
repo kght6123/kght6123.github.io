@@ -1,0 +1,175 @@
+<!doctype html>
+
+<html lang="ja">
+	<!--
+		Material Design Color
+		https://www.materialui.co/colors
+		
+		Bootstrap 4 Cheat Sheet
+		https://hackerthemes.com/bootstrap-cheatsheet/#
+		https://hackerthemes.com/bootstrap-4-affinity-designer-grid/
+		
+		利用した素材集
+		https://www.pakutaso.com/akanesaya.html
+		https://www.pakutaso.com/search.html?offset=0&limit=30&search=%E8%8C%9C%E3%81%95%E3%82%84&imagemodel=%E8%8C%9C%E3%81%95%E3%82%84
+		
+		https://www.pakutaso.com/shared/img/thumb/iPhone8IMGL8198_TP_V4.jpg
+		https://www.pakutaso.com/shared/img/thumb/SAYA160105043152_TP_V4.jpg
+		https://www.pakutaso.com/shared/img/thumb/SAYAPAKU5460_TP_V4.jpg
+		
+	-->
+	<head>
+		<meta charset="utf-8">
+		<title>Bootstrap4 - Main -</title>
+		<meta name="description" content="Bootstrap4 Sample.">
+		<meta name="author" content="Koga">
+		<meta name="viewport" content="width=device-width, maximum-scale=1.0, minimum-scale=0.5,user-scalable=yes,initial-scale=1.0" />
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css">
+		<link rel="stylesheet" href="https://unpkg.com/jpn.css@latest/dist/bootstrap/jpn.min.css">
+		<style type="text/css">
+			html {
+				-ms-overflow-style: -ms-autohiding-scrollbar;
+			}
+			@-ms-viewport {
+				width: device-width;
+				initial-scale: 1;
+			}
+		</style>
+		<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+	</head>
+	<body style="padding:2em;">
+		<!--script src="js/scripts.js"></script-->
+		
+		<h1>Example heading <span class="badge badge-info">New</span></h1>
+		<h1>さんぷる　へっだー <span class="badge badge-info">新</span></h1>
+		
+		<div class="alert alert-primary" role="alert">
+			<strong>Well done!</strong> You successfully read this
+			important alert message.
+		</div>
+		
+		<div class="alert alert-secondary" role="alert">
+			<strong>Well done!</strong> You successfully read this
+			important alert message.
+		</div>
+		
+		<div class="alert alert-success" role="alert">
+			<h4 class="alert-heading">Well done!</h4>
+			You successfully read this important alert message.
+		</div>
+		
+		<div class="alert alert-info" role="alert">
+			<strong>Heads up!</strong> This alert needs your attention,
+			but it's not super important.
+		</div>
+		
+		<div class="alert alert-warning" role="alert">
+			<strong>Warning!</strong> Better check yourself, you're not looking too good.
+		</div>
+		
+		<div class="alert alert-danger" role="alert">
+			<strong>Oh snap!</strong>
+			<a href="#!" class="alert-link">Change a few things up</a>
+			and try submitting again.
+		</div>
+		
+		<div class="jumbotron">
+			<h1 class="display-3">Hello, world!</h1>
+			<p class="lead">This is a simple hero unit, a simple jumbotron-style component for
+											calling extra attention to featured content or information.</p>
+			<hr class="my-2">
+			<p>It uses utility classes for typography and
+				 spacing to space content out within the larger container.</p>
+			<p class="lead">
+				<a class="btn btn-primary btn-lg" href="#!" role="button">Some action</a>
+			</p>
+		</div>
+		
+		<form class="form-inline">
+			<label class="sr-only" for="inlineFormInputName2">Name</label>
+			<input type="text" class="form-control mb-2 mr-sm-2" id="inlineFormInputName2" placeholder="Jane Doe">
+			
+			<label class="sr-only" for="inlineFormInputGroupUsername2">Username</label>
+			<div class="input-group mb-2 mr-sm-2">
+				<div class="input-group-prepend">
+					<div class="input-group-text">@</div>
+				</div>
+				<input type="text" class="form-control" id="inlineFormInputGroupUsername2" placeholder="Username">
+			</div>
+			
+			<div class="form-check mb-2 mr-sm-2">
+				<input class="form-check-input" type="checkbox" id="inlineFormCheck">
+				<label class="form-check-label" for="inlineFormCheck">
+					Remember me
+				</label>
+			</div>
+			
+			<button type="submit" class="btn btn-primary mb-2">Submit</button>
+		</form>
+		
+		<form>
+			<div class="input-group input-group-lg">
+				<input type="text" class="form-control" placeholder="" aria-label="" aria-describedby="basic-addon1">
+				<div class="input-group-append">
+					<button class="btn btn-success" type="button">Love it</button>
+				</div>
+			</div>
+		</form>
+		
+		<div class="card-columns">
+			<div class="card">
+				<h4 class="card-header">Card Header</h4>
+				<div class="card-body">
+					<h5 class="card-title">Card title</h5>
+					<h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
+					<p class="card-text">
+						Some quick example text to build on the card title
+						and make up the bulk of the card's content.
+					</p>
+				</div>
+				<img class="img-fluid" src="https://www.pakutaso.com/shared/img/thumb/iPhone8IMGL8198_TP_V4.jpg" alt="Card image cap">
+				<div class="card-body">
+					<a href="#!" class="card-link">Card link</a>
+					<a href="#!" class="card-link">Another link</a>
+				</div>
+				<div class="card-footer">2 days ago</div>
+			</div>
+			<div class="card bg-primary text-center">
+				<h4 class="card-header">Card Header</h4>
+				<div class="card-body">
+					<h5 class="card-title">Card title</h5>
+					<h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
+					<p class="card-text">
+						Some quick example text to build on the card title
+						and make up the bulk of the card's content.
+					</p>
+				</div>
+				<img class="img-fluid" src="https://www.pakutaso.com/shared/img/thumb/SAYA160105043152_TP_V4.jpg" alt="Card image cap">
+				<div class="card-body">
+					<a href="#!" class="card-link">Card link</a>
+					<a href="#!" class="card-link">Another link</a>
+				</div>
+				<div class="card-footer">2 days ago</div>
+			</div>
+			<div class="card bg-dark">
+				<h4 class="card-header">Card Header</h4>
+				<div class="card-body">
+					<h5 class="card-title">Card title</h5>
+					<h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
+					<p class="card-text">
+						Some quick example text to build on the card title
+						and make up the bulk of the card's content.
+					</p>
+				</div>
+				<img class="img-fluid" src="https://www.pakutaso.com/shared/img/thumb/SAYAPAKU5460_TP_V4.jpg" alt="Card image cap">
+				<div class="card-body">
+					<a href="#!" class="card-link">Card link</a>
+					<a href="#!" class="card-link">Another link</a>
+				</div>
+				<div class="card-footer">2 days ago</div>
+			</div>
+		</div>
+	</body>
+</html>
