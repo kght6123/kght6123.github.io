@@ -6,7 +6,7 @@
 
 既存のUIフレームワークを利用せずに、レスポンシブデザインとマテリアルっぽいデザインを学ぶ為に作成したページです。
 
-WebComponetsの部分は、Chormeのみ正しく表示できます。
+WebComponetsの部分は、Chormeのみ正しく表示できます。WebComponets以外はIE11,Edge,Safariなどで動作します。
 
 VSCodeのDebgger for Chromeプラグインで動作確認しています。
 
