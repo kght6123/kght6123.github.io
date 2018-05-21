@@ -49,6 +49,7 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js" integrity="sha256-uEFhyfv3UgzRTnAZ+SEgvYepKKB0FW6RqZLrqfyUNug=" crossorigin="anonymous"></script>
 	<script src="./js/jquery/jquery-utils.js"></script>
 	<script src="./js/web-components-utils.js"></script>
+	<script src="./js/userAgentChecker.js"></script>
 	<script type="text/javascript">
 		var sidebarLinkSelector = "";
 		var titleName = "ログイン";// "ログアウト"
@@ -88,9 +89,13 @@
 		<x-footer></x-footer>
 	</div>
 	<script>
-		importHtml("sidebar", false);
-		importHtml("header", false);
-		importHtml("footer", false);
+		if (_uac.browser != "chrome") {
+			alert("WebComponentを利用している為、Chrome以外では動作しません。");
+		} else {
+			importHtml("sidebar", false);
+			importHtml("header", false);
+			importHtml("footer", false);
+		}
 	</script>
 </body>
 </html>
