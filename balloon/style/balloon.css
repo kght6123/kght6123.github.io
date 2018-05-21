@@ -1,0 +1,79 @@
+
+.balloon-left .faceicon img {
+	border: solid 3px #FCE4EC;
+	border-radius: 50%;
+}
+.balloon-right .faceicon img {
+	border: solid 3px #E8EAF6;
+	border-radius: 50%;
+}
+.says-left {
+	border-radius: 20px;
+	background: #EC407A;
+	color: #FCE4EC;
+}
+.says-right {
+	border-radius: 20px;
+	background: #5C6BC0;
+	color: #E8EAF6;
+}
+.says-left:after {
+	border: 12px solid transparent;
+	border-right: 12px solid #EC407A;
+}
+.says-right:after {
+	border: 12px solid transparent;
+	border-right: 12px solid #5C6BC0;
+}
+
+.balloon-left, .balloon-right {
+	width: 100%;
+	margin: 1.5em 0;
+	overflow: hidden;
+}
+.balloon-left .faceicon, .balloon-right .faceicon {
+	width: 80px;
+	height: 80px;
+}
+.balloon-left .faceicon {
+	float: left;
+}
+.balloon-right .faceicon {
+	float: right;
+}
+.balloon-left .faceicon img, .balloon-right .faceicon img{
+	width: 100%;
+	height: 100%;
+}
+.balloon-left .chatting, .balloon-right .chatting {
+	width: 100%;
+}
+.says-left, .says-right {
+	position: relative; 
+	padding: 17px 13px;
+}
+.says-left {
+	margin: 5px 0 0 25px;
+	float: left;
+}
+.says-right {
+	margin: 5px 25px 0 0;
+	float: right;
+}
+.says-left:after, .says-right:after {
+	content: "";
+	position: absolute;
+}
+.says-left:after {
+	top: 20px;
+	left: -22px;
+}
+.says-right:after {
+	top: 20px;
+	right: -22px;
+	transform: rotate(180deg);
+}
+.says-left p, .says-right p {
+	margin: 0;
+	padding: 0;
+}
