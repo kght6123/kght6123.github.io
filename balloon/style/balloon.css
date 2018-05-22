@@ -1,4 +1,3 @@
-
 .balloon-left .faceicon img {
 	border: solid 3px #FCE4EC;
 	border-radius: 50%;
@@ -27,49 +26,48 @@
 }
 
 .balloon-left, .balloon-right {
+	position:relative;
 	width: 100%;
-	margin: 1.5em 0;
-	overflow: hidden;
+	min-height: 120px;
 }
 .balloon-left .faceicon, .balloon-right .faceicon {
 	width: 80px;
 	height: 80px;
 }
 .balloon-left .faceicon {
-	float: left;
+	position: absolute;
+	left: 0.25em;
 }
 .balloon-right .faceicon {
-	float: right;
+	position: absolute;
+	right: 0.25em;
 }
-.balloon-left .faceicon img, .balloon-right .faceicon img{
+.balloon-left .faceicon img, .balloon-right .faceicon img {
 	width: 100%;
 	height: 100%;
 }
-.balloon-left .chatting, .balloon-right .chatting {
-	width: 100%;
-}
 .says-left, .says-right {
-	position: relative; 
 	padding: 17px 13px;
+	word-break: break-all;
 }
 .says-left {
-	margin: 5px 0 0 25px;
-	float: left;
+	position: absolute;
+	left: 115px;
 }
 .says-right {
-	margin: 5px 25px 0 0;
-	float: right;
+	position: absolute;
+	right: 115px;
 }
 .says-left:after, .says-right:after {
 	content: "";
 	position: absolute;
 }
 .says-left:after {
-	top: 20px;
+	top: 15px;
 	left: -22px;
 }
 .says-right:after {
-	top: 20px;
+	top: 15px;
 	right: -22px;
 	transform: rotate(180deg);
 }

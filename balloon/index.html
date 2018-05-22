@@ -8,6 +8,9 @@
 		Bootstrap 4 Cheat Sheet
 		https://hackerthemes.com/bootstrap-cheatsheet/#
 		
+		[CSS]レスポンシブ対応の文字サイズを指定するこれからのテクニック
+		https://coliss.com/articles/build-websites/operation/css/font-size-used-responsive-scales.html
+
 	-->
 	<head>
 		<meta charset="utf-8">
@@ -21,6 +24,8 @@
 		<style type="text/css">
 			html {
 				-ms-overflow-style: -ms-autohiding-scrollbar;
+				font-size: calc(15px + 0.25vw);
+				/*font-size: calc(350% + 0.75vw);*/
 			}
 			@-ms-viewport {
 				width: device-width;
@@ -29,12 +34,16 @@
 			img {
 				border-radius: 20px;
 			}
+			.list-group-item {
+				background-color: rgba(0, 0, 0, 0);
+				border: none;
+			}
 		</style>
 		<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
 		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
 	</head>
-	<body class="bg-light" style="padding:2em;">
+	<body class="bg-light" style="padding:0.75em;">
 		<h1>グラニーバック紹介！ <span class="badge badge-info">New</span></h1>
 		<ul class="list-group">
 			<li class="list-group-item">
@@ -53,13 +62,13 @@
 				
 				<!--吹き出しはじまり-->
 				<div class="balloon-right">
-					<div class="faceicon">
-						<img src="./image/kapibara.png" alt="カピバラ" />
-					</div>
 					<div class="chatting">
 						<div class="says-right">
 							<p>おお！相変わらず可愛いですね！</p>
 						</div>
+					</div>
+					<div class="faceicon">
+						<img src="./image/kapibara.png" alt="カピバラ" />
 					</div>
 				</div>
 				<!--吹き出し終わり-->
@@ -83,25 +92,25 @@
 				
 				<!--吹き出しはじまり-->
 				<div class="balloon-right">
-					<div class="faceicon">
-						<img src="./image/kapibara.png" alt="カピバラ" />
-					</div>
 					<div class="chatting">
 						<div class="says-right">
 							<p>既にプロレベル</p>
 						</div>
 					</div>
+					<div class="faceicon">
+						<img src="./image/kapibara.png" alt="カピバラ" />
+					</div>
 				</div>
 				<!--吹き出し終わり-->
 				<!--吹き出しはじまり-->
 				<div class="balloon-right">
-					<div class="faceicon">
-						<img src="./image/kapibara.png" alt="カピバラ" />
-					</div>
 					<div class="chatting">
 						<div class="says-right">
 							<p>この部分はどうやって使うの？</p>
 						</div>
+					</div>
+					<div class="faceicon">
+						<img src="./image/kapibara.png" alt="カピバラ" />
 					</div>
 				</div>
 				<!--吹き出し終わり-->
@@ -125,13 +134,13 @@
 				
 				<!--吹き出しはじまり-->
 				<div class="balloon-right">
-					<div class="faceicon">
-						<img src="./image/kapibara.png" alt="カピバラ" />
-					</div>
 					<div class="chatting">
 						<div class="says-right">
 							<p>ごめんなさい。もう一度教えて。。。</p>
 						</div>
+					</div>
+					<div class="faceicon">
+						<img src="./image/kapibara.png" alt="カピバラ" />
 					</div>
 				</div>
 				<!--吹き出し終わり-->
