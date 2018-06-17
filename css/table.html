@@ -1,0 +1,100 @@
+<!doctype html>
+
+<html lang="ja">
+	<!--
+		Material Design Color
+		https://www.materialui.co/colors
+		
+		CSS Grid Layoutで作るレスポンシブな表組み3パターン
+		https://qiita.com/hibikikudo/items/5ed2ce30ce5cb01908b5
+		
+		 ⇒ IE11が撲滅されたらつかえそう。。。今後に期待。
+		
+		 ⇒ displayプロパティが、テーブル(表組み)を作っている
+		
+				display: table;      /* テーブルとする */
+				display: table-row;  /* テーブルの「行」とする */
+				display: table-cell; /* テーブルの「セル」とする */
+		
+		
+	-->
+	<head>
+		<meta charset="utf-8">
+		<title>Responsive Table - Main -</title>
+		<meta name="description" content="Responsive Table.">
+		<meta name="author" content="kght6123">
+		<meta name="viewport" content="width=device-width, maximum-scale=1.0, minimum-scale=0.5,user-scalable=yes,initial-scale=1.0" />
+		<link rel="stylesheet" href="https://unpkg.com/jpn.css@latest/dist/bootstrap/jpn.min.css">
+		<style type="text/css">
+			
+			html {
+				-ms-overflow-style: -ms-autohiding-scrollbar;
+			}
+			@-ms-viewport {
+				width: device-width;
+				initial-scale: 1;
+			}
+			
+			.blue,
+			tr td:nth-of-type(2) {
+				color: #3F51B5;
+				background-color: #C5CAE9;
+                border: solid 2px #3F51B5;
+			}
+			
+			.green,
+			tr td:nth-of-type(3) {
+				color: #009688;
+				background-color: #B2DFDB;
+                border: solid 2px #009688;
+			}
+			
+			.red,
+			tr td:nth-of-type(1) {
+				color: #f44336;
+				background-color: #ffcdd2;
+                border: solid 2px #f44336;
+			}
+			
+			.outer { }
+			.inner { padding: 0px; margin: 0px; width: 85vw; height: 70px; }
+			
+			@media screen and (min-width: 640px) {
+				.outer { display: table; }
+				.inner { display: table-cell; width: 20vw; }
+			}
+			
+			.cell { width: 20vw; height: 70px; }
+			
+			table { border-collapse: collapse; border-spacing: 0;}
+			td { display: inline-block; }
+			
+			@media screen and (max-width: 640px) {
+				td { display: block; }
+                .cell { width: 85vw; }
+			}
+			
+		</style>
+	</head>
+	<body>
+		<h1>Responsive Table</h1>
+		
+		<div class="outer">
+			<p class="inner red">1つめの段落</p>
+			<p class="inner red">2つめの段落</p>
+		</div>
+		
+		<table>
+			<tr>
+				<td class="cell">ここは1行目の1列目</td>
+				<td class="cell">ここは1行目の2列目</td>
+				<td class="cell">ここは1行目の3列目</td>
+			</tr>
+			<tr>
+				<td class="cell">ここは2行目の1列目</td>
+				<td class="cell">ここは2行目の2列目</td>
+				<td class="cell">ここは2行目の3列目</td>
+			</tr>
+		</table>
+	</body>
+</html>

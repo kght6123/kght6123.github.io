@@ -1,0 +1,71 @@
+<!doctype html>
+
+<html lang="ja">
+	<!--
+		Material Design Color
+		https://www.materialui.co/colors
+		
+	-->
+	<head>
+		<meta charset="utf-8">
+		<title>CSS3 Columns - Main -</title>
+		<meta name="description" content="CSS3 Columns.">
+		<meta name="author" content="kght6123">
+		<meta name="viewport" content="width=device-width, maximum-scale=1.0, minimum-scale=0.5,user-scalable=yes,initial-scale=1.0" />
+		<link rel="stylesheet" href="https://unpkg.com/jpn.css@latest/dist/bootstrap/jpn.min.css">
+		<style type="text/css">
+			
+			html {
+				-ms-overflow-style: -ms-autohiding-scrollbar;
+			}
+			@-ms-viewport {
+				width: device-width;
+				initial-scale: 1;
+			}
+			
+			.multicolumnbox {
+				-moz-column-count: 3;
+				-webkit-column-count: 3;
+				column-count: 3;
+				
+				-moz-column-width: 18em;
+				-webkit-column-width: 18em;
+				column-width: 18em;
+				
+				-moz-column-gap: 5px;
+				-webkit-column-gap: 5px;
+				column-gap: 5px;
+				
+				-moz-column-rule: solid black 5px;
+				-webkit-column-rule: solid black 5px;
+				column-rule: solid black 5px;
+				
+			}
+			.multicolumnbox p:nth-of-type(1) {
+				color: #ffcdd2;
+				background-color: #f44336;
+				/* break-before: column;指定要素の直前で段を区切りたい */
+			}
+			.multicolumnbox p:nth-of-type(2) {
+				color: #F8BBD0;
+				background-color: #E91E63;
+				/* break-after: column;指定要素の直後で段を区切りたい */
+			}
+			.multicolumnbox p:nth-of-type(3) {
+				color: #E1BEE7;
+				background-color: #9C27B0;
+				/* break-inside: avoid-column;指定要素の内部で段を区切りたくない */
+			}
+		</style>
+	</head>
+	<body>
+		<h1>CSS3 Columns</h1>
+		
+		<div class="multicolumnbox">
+			<p> ～最初の段落～ </p>
+			<p> ～2番目の段落～ </p>
+			<p>このように複数のp要素をdiv要素に含めるシンプルなHTMLソースを使います。</p>
+		</div>
+		
+	</body>
+</html>

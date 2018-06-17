@@ -1,0 +1,241 @@
+<!doctype html>
+
+<html lang="ja">
+	<!--
+		Material Design Color
+		https://www.materialui.co/colors
+		
+		iOS風すりガラスだけじゃない！backdrop-filterのすごいCSS実装アイデア
+		https://www.webprofessional.jp/create-stunning-image-effects-with-css-backdrop-filter/
+		 ⇒ EdgeとSafariが対応
+		
+		モダンブラウザで試すcss3（曇りガラス風の背景と文字の透過）
+		https://qiita.com/kfunnytokyo/items/bae21b69a43bfd24b31c
+		
+	-->
+	<head>
+		<meta charset="utf-8">
+		<title>CSS3 Centered - Main -</title>
+		<meta name="description" content="CSS3 Centered.">
+		<meta name="author" content="kght6123">
+		<meta name="viewport" content="width=device-width, maximum-scale=1.0, minimum-scale=0.5,user-scalable=yes,initial-scale=1.0" />
+		<link rel="stylesheet" href="https://unpkg.com/jpn.css@latest/dist/bootstrap/jpn.min.css">
+		<style type="text/css">
+			
+			html {
+				-ms-overflow-style: -ms-autohiding-scrollbar;
+				font-size: calc(100vmin / 40);/* フォントサイズを画面サイズによって可変する */
+				/* バルーンのフォントサイズ指定をvminにしてみる！！ */
+			}
+			@-ms-viewport {
+				width: device-width;
+				initial-scale: 1;
+			}
+			
+			body {
+				padding: 0px;
+				margin: 0px;
+				/*background: linear-gradient(-135deg, #E4A972, #9941D8);*//* 線形 */
+				/*background: radial-gradient(#FFFFFF, #CCCCCC);*//* 円形 */
+
+				background: url('../image/saya.akane/https___www.pakutaso.com_shared_img_thumb_AKANE072122928.jpg');
+				background-size: contain;
+                background-repeat: repeat;
+				/*background-repeat: no-repeat;*/
+
+				/* 背景画像にOverlay
+				background: linear-gradient(-45deg, rgba(246, 255, 0, .8), rgba(255, 0, 161, .8)), url(images/bg-cherrybrossam.jpg);
+				background-size: cover;*/
+			}
+			.glass {
+				position: fixed;
+				top: 0;
+				left: 0;
+				width: 100vw;
+				height: 100vh;
+				/* 滲み効果 */
+				-webkit-backdrop-filter: contrast(4) blur(20px);
+				z-index: -1;
+			}
+
+			.black1, .black2 {
+				color: rgba(255, 255, 255, 0.90);
+				padding: 2em;
+				/*width: 95%;*/
+				/*height: 95%;*/
+				text-align: center;
+				/*padding: 15px 30px;*/
+			}
+
+			.black1 {
+				/* 右下から左上のグラデーション */
+				background: linear-gradient(to left top, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.9));
+			}
+			
+			.black1::after {/*グラデーションのシャドウ*/
+				content: "";
+				position: absolute;
+				z-index: -1;
+				bottom: -5%;
+				left: 5%;
+				height: 100%;
+				width: 100%;
+				opacity: 1.0;
+				border-radius: 5%;
+				
+				/* 右下から左上のグラデーション */
+				background: linear-gradient(to left top, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.9));
+				filter: blur(25px);
+			}
+			
+			.black2 {
+				background: rgba(0, 0, 0, 0.5);
+				box-shadow: 5px 5px 25px 0px rgba(0, 0, 0, 0.3);
+				/*filter: drop-shadow(5px 5px 25px 0px rgba(0, 0, 0, 0.3)); *//* IE以外、透過オブジェクトにも使える */
+			}
+			
+			/* 水平垂直中央へ */
+			.center1 {
+				margin: 50vh auto 0;
+				transform: translateY(-50%);
+				
+				width: 500px;
+				height: 200px;
+			}
+			
+			/* 水平垂直中央へ */
+			.center21 {
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				min-height: 100vh;
+			}
+			.center21 DIV {
+				width: 100px;
+				height: 100px;
+			}
+			
+			/* 水平垂直中央へ */
+			.center22 {
+				display: flex;
+				min-height: 100vh;
+			}
+			.center22 DIV {
+				margin: auto;
+				
+				width: 100px;
+				height: 100px;
+			}
+			
+			/* 水平垂直中央へ */
+			.center23 {
+				display: grid;
+				grid-template-columns: 100vw;
+				grid-template-rows: 100vh;
+			}
+			.center23 DIV {
+				justify-self: center;
+				align-self: center;
+				
+				width: 100px;
+				height: 100px;
+			}
+			
+			/* 水平垂直中央へ */
+			.center3 {
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				transform: translate(-50%, -50%);
+				
+				width: 300px;
+				height: 100px;
+			}
+
+			.container-float {
+				/* コンテナの高さ、単位は無関係 */
+				height: 100vh;
+			}
+			.container-float::after {
+				content: "";
+				display: table;
+				clear: both;
+			}
+			.centered-float {
+				position: relative;
+				float: left;
+				top: 50%;
+				left: 50%;
+				transform: translate(-50%, -50%);
+			}
+			
+			.container-noFixedHeight {
+				position: relative;
+				/* コンテナの高さ、単位は無関係 */
+				min-height: 100vh;
+			}
+			.centered-noFixedHeight {
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				transform: translate(-50%, -50%);
+			}
+			
+			.container-absolute {
+				position: relative;
+				/* コンテナの高さ、単位は無関係 */
+				height: 100vh;
+			}
+			.centered-absolute {
+				position: absolute;
+				max-width: 50%;
+				max-height: 18.5rem;
+				top: 0; left: 0; bottom: 0; right: 0;
+				margin: auto;
+			}
+			
+			.container-flexbox { /* IE9ではサポートされていない */
+				height: 100vh; /* コンテナの高さ、ユニットとは無関係 */
+				display: flex;
+				align-items: center;
+				justify-content: center;
+			}
+			
+		</style>
+	</head>
+	<body>
+		<div class="glass"></div>
+		
+		<div class="black2 center1">中央に配置１（margin）</div>
+		
+		<div class="center21">
+			<div class="black2">中央に配置２－１（flex）</div>
+		</div>
+		
+		<div class="center22">
+			<div class="black2">中央に配置２－２（flex＋margin）</div>
+		</div>
+		
+		<div class="center23">
+			<div class="black2">中央に配置２－３（grid）</div>
+		</div>
+		
+		<div class="black2 center3">中央に配置３（position absolute）</div>
+		
+		<section class="container-float">
+			<div class="centered-float black2">中央に配置４（float）</div>
+		</section>
+		<section class="container-noFixedHeight">
+			<div class="centered-noFixedHeight black1">中央に配置５（position＋top＋left）</div>
+		</section>
+		<section class="container-absolute">
+			<div class="centered-absolute black2">中央に配置６（position＋max-width＋max-height＋margin: auto）（IE11不可）</div>
+		</section>
+		<section class="container-flexbox">
+			<div class="centered-flexbox black2">中央に配置７（flexbox＋center）</div>
+			<div class="centered-flexbox black2">２個目</div>
+			<div class="centered-flexbox black2">３個目</div>
+		</section>
+	</body>
+</html>
+

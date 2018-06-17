@@ -1,0 +1,276 @@
+<!doctype html>
+
+<html lang="ja">
+	<!--
+		Material Design Color
+		https://www.materialui.co/colors
+		
+		Bootstrap 4 Cheat Sheet
+		https://hackerthemes.com/bootstrap-cheatsheet/#
+		https://hackerthemes.com/bootstrap-4-affinity-designer-grid/
+		
+		SAYA AKANE
+		https://www.pakutaso.com/akanesaya.html
+		
+		https://www.pakutaso.com/shared/img/thumb/iPhone8IMGL8198_TP_V4.jpg
+		https://www.pakutaso.com/shared/img/thumb/SAYA160105043152_TP_V4.jpg
+		https://www.pakutaso.com/shared/img/thumb/SAYAPAKU5460_TP_V4.jpg
+		
+		Vue.jsから手軽に始めるJavaScriptフレームワーク
+		https://qiita.com/icoxfog417/items/49f7301be502bc2ad897
+		
+		https://jp.vuejs.org/v2/guide/installation.html
+	-->
+	<head>
+		<meta charset="utf-8">
+		<title>Vue.js Sample - Main -</title>
+		<meta name="description" content="Vue.js Sample.">
+		<meta name="author" content="Koga">
+		<meta name="viewport" content="width=device-width, maximum-scale=1.0, minimum-scale=0.5,user-scalable=yes,initial-scale=1.0" />
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css">
+		<link rel="stylesheet" href="https://unpkg.com/jpn.css@latest/dist/bootstrap/jpn.min.css">
+		<style type="text/css">
+			
+			html {
+				-ms-overflow-style: -ms-autohiding-scrollbar;
+			}
+			@-ms-viewport {
+				width: device-width;
+				initial-scale: 1;
+			}
+			
+			.todo-default {
+				padding: 5px;
+				border-bottom: 1px solid silver;
+			}
+			.todo-doing {
+				background-color: floralwhite;
+			}
+			
+			.issue-default{
+				padding: 10px; 
+			}
+			.issue-default a {
+				font-weight: bold;
+				font-size: 18px;
+				text-decoration: none;
+				color:slategray;
+			}
+			.issue-default span {
+				color:#767676;
+				font-size: 12px;
+			}
+		</style>
+		<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.min.js"></script>
+	</head>
+	<body style="padding: 1em;">
+		<h1>Welcome to Vue.js</h1>
+		
+		<div id="todoApp1">
+			<!-- v-bind/v-modelで属性、v-onでイベントの設定 -->
+			<!-- v-bindは:、v-onは@の省略が可能 -->
+			<!-- v-modelは値を変更すると即反映される設定 -->
+			
+			<!-- data.fontStyleを設定 -->
+			<!-- data.titleを設定 -->
+			<h2 v-bind:style="fontStyle">{{ title }}</h2>
+			
+			<!-- data.todoを設定 -->
+			<!-- Enterキー押下時にmethods.addTodoを呼び出し -->
+			<input type="text" v-model="todo" v-on:keyup.enter="addTodo">
+			
+			<div>
+				<!-- data.todosで繰り返し設定 -->
+				<!-- data.todos[x].idを設定 -->
+				<!-- data.todos[x].doing == trueなら、todo-doingをclassに設定 -->
+				<!-- クリック時にmethods.beginを呼び出し -->
+				<div v-for="t in todos" v-bind:key="t.id" 
+					v-bind:class="['todo-default', t.doing ? 'todo-doing' : '']"
+					v-on:click="begin(t)">
+					<!-- data.todos[x].nameを設定 -->
+					{{t.name}}
+				</div>
+			</div>
+		</div>
+		<script type="text/javascript">
+
+			var app = new Vue({
+				// 対象となるHTML要素
+				el: '#todoApp1',
+				
+				// バインドする値
+				data: {
+					title: "Todo",
+					fontStyle: {
+						fontSize: "20px",
+					},
+					todo: "",
+					todos: []
+				},
+				// イベントから呼び出す処理
+				methods: {
+					addTodo: function() {
+						this.todos.push({
+							id: this.todos.length,
+							name: this.todo,
+							doing: false
+						});
+						this.todo = "";
+					},
+					begin: function(todo){
+						todo.doing = !todo.doing;
+					}
+				}
+			});
+		</script>
+		
+		<div id="todoApp">
+			<h2>Todo with Component</h2>
+			<input type="text" v-model="todo" v-on:keyup.enter="addTodo">
+			<span>doing {{doings}} / {{todos.length}} task</span>
+			<div>
+				<todo-template v-for="t in todos" v-bind:t="t" v-on:todochanged="count"></todo-template>
+			</div>
+		</div>
+		
+		<script type="text/x-template" id="todo-template">
+			<div v-bind:class="['todo-default', doing ? 'todo-doing' : '']" v-on:click="begin">{{t.name}}</div>
+		</script>
+		
+		<script type="text/javascript">
+
+			Vue.component("todo-template", {
+				// Componentが受け取る変数を定義
+				props: ["t"],
+				
+				// Component独自のバインドする値
+				//  -> function経由にしないと、Component間で共有される
+				// 
+				data: function(){
+					return {
+						doing: false
+					};
+				},
+				// Component対象の要素
+				template: "#todo-template",
+				methods: {
+					begin: function () {
+						this.doing = !this.doing;
+						// v-on:todochangedを発火（イベント名は小文字！）
+						this.$emit("todochanged", this.doing);
+					}
+				}
+			});
+			
+			var app = new Vue({
+				el: '#todoApp',
+				data: {
+					todo: "",
+					todos: [],
+					doings: 0
+				},
+				methods: {
+					addTodo: function() {
+						this.todos.push({
+							name: this.todo,
+							done: false
+						});
+						this.todo = "";
+					},
+					// data.doingsのカウンタ関数（Componentに受け渡す）
+					count: function(doing){
+						this.doings += doing ? 1 : -1;
+					}
+				}
+			})
+		</script>
+		
+		<div id="issues">
+			<h2>Latest {{repository}} Issues</h2>
+			<div>
+				<input type="text" v-model="repository">
+			</div>
+			<div>
+				<input type="text" v-model="searchText">
+				<!-- computed.hasIssueと紐付け（v-showは表示切替、v-ifはレンダリングしない） -->
+				<div v-show="hasIssue">
+					<!-- computed.hasIssueがtrue -->
+					
+					<!-- computed.filtered_issuesと紐付けし、繰り返し設定 -->
+					<div v-for="i in filtered_issues"
+						class="issue-default">
+						<!-- data.issues[x].html_urlと、data.issues[x].titleを設定 -->
+						<a :href="i.html_url" target="_blank">{{i.title}}</a>
+						<br/>
+						<!-- data.issues[x].numberと、data.issues[x].updated_atを設定 -->
+						<!-- updated_atは、filters.formatDateで文字列加工 -->
+						<span>#{{i.number}} at {{i.updated_at | formatDate}}</span>
+					</div>
+				</div>
+				<div v-else>
+					<!-- computed.hasIssueがfalse -->
+					The repository {{repository}} does not exist!
+				</div>
+			</div>
+		</div>
+		
+		<script type="text/javascript">
+
+			var ISSUES = "https://api.github.com/repos/[R]/issues?state=open"
+			
+			var app = new Vue({
+				el: "#issues",
+				data: {
+					repository: "vuejs/vue",
+					searchText: "",
+					issues: []
+				},
+				// 初期化処理
+				created: function () {
+					this.fetchData();
+				},
+				// データの監視
+				watch: {
+					// data.repositoryの値が変わったら、methods.fetchDataを呼び出し
+					repository: "fetchData"
+				},
+				// データの加工
+				filters: {
+					// 「T or Z」を空白に置き換える
+					formatDate: function (v) {
+						return v.replace(/T|Z/g, ' ');
+					}
+				},
+				// 動的なプロパティ
+				computed: {
+					// data.issuesが取得できているか？
+					hasIssue: function(){
+						return this.issues.length > 0 ? true : false;    
+					},
+					// data.issuesをdata.searchTextでフィルタリング
+					filtered_issues: function(){
+						var query = this.searchText;
+						return this.issues.filter(function(issue){
+							return issue.title.indexOf(query) > -1;
+						});
+					}
+				},
+				methods: {
+					// data.issuesの取得処理
+					fetchData: function () {
+						var xhr = new XMLHttpRequest();
+						var self = this;
+						xhr.open("GET", ISSUES.replace("[R]", self.repository));
+						xhr.onload = function () {
+							self.issues = JSON.parse(xhr.responseText);// JSONで取得
+						}
+						xhr.send();
+					}
+				}
+			});
+		</script>
+	</body>
+</html>

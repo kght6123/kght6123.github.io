@@ -1,0 +1,86 @@
+<!doctype html>
+
+<html lang="ja">
+	<!--
+		Material Design Color
+		https://www.materialui.co/colors
+		
+		CSS Grid Layoutで作るレスポンシブな表組み3パターン
+		https://qiita.com/hibikikudo/items/5ed2ce30ce5cb01908b5
+		
+		 ⇒ IE11が撲滅されたらつかえそう。。。今後に期待。
+		
+		 ⇒ displayプロパティが、テーブル(表組み)を作っている
+		
+				display: table;      /* テーブルとする */
+				display: table-row;  /* テーブルの「行」とする */
+				display: table-cell; /* テーブルの「セル」とする */
+		
+		
+	-->
+	<head>
+		<meta charset="utf-8">
+		<title>Responsive Table ２ - Main -</title>
+		<meta name="description" content="Responsive Table.">
+		<meta name="author" content="kght6123">
+		<meta name="viewport" content="width=device-width, maximum-scale=1.0, minimum-scale=0.5,user-scalable=yes,initial-scale=1.0" />
+		<link rel="stylesheet" href="https://unpkg.com/jpn.css@latest/dist/bootstrap/jpn.min.css">
+		<style type="text/css">
+			
+			html {
+				-ms-overflow-style: -ms-autohiding-scrollbar;
+			}
+			@-ms-viewport {
+				width: device-width;
+				initial-scale: 1;
+			}
+			
+			table {
+				border: 1px solid black;
+				box-sizing: border-box;
+				border-collapse: collapse;
+				width: 100%;
+			}
+			table td {
+				border: 1px solid black;
+				box-sizing: border-box;
+				padding: 1em;
+				vertical-align: top;
+			}
+			.headpane   { background-color: #ffdddd; }
+			.leftpane   { background-color: #ccffcc; width: 27%; }
+			.rightpane  { background-color: #ccffcc; width: 27%; }
+			.centerpane { background-color: #ffffcc; }
+			
+			@media screen and (max-width: 640px) {
+				table td {
+					display: block;
+					width: auto;
+				}
+				.leftpane   { width: auto; }
+				.rightpane  { width: auto; }
+			}
+		</style>
+	</head>
+	<body>
+		<h1>Responsive Table ２</h1>
+		
+		<table>
+			<tr>
+				<td colspan="3" class="headpane">■上部ペイン</td>
+			</tr>
+			<tr>
+				<td rowspan="3" class="leftpane">■左端ペイン</td>
+				<td             class="centerpane">■中央上部</td>
+				<td rowspan="3" class="rightpane">■右端ペイン</td>
+			</tr>
+			<tr>
+				<td class="centerpane">■中央2行目</td>
+			</tr>
+			<tr>
+				<td class="centerpane">■中央3行目</td>
+			</tr>
+		</table>
+		
+	</body>
+</html>

@@ -1,0 +1,88 @@
+<!doctype html>
+
+<html lang="ja">
+	<!--
+		Material Design Color
+		https://www.materialui.co/colors
+		
+	-->
+	<head>
+		<meta charset="utf-8">
+		<title>CSS3 Table Cell - Main -</title>
+		<meta name="description" content="CSS3 Table Cell.">
+		<meta name="author" content="kght6123">
+		<meta name="viewport" content="width=device-width, maximum-scale=1.0, minimum-scale=0.5,user-scalable=yes,initial-scale=1.0" />
+		<link rel="stylesheet" href="https://unpkg.com/jpn.css@latest/dist/bootstrap/jpn.min.css">
+		<style type="text/css">
+			
+			html {
+				-ms-overflow-style: -ms-autohiding-scrollbar;
+                font-size: calc(100vmin / 35);/* フォントサイズを画面サイズによって可変する */
+			}
+			@-ms-viewport {
+				width: device-width;
+				initial-scale: 1;
+			}
+			
+			.cover {
+				display: table;
+				margin: 0;
+				padding: 0;
+				width: 100%;
+			}
+			.cover .box {
+				display: table-cell;
+				margin: 0;
+				padding: 1em;
+				color: #303F9F;
+				background-color: #C5CAE9;
+			}
+			.cover .box:nth-of-type(1) {
+				min-width: auto;
+			}
+			.cover .box:nth-of-type(2) {
+				min-width: auto;
+				color: #d32f2f;
+				background-color: #ef9a9a;
+			}
+			.cover .box:nth-of-type(3) {
+				min-width: auto;
+			}
+			
+			@media screen and (max-width: 640px) {
+				.cover { display: block; }
+				.cover .box { display: block; min-width: 100%; }
+			}
+		</style>
+	</head>
+	<body>
+		<h1>CSS3 Table Cell</h1>
+		
+		<div class="cover">
+			<div class="box">
+				<h2>1段目</h2>
+				<p>
+				あああああああああああ。<br>
+				あああ、ああああああああああああああああああああ。<br>
+				ああああああああ。<br>
+				</p>
+			</div>
+			<div class="box">
+				<h2>2段目</h2>
+				<p>
+				いいいいいいいいいいいいいいいいい。<br>
+				いいいいいい、いいいいいいいいいいいいいいいいいいいい。<br>
+				いいいいいいいいいいい。<br>
+				</p>
+			</div>
+			<div class="box">
+				<h2>3段目</h2>
+				<p>
+				うううううううううううううううううううううううう。<br>
+				うううう、うううううううううううううう。<br>
+				うううううううううううう。<br>
+				</p>
+			</div>
+		</div>
+	</body>
+</html>
