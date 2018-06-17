@@ -53,5 +53,5 @@ Chorme、Safariで動作確認済み。
 * VSCodeのDebgger for Chromeプラグイン
 	* Chromeのみ
 
-
+* Brackets
 
