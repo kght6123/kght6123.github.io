@@ -1,0 +1,230 @@
+<!doctype html>
+
+<html lang="ja">
+	<!--
+		Material Design Color
+		https://www.materialui.co/colors
+
+		Bootstrap 4 Cheat Sheet
+		https://hackerthemes.com/bootstrap-cheatsheet/#
+		https://hackerthemes.com/bootstrap-4-affinity-designer-grid/
+
+		vue-stopwatch (参考、IE11でも動くように)
+		https://github.com/nagasawaaaa/vue-simple-stopwatch
+		
+	-->
+	<head>
+		<meta charset="utf-8">
+		<title>Stop Watch</title>
+		<meta name="description" content="Vue.js Sample.">
+		<meta name="author" content="Koga">
+		<meta name="viewport" content="width=device-width, maximum-scale=1.0, minimum-scale=0.5,user-scalable=yes,initial-scale=1.0" />
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css">
+		<!--link rel="stylesheet" href="https://unpkg.com/jpn.css@latest/dist/bootstrap/jpn.min.css"-->
+		<style type="text/css">
+
+			* {
+				/* 等幅フォントを使う */
+				font-family: Consolas, 'Courier New', Courier, Monaco, monospace;
+			}
+			
+			html {
+				-ms-overflow-style: -ms-autohiding-scrollbar;
+				font-size: calc(100vmin / 32);
+			}
+			
+			@-ms-viewport {
+				width: device-width;
+				initial-scale: 1;
+			}
+			
+			body {
+				color: #fff;
+				background: linear-gradient(-45deg, #1A237E, #303F9F, #b71c1c, #d32f2f);
+				/*background: linear-gradient(-45deg, #EE7752, #E73C7E, #23A6D5, #23D5AB);*/
+				background-size: 400% 400%;
+				animation: Gradient 15s ease infinite;
+				
+				overflow: hidden;
+			}
+			@keyframes Gradient {
+				0% {
+					background-position: 25% 50%;
+					/*background-position: 0% 50%*/
+				}
+				50% {
+					background-position: 75% 75%;
+					/*background-position: 100% 50%*/
+				}
+				100% {
+					background-position: 50% 25%;
+					/*background-position: 0% 50%*/
+				}
+			}
+			
+			#app {
+				height: 100vh;
+			}
+			
+			.container-flexbox {
+				display: flex;
+				align-items: center;
+				justify-content: center;
+			}
+			
+			.dark-card {
+				border: none;
+				padding: 1em;
+				background: linear-gradient(to left top, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.9));
+			}
+			
+			.clear-card {
+				border: none;
+				padding: 1em;
+				background-color: rgba(0, 0, 0, 0.0);
+			}
+			
+			.card-body > * {
+				padding:0.2em;
+			}
+			
+			.list-group-item {
+				background-color: rgba(0, 0, 0, 0);
+				border: none;
+				padding: 0.1em;
+			}
+			
+			.btn {
+				margin: 0.15em;
+			}
+			
+		</style>
+		<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.min.js"></script>
+	</head>
+	<body>
+		<div id="app" class="container-flexbox">
+			<div class="card dark-card">
+				<div class="card-body">
+					<div class="container-flexbox">
+						<div class="card-title display-4">{{ hours }}：{{ minutes | zeroPad }}：{{ seconds | zeroPad }}．{{ milliSeconds | zeroPad(3) }}</div>
+					</div>
+					<div class="container-flexbox">
+						<button class="btn btn-primary" @click="startTimer" :disabled="isRunning">START</button>
+						<button class="btn btn-info" @click="pushTime" :disabled="!isRunning">LAP</button>
+						<button class="btn btn-primary" @click="stopTimer" :disabled="!isRunning">STOP</button>
+						<button class="btn btn-secondary" @click="clearAll">CLEAR</button>
+					</div>
+				</div>
+			</div>
+			<div class="card clear-card" v-if="times.length">
+				<div class="card-body">
+					<div class="container-flexbox">
+						<ul class="list-group">
+							<li class="list-group-item text-light" v-for="item in times">{{ item.hours  }}:{{ item.minutes | zeroPad }}:{{ item.seconds | zeroPad }}.{{ item.milliSeconds | zeroPad(3) }}</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script type="text/javascript">
+
+			String.prototype.leftpad = function(len, ch) {
+			
+				str = String(this);
+				var i = -1;
+				if (!ch && ch !== 0) ch = ' ';
+				len = len - str.length;
+				while (++i < len) {
+					str = ch + str;
+				}
+				return str;
+			}
+			
+			new Vue({
+				el: "#app",
+				data: {
+					times: [],
+					animateFrame: 0,
+					nowTime: 0,
+					diffTime: 0,
+					startTime: 0,
+					isRunning: false
+				},
+				methods: {
+					// 現在時刻から引数に渡した数値を startTime に代入
+					setSubtractStartTime: function (time) {
+						var time = typeof time !== 'undefined' ? time : 0;
+						this.startTime = Math.floor(performance.now() - time);
+					},
+					// タイマーをスタートさせる
+					startTimer: function () {
+						// loop()内で this の値が変更されるので退避
+						var vm = this;
+						vm.setSubtractStartTime(vm.diffTime);
+						// ループ処理
+						(function loop(){
+							vm.nowTime = Math.floor(performance.now());
+							vm.diffTime = vm.nowTime - vm.startTime;
+							vm.animateFrame = requestAnimationFrame(loop);
+						}());
+						vm.isRunning = true;
+					},
+					// タイマーを停止させる
+					stopTimer: function () {
+						this.isRunning = false;
+						cancelAnimationFrame(this.animateFrame);
+					},
+					// 計測中の時間を配列に追加
+					pushTime: function () {
+						this.times.push({
+							hours: this.hours,
+							minutes: this.minutes,
+							seconds: this.seconds,
+							milliSeconds: this.milliSeconds
+						});
+					},
+					// 初期化
+					clearAll: function () {
+						this.startTime = 0;
+						this.nowTime = 0;
+						this.diffTime = 0;
+						this.times = [];
+						this.stopTimer();
+						this.animateFrame = 0;
+					}
+				},
+				computed: {
+					// 時間を計算
+					hours: function () {
+						return Math.floor(this.diffTime / 1000 / 60 / 60);
+					},
+					// 分数を計算 (60分になったら0分に戻る)
+					minutes: function () {
+						return Math.floor(this.diffTime / 1000 / 60) % 60;
+					},
+					// 秒数を計算 (60秒になったら0秒に戻る)
+					seconds: function () {
+						return Math.floor(this.diffTime / 1000) % 60;
+					},
+					// ミリ数を計算 (1000ミリ秒になったら0ミリ秒に戻る)
+					milliSeconds: function () {
+						return Math.floor(this.diffTime % 1000);
+					}
+				},
+				filters: {
+					// ゼロ埋めフィルタ 引数に桁数を入力する
+					// ※ String.prototype.padStart() は IEじゃ使えない
+					zeroPad: function(value, num){
+						var num = typeof num !== 'undefined' ? num : 2;
+						//return value.toString().padStart(num,"0");
+						return value.toString().leftpad(num, "0");
+					}
+				}
+			});
+			
+		</script>
+	</body>
+</html>
