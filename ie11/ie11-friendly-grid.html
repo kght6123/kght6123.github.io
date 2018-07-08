@@ -1,0 +1,177 @@
+<!doctype html>
+
+<html lang="ja">
+	<head>
+		<meta charset="utf-8">
+		<title>IE11 friendly Grid Layout - Main -</title>
+		<meta name="description" content="CSS3 Centered.">
+		<meta name="author" content="kght6123">
+		<meta name="viewport" content="width=device-width, maximum-scale=1.0, minimum-scale=0.5,user-scalable=yes,initial-scale=1.0" />
+		<link rel="stylesheet" href="https://unpkg.com/jpn.css@latest/dist/bootstrap/jpn.min.css">
+		<style type="text/css">
+			
+			html {
+				-ms-overflow-style: -ms-autohiding-scrollbar;
+			}
+			@-ms-viewport {
+				width: device-width;
+				initial-scale: 1;
+			}
+			
+			html, body {
+				margin: 0;
+			}
+			
+			.app {
+				height: 100vh;
+				display: -ms-grid;
+				display: grid;
+				
+				grid-template-rows: 45px auto repeat(3, 1fr); /* 縦幅：header「45px」、aside「1fr」、Main「1fr - 45px」 */
+				-ms-grid-rows: 45px minmax(min-content, max-content) (1fr)[3];/* IE11は[]でrepeatを指定 */
+				
+				grid-template-columns: 200px auto repeat(2, 1fr); /* 横幅：aside「200px」、header「1fr + 200px」、Main「1fr」 */
+				-ms-grid-columns: 200px minmax(min-content, max-content) (1fr)[2];/* IE11は[]でrepeatを指定 */
+			}
+			.app header {
+				box-shadow: 0 2px 5px rgba(38, 50, 56, .16);
+				
+				grid-column: 1/-1;/* 横は、1～最後のセルまで占める。spanは"/"で指定 */
+				grid-row: 1;
+				
+				-ms-grid-column: 1;
+				-ms-grid-column-span: 4;
+				-ms-grid-row: 1;
+				-ms-grid-row-span: 1;
+				
+				background-color: rgba(38, 50, 56, 1);
+			}
+			.app aside {
+				
+				grid-column: 1;
+				grid-row: 2/-1;
+				
+				-ms-grid-column: 1;
+				-ms-grid-column-span: 1;
+				-ms-grid-row: 2;
+				-ms-grid-row-span: 4;
+				
+				background-color: rgba(38, 50, 56, .2);
+			}
+			.app [role] {
+				-ms-grid-column-span: 1;
+				-ms-grid-row-span: 1;
+				
+				background-color: rgba(38, 50, 56, .1);
+			}
+			.app [role=main11] {
+				grid-column: 2;
+				grid-row: 2;
+				
+				-ms-grid-column: 2;
+				-ms-grid-row: 2;
+				
+				max-width: 50vw;
+			}
+			.app [role=main12] {
+				grid-column: 3;
+				grid-row: 2;
+				
+				-ms-grid-column: 3;
+				-ms-grid-row: 2;
+			}
+			.app [role=main13] {
+				grid-column: 4;
+				grid-row: 2;
+				
+				-ms-grid-column: 4;
+				-ms-grid-row: 2;
+			}
+			.app [role=main21] {
+				grid-column: 2;
+				grid-row: 3;
+				
+				-ms-grid-column: 2;
+				-ms-grid-row: 3;
+			}
+			.app [role=main22] {
+				grid-column: 3;
+				grid-row: 3;
+				
+				-ms-grid-column: 3;
+				-ms-grid-row: 3;
+			}
+			.app [role=main23] {
+				grid-column: 4;
+				grid-row: 3;
+				
+				-ms-grid-column: 4;
+				-ms-grid-row: 3;
+			}
+			.app [role=main31] {
+				grid-column: 2;
+				grid-row: 4;
+				
+				-ms-grid-column: 2;
+				-ms-grid-row: 4;
+			}
+			.app [role=main32] {
+				
+				grid-column: 3;
+				grid-row: 4;
+				
+				-ms-grid-column: 3;
+				-ms-grid-row: 4;
+			}
+			.app [role=main33] {
+				
+				grid-column: 4;
+				grid-row: 4;
+				
+				-ms-grid-column: 4;
+				-ms-grid-row: 4;
+			}
+			.app [role=main41] {
+				grid-column: 2;
+				grid-row: 5;
+				
+				-ms-grid-column: 2;
+				-ms-grid-row: 5;
+			}
+			.app [role=main42] {
+				
+				grid-column: 3;
+				grid-row: 5;
+				
+				-ms-grid-column: 3;
+				-ms-grid-row: 5;
+			}
+			.app [role=main43] {
+				
+				grid-column: 4;
+				grid-row: 5;
+				
+				-ms-grid-column: 4;
+				-ms-grid-row: 5;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="app">
+			<header>header</header>
+			<aside>aside</aside>
+			<div role="main11">main11&nbsp;あああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああ</div>
+			<div role="main12">main12</div>
+			<div role="main13">main13</div>
+			<div role="main21">main21</div>
+			<div role="main22">main22</div>
+			<div role="main23">main23</div>
+			<div role="main31">main31</div>
+			<div role="main32">main32</div>
+			<div role="main33">main33</div>
+			<div role="main41">main41</div>
+			<div role="main42">main42</div>
+			<div role="main43">main43</div>
+		</div>
+	</body>
+</html>
