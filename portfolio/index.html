@@ -1,0 +1,553 @@
+<!doctype html>
+
+<html lang="ja">
+	<head>
+		<meta charset="utf-8">
+		<title>Hirotaka Koga's portfolio.</title>
+		<meta name="description" content="Hirotaka Koga Engineer.">
+		<meta name="author" content="Koga">
+		<meta name="viewport" content="width=device-width, maximum-scale=1.0, minimum-scale=0.5,user-scalable=yes,initial-scale=1.0" />
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css">
+		<link rel="stylesheet" href="https://unpkg.com/jpn.css@latest/dist/bootstrap/jpn.min.css">
+		<style type="text/css">
+			html {
+				-ms-overflow-style: -ms-autohiding-scrollbar;
+			}
+			@-ms-viewport {
+				width: device-width;
+				initial-scale: 1;
+			}
+			body {
+				min-height: 75rem;
+				padding-top: 4.5rem;
+			}
+		</style>
+		<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+		<script type="text/javascript">
+			$(function(){
+				$(window).on("scroll load", function(_event){
+					var scrollTop = $("body").scrollTop();
+					var last = $("#contacts").offset().top - $("#contacts").height();
+					var width = Math.ceil(scrollTop / last * 100 / 5) * 5; // ５の倍数に切り上げする
+					//console.log(width);
+					$("#page-progress").css("width", width + "%");
+				});
+			});
+		</script>
+	</head>
+	<body data-spy="scroll" data-target=".navbar" data-offset="100">
+		<!-- profile skill works -->
+		<nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+			<a class="navbar-brand" href="#">
+				<img src="../image/illustrain10-doubutu20.png" class="rounded-circle bg-light" style="width:40px;">ひろたか（@kght6123）
+			</a>
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarSupportedContent">
+				<ul class="navbar-nav mr-auto">
+					<li class="nav-item">
+						<a class="nav-link" href="#profile">プロフィール<span class="sr-only">(current)</span></a>
+					</li>
+					<!--li class="nav-item">
+						<a class="nav-link" href="#skills">スキル</a>
+					</li-->
+					<li class="nav-item dropdown">
+						<a class="nav-link dropdown-toggle" id="navbardrop1" data-toggle="dropdown">スキル</a>
+						<div class="dropdown-menu">
+							<a class="dropdown-item" href="#skills-webfront">Webフロントエンド</a>
+							<a class="dropdown-item" href="#skills-webback">Webバックエンド</a>
+							<a class="dropdown-item" href="#skills-env">その他</a>
+							<a class="dropdown-item" href="#skills-mobile">モバイル・スマートフォン</a>
+						</div>
+					</li>
+					<li class="nav-item dropdown">
+						<a class="nav-link dropdown-toggle" id="navbardrop2" data-toggle="dropdown">主な成果</a>
+						<div class="dropdown-menu">
+							<a class="dropdown-item" href="#results-fmwf">Floting Multiple Window Framework α2</a>
+							<a class="dropdown-item" href="#results-temper">homebridge-temper</a>
+							<a class="dropdown-item" href="#results-smallappviewer">SmallAppViewer</a>
+							<a class="dropdown-item" href="#results-rest-struts1">REST Struts1</a>
+							<a class="dropdown-item" href="#results-kotlin-rails">Kotlin＋Rails</a>
+							<a class="dropdown-item" href="#results-wp-dev-docker">Wordpress開発環境（from Docker）</a>
+							<a class="dropdown-item" href="#results-orign-respo">レスポンシブレイアウトなサンプル</a>
+							<a class="dropdown-item" href="#results-chat">チャット風レイアウトのサンプル</a>
+							<a class="dropdown-item" href="#results-stopwatch">ストップウォッチ（IE11対応）</a>
+						</div>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link disabled" href="#contacts">連絡先</a>
+					</li>
+				</ul>
+				<!--form class="form-inline my-2 my-lg-0">
+					<input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
+					<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+				</form-->
+			</div>
+		</nav>
+		<nav class="navbar bg-dark navbar-dark fixed-bottom">
+			<div class="progress" style="width:100%;height: 0.1rem;">
+				<div id="page-progress" class="progress-bar bg-secondary progress-bar-striped progress-bar-animated" role="progressbar" style="width:0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+			</div>
+		</nav>
+		<main role="main" class="container text-center">
+			<div class="jumbotron" id="profile" style="background-color: white;">
+				<div class="container">
+					<h1 class="display-4">プロフィール</h1>
+					<p class="lead">システムエンジニアのひろたか（３３歳）についての自己紹介になります。</p>
+					<hr class="my-2">
+					<p>Sler系の派遣会社に、新卒から１３年在籍しています。<br>
+						三重県四日市市へ転勤中（１２年間）で、結婚（４年前）し、来年１月に第１子が生まれます。<br>
+						現在、名古屋圏内、もしくは大阪や東京へ遠距離通勤やリモートワークへの転職、またはフリーランス転向に向けて、活動中です。</p>
+				</div>
+				<div class="card-group" style="margin-bottom: 1rem;">
+					<div class="card">
+						<div class="card-body">
+							<h5 class="card-title">業務は「Java」が中心</h5>
+							<h6 class="card-subtitle mb-2 text-muted">「JavaScript・CSS」も得意</h6>
+							<p class="card-text">
+								業務向けWebアプリの開発を中心に行なっており、CORBA通信を利用した「JavaServlet・JSP」を得意としています。<br>
+								プロジェクト全体で利用される共通のフレームワーク開発も担っております。
+							</p>
+							<p class="card-text">
+								主なフレームワークは「Struts1」で、MVCを意識した開発を行なっています。
+							</p>
+						</div>
+						<div class="card-body">
+							<a href="https://ja.wikipedia.org/wiki/Common_Object_Request_Broker_Architecture" class="card-link" target="_blank">CORBA (Wiki)</a>
+							<a href="https://ja.wikipedia.org/wiki/Apache_Struts" class="card-link" target="_blank">Apache Struts (Wiki)</a>
+						</div>
+					</div>
+				</div>
+				<div class="card-group" style="margin-bottom: 1rem;">
+					<div class="card">
+						<div class="card-body">
+							<h5 class="card-title">開発リーダー的な存在</h5>
+							<h6 class="card-subtitle mb-2 text-muted">技術面では特に優れてます</h6>
+							<p class="card-text">
+								設計〜開発の担当が中心で、２〜６名チームのリーダー的立場として、<br>
+								新規機能開発の設計、保守開発のスケジュール管理や作業調整など行ってきました。<br>
+							</p>
+						</div>
+					</div>
+				</div>
+				<div class="card-group" style="margin-bottom: 1rem;">
+					<div class="card">
+						<div class="card-body">
+							<h5 class="card-title">その他、役割</h5>
+							<h6 class="card-subtitle mb-2 text-muted">要件定義の経験（１年）</h6>
+							<p class="card-text">
+								要件定義の経験を生かして、設計時に生じた技術的な懸念事項や、<br>
+								要件仕様的なズレを逐一確認し、<br>
+								より良いシステムの開発を行なっています。
+							</p>
+						</div>
+					</div>
+				</div>
+				<div class="card-group" style="margin-bottom: 1rem;">
+					<div class="card">
+						<div class="card-body">
+							<h5 class="card-title">役割について</h5>
+							<h6 class="card-subtitle mb-2 text-muted">開発リーダー的な存在です</h6>
+							<p class="card-text">
+								現プロジェクト内で唯一、JQueryを使った最新のIEへ対応と、<br>
+								レスポンシブデザインを採用した、Webアプリの開発を行なっており、<br>
+								新旧の技術を含めて検証や調査を行い、ユーザ様や将来的により良い提案をすることを肝に命じています。
+							</p>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="jumbotron" id="skills" style="background-color: white;">
+				<div class="container">
+					<h1 class="display-4">スキル</h1>
+					<p class="lead">今日までの実務や自己学習で身につけたスキルになります。</p>
+					<hr class="my-2">
+					<p>自己学習ではより良い開発を行う為に、新機能・新技術や、サーバなど構築方法を調べています。</p>
+					<p>特に既存の作業の効率化や、より深い技術の習得を意識しています。</p>
+					<p>また、可読性や安定性、汎用性を考慮した最適なコードの記述や、コードレビューや指導、フレームワーク開発に必要な知識の習得を目指しています。</p>
+				</div>
+				<div class="card-group" id="skills-webfront" style="margin-bottom: 1rem;">
+					<div class="card">
+						<div class="card-body">
+							<h5 class="card-title">Webフロントエンド系</h5>
+							<h6 class="card-subtitle mb-2 text-muted">HTML、JavaScript/CSSなど</h6>
+							<table class="table table-borderless table-striped table-hover">
+								<thead class="thead-light">
+									<tr>
+										<th>名前</th>
+										<th>実務</th>
+										<th>実務以外</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td>HTML4/CSS1</td>
+										<td>１０年以上</td>
+										<td>-</td>
+									</tr>
+									<tr>
+										<td>JavaScript</td>
+										<td>１０年以上</td>
+										<td>-</td>
+									</tr>
+									<tr>
+										<td>HTML5/CSS3</td>
+										<td>１年半</td>
+										<td>半年</td>
+									</tr>
+									<tr>
+										<td>JQuery</td>
+										<td>３年</td>
+										<td>半年</td>
+									</tr>
+									<tr>
+										<td>Bootstrap4</td>
+										<td>-</td>
+										<td>１〜２ヶ月</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+				<div class="card-group" id="skills-webback" style="margin-bottom: 1rem;">
+					<div class="card">
+						<div class="card-body">
+							<h5 class="card-title">Webバックエンド系</h5>
+							<h6 class="card-subtitle mb-2 text-muted">データベース、ミドルウェア、アプリケーションサーバなど</h6>
+							<table class="table table-borderless table-striped table-hover">
+								<thead class="thead-light">
+									<tr>
+										<th>名前</th>
+										<th>実務</th>
+										<th>実務以外</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td>JavaServlet/JSP</td>
+										<td>１０年以上</td>
+										<td>１年</td>
+									</tr>
+									<tr>
+										<td>Apache POI</td>
+										<td>１０年以上</td>
+										<td>-</td>
+									</tr>
+									<tr>
+										<td>CORBA<br>（Orbix、Orbacus、Java-IDL）</td>
+										<td>１０年以上</td>
+										<td>-</td>
+									</tr>
+									<tr>
+										<td>PHP</td>
+										<td>半年</td>
+										<td>２〜３ヶ月</td>
+									</tr>
+									<tr>
+										<td>Struts1.1</td>
+										<td>１０年以上</td>
+										<td>-</td>
+									</tr>
+									<tr>
+										<td>Oracle Database<br>9i〜11g</td>
+										<td>１０年以上</td>
+										<td>-</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+				<div class="card-group" id="skills-env" style="margin-bottom: 1rem;">
+					<div class="card">
+						<div class="card-body">
+							<h5 class="card-title">その他</h5>
+							<h6 class="card-subtitle mb-2 text-muted">OSなど開発環境、その他の言語について</h6>
+							<table class="table table-borderless table-striped table-hover">
+								<thead class="thead-light">
+									<tr>
+										<th>名前</th>
+										<th>実務</th>
+										<th>実務以外</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td>Windows<br>(Server含む)</td>
+										<td>１０年以上</td>
+										<td>１０年以上</td>
+									</tr>
+									<tr>
+										<td>UNIX<br>(Solaris、AIX、Linux、Raspbian)</td>
+										<td>１０年以上</td>
+										<td>２年</td>
+									</tr>
+									<tr>
+										<td>macOS</td>
+										<td>-</td>
+										<td>３年</td>
+									</tr>
+									<tr>
+										<td>Docker</td>
+										<td>-</td>
+										<td>１年</td>
+									</tr>
+									<tr>
+										<td>eclipse</td>
+										<td>１０年以上</td>
+										<td>１０年以上</td>
+									</tr>
+									<tr>
+										<td>Intellj Idea系</td>
+										<td>-</td>
+										<td>１年</td>
+									</tr>
+									<tr>
+										<td>Python3</td>
+										<td>-</td>
+										<td>１〜２ヶ月</td>
+									</tr>
+									<tr>
+										<td>Java</td>
+										<td>-</td>
+										<td>１０年以上</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+				<div class="card-group" id="skills-mobile" style="margin-bottom: 1rem;">
+					<div class="card">
+						<div class="card-body">
+							<h5 class="card-title">モバイル・スマートフォン系</h5>
+							<h6 class="card-subtitle mb-2 text-muted">スマートデバイス系のネイティブやマルチプラットフォーム開発について</h6>
+							<table class="table table-borderless table-striped table-hover">
+								<thead class="thead-light">
+									<tr>
+										<th>名前</th>
+										<th>実務</th>
+										<th>実務以外</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td>Android SDK</td>
+										<td>-</td>
+										<td>４年</td>
+									</tr>
+									<tr>
+										<td>Kotlin<br>（kotlin-DSL、Ktor、Kotlin/Native）</td>
+										<td>-</td>
+										<td>２年</td>
+									</tr>
+									<tr>
+										<td>iOS</td>
+										<td>-</td>
+										<td>２〜３ヶ月</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="jumbotron" id="results" style="background-color: white;">
+				<div class="container">
+					<h1 class="display-4">成果</h1>
+					<p class="lead">ほとんどはオープンソースとして、公開しています。</p>
+					<hr class="my-2">
+					<p>過去に作成したAndroidアプリや、Dockerの環境設定、OSS公開のAndroidフレームワーク、サンプルのHTMLが中心です。</p>
+				</div>
+				<div class="card-group" style="margin-bottom: 1rem;" id="results-fmwf">
+					<div class="card">
+						<div class="card-body">
+							<h5 class="card-title">Floting Multiple Window Framework α2</h5>
+							<h6 class="card-subtitle mb-2 text-muted">ルート権限不要で動く、Android専用のマルチウィンドウフレームワークです。</h6>
+							<p class="card-text">
+								小窓に専用のアプリ、またはウィジェットを表示します。<br>
+								小窓アプリの操作は片手操作に最適化しており、ウィンドウの拡大／縮小、移動は、四隅の縁に対して行います。<br>
+								小窓アプリ一覧と表示中の一覧を表示できる丸いランチャーがあり、Intentの呼び出しにも対応します。<br>
+								小窓アプリはプラグイン的に追加が可能です。
+							</p>
+							<p class="card-text">Kotlinを主要言語に採用しています。Kotlin最高！</p>
+						</div>
+						<div class="embed-responsive embed-responsive-1by1">
+							<iframe class="embed-responsive-item" src="https://www.youtube.com/embed/uGvzgPG2nSM?rel=0" allowfullscreen></iframe>
+						</div>
+						<div class="card-body">
+							<a href="https://github.com/kght6123/floating-window-android" class="card-link" target="_blank">GitHub link</a>
+						</div>
+					</div>
+				</div>
+				
+				<div class="card-group" style="margin-bottom: 1rem;" id="results-temper">
+					<div class="card">
+						<div class="card-body">
+							<h5 class="card-title">homebridge-temper</h5>
+							<h6 class="card-subtitle mb-2 text-muted">iOSにTemperとEasyLogの温湿度を表示できます。</h6>
+							<p class="card-text">
+								愛兎がいる部屋の温湿度を外出先からでも見れるように作りました。<br>
+								USBで温度が計測できるTemperとEasyLog（湿度も測定可能）を利用します。
+							</p>
+						</div>
+						<img class="card-img" src="../image/other/screen-01.png" alt="Screen Shot.">
+						<div class="card-body">
+							<a href="https://github.com/kght6123/homebridge-temper" class="card-link" target="_blank">Github link</a>
+							<a href="https://www.npmjs.com/package/homebridge-temper" class="card-link" target="_blank">npm link</a>
+							<a href="https://www.amazon.co.jp/dp/B004FI1570/" class="card-link" target="_blank">Temper (Amazon.co.jp)</a>
+							<a href="https://www.amazon.co.jp/dp/B016K27CDE/" class="card-link" target="_blank">EasyLog (Amazon.co.jp)</a>
+						</div>
+					</div>
+				</div>
+				
+				<div class="card-group" style="margin-bottom: 1rem;" id="results-smallappviewer">
+					<div class="card">
+						<div class="card-body">
+							<h5 class="card-title">SmallAppViewer</h5>
+							<h6 class="card-subtitle mb-2 text-muted">ソニーモバイルのSmallAppsフレームワークを利用しています。</h6>
+							<p class="card-text">
+								Floting Multiple Window Frameworkの前身です。<br>
+								SmallAppsフレームワークのサポートが打ち切られたので、開発を停止しています。
+							</p>
+						</div>
+						<div class="embed-responsive embed-responsive-1by1">
+							<iframe class="embed-responsive-item" src="https://www.youtube.com/embed/IJYVsAs8Q88?rel=0" allowfullscreen></iframe>
+						</div>
+						<div class="card-body">
+							<a href="https://play.google.com/store/apps/details?id=jp.kght6123.smallappviewer&hl=ja" class="card-link" target="_blank">PlayStore link</a>
+							<a href="https://github.com/kght6123/SmallAppViewer" class="card-link" target="_blank">Github link</a>
+						</div>
+					</div>
+				</div>
+				
+				<div class="card-group" style="margin-bottom: 1rem;" id="results-rest-struts1">
+					<div class="card">
+						<div class="card-body">
+							<h5 class="card-title">REST Struts1</h5>
+							<h6 class="card-subtitle mb-2 text-muted">Struts1で、最新のJava/ServletとThymeleafを使ってREST-APIを実現します。</h6>
+							<p class="card-text">
+								化石であるStruts1フレームワークを手放せない時に、どのように実装すれば、動的なJSON、XMLを返すREST-APIに対応できるか検討した時のプロジェクトです。<br>
+								半分ぐらい作った後に必要性と将来性に疑問を感じ（遅っ！）、気が向いた時に開発を継続しており、まだ未完成です。
+							</p>
+						</div>
+						<div class="card-body">
+							<a href="https://github.com/kght6123/smart-struts1" class="card-link" target="_blank">Github link</a>
+						</div>
+					</div>
+				</div>
+				
+				<div class="card-group" style="margin-bottom: 1rem;" id="results-kotlin-rails">
+					<div class="card">
+						<div class="card-body">
+							<h5 class="card-title">Kotlin＋Railsアプリケーションテンプレート</h5>
+							<h6 class="card-subtitle mb-2 text-muted">JRails経由で、RailsのロジックにKotlinを利用できます。</h6>
+							<p class="card-text">
+								Kotlinで作った資産をWebで利用するために作成したプロジェクトです。<br>
+								Kotlinに対応したWebフレームワーク（KotrやSpringBoot）があるので、今は利用していません。
+							</p>
+						</div>
+						<div class="card-body">
+							<a href="https://github.com/kght6123/kotlin-on-rails-template" class="card-link" target="_blank">Github link</a>
+						</div>
+					</div>
+				</div>
+				
+				<div class="card-group" style="margin-bottom: 1rem;" id="results-wp-dev-docker">
+					<div class="card">
+						<div class="card-body">
+							<h5 class="card-title">Wordpress開発環境（from Docker）</h5>
+							<h6 class="card-subtitle mb-2 text-muted">Wordpressの開発環境として利用しています。</h6>
+							<p class="card-text">
+								実はブログのカスタムテーマのソースコードが含まれています。（汗）<br>
+								起動・停止、クリーン、ダンプなど、よく使うDockerコマンドとシェルコマンドの組み合わせを、シェルファイルとして作成し<br>
+								簡単に実行できるようにしています。（macOS前提）
+							</p>
+						</div>
+						<div class="card-body">
+							<a href="https://github.com/kght6123/docker-vscode-lamp-wp" class="card-link" target="_blank">Github link</a>
+							<a href="https://github.com/kght6123/docker-vscode-lamp-wp/tree/master/wordpress/themes" class="card-link" target="_blank">Wordpress Custom Theme link</a>
+						</div>
+					</div>
+				</div>
+				
+				<div class="card-group" style="margin-bottom: 1rem;" id="results-orign-respo">
+					<div class="card">
+						<div class="card-body">
+							<h5 class="card-title">レスポンシブ対応のサンプルWebページ</h5>
+							<h6 class="card-subtitle mb-2 text-muted">既存のUIフレームワークを利用せずに開発、WebComponetsのサンプルも含む。</h6>
+							<p class="card-text">
+								WebComponetsを利用している為、現在、Chormeのみ正しく表示できます。<br>
+								画面を小さくした時に表示されるメニューは半透明になり、邪魔にならないようにしています。<br>
+								サンプルなので、ログインボタンは動作しません。
+							</p>
+						</div>
+						<img class="card-img" src="../image/other/preview-01.png" alt="Screen Shot.">
+						<div class="card-body">
+							<a href="https://kght6123.github.io/simple/top.html" class="card-link" target="_blank">Preview</a>
+							<a href="https://github.com/kght6123/kght6123.github.io/tree/master/simple" class="card-link" target="_blank">Github link</a>
+						</div>
+					</div>
+				</div>
+				
+				<div class="card-group" style="margin-bottom: 1rem;" id="results-chat">
+					<div class="card">
+						<div class="card-body">
+							<h5 class="card-title">チャット風のブログページ</h5>
+							<h6 class="card-subtitle mb-2 text-muted">CSSのみでチャット風のページを開発。</h6>
+							<p class="card-text">
+								Wordpressでチャット風のブログページを作るために作成しました。<br>
+								表示を軽くするためにCSSのみ利用しています。<br>
+								Bootstrap4をインポートしていますが、吹き出しの部分には使用していません。<br>
+								スマートフォンとPCの両方で綺麗に見れるように微調整に苦労しました。
+							</p>
+						</div>
+						<img class="card-img" src="../image/other/preview-02-1.png" alt="Screen Shot.">
+						<img class="card-img" src="../image/other/preview-02-2.png" alt="Screen Shot.">
+						<div class="card-body">
+							<a href="https://kght6123.github.io/balloon/index.html" class="card-link" target="_blank">Preview</a>
+							<a href="https://github.com/kght6123/kght6123.github.io/tree/master/balloon" class="card-link" target="_blank">Github link</a>
+						</div>
+					</div>
+				</div>
+				
+				<div class="card-group" style="margin-bottom: 1rem;" id="results-stopwatch">
+					<div class="card">
+						<div class="card-body">
+							<h5 class="card-title">ストップウォッチ</h5>
+							<h6 class="card-subtitle mb-2 text-muted">ストップウォッチが現場に持ち込めなくなったので作成。</h6>
+							<p class="card-text">
+								Vue.jsとBootstrap4で作成しました。<br>
+								計測結果をエビデンスとして残しやすく、ウィンドウサイズを変更しても文字が見やすいように、画面のサイズに応じて文字サイズを変更してます。<br>
+								IE11に対応しつつ、背景色のグラデーションが少しづつ変化します。
+							</p>
+						</div>
+						<img class="card-img" src="../image/other/preview-03-1.png" alt="Screen Shot.">
+						<img class="card-img" src="../image/other/preview-03-2.png" alt="Screen Shot.">
+						<div class="card-body">
+							<a href="https://kght6123.github.io/vue/vue-stopwatch.html" class="card-link" target="_blank">Preview</a>
+							<a href="https://github.com/kght6123/kght6123.github.io/blob/master/vue/vue-stopwatch.html" class="card-link" target="_blank">Github link</a>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="jumbotron" id="contacts" style="background-color: white;">
+				<div class="container">
+					<h1 class="display-4">連絡先</h1>
+					<p class="lead">何かございましたら、お気軽にお声かけください。</p>
+				</div>
+				<div class="card-body">
+					<a href="https://twitter.com/kght6123" class="card-link" target="_blank">Twitter</a>
+					<a href="https://kght6123.work/" class="card-link" target="_blank">ブログ</a>
+				</div>
+				<div class="card-body">
+					<a href="https://www.jetbrains.com/?from=floating-window-android" target="_blank"><img class="card-img" src="../image/jetbrains/kotlin_logos.png" alt="Kotlin Logo."></a>
+				</div>
+			</div>
+		</main>
+	</body>
+</html>

@@ -1,0 +1,577 @@
+<!doctype html>
+
+<html lang="ja">
+	<!--
+		Material Design Color
+		https://www.materialui.co/colors
+		
+		【2018年版】レスポンシブデザインにおけるブレイクポイントの最適解はこれだ！
+		http://nuconeco.net/responsive-ui-breakpoints/
+		
+		【WordPress】表・テーブルのレスポンシブ化！スマホではみ出るときの対策！
+		http://nuconeco.net/wordpress-table-responsive/
+		
+		５重人格の劇場的に、、、
+		（私、嫁、カピバラ、はっぴー、どど）
+		
+		http://gpdjapan.com/spec/
+		
+		https://brand-new.tokyo/gpd-pocket2-second-impression
+		http://www.gpd.hk/gpdpocket2.asp
+		https://www.indiegogo.com/project/preview/c2c771f7#/
+		
+		http://weekly.ascii.jp/elem/000/000/416/416692/
+		http://ascii.jp/elem/000/001/708/1708152/
+		
+		https://www.lenovo.com/jp/ja/static/catalog/tablet-2017-yogabw_rt_1114
+		
+	-->
+	<head>
+		<meta charset="utf-8">
+		<title>WP Balloon - Main -</title>
+		<meta name="description" content="WP Fukidashi.">
+		<meta name="author" content="kght6123">
+		<meta name="viewport" content="width=device-width, maximum-scale=1.0, minimum-scale=0.5,user-scalable=yes,initial-scale=1.0" />
+		<link rel="stylesheet" href="https://unpkg.com/jpn.css@latest/dist/bootstrap/jpn.min.css">
+		<style type="text/css">
+			
+			html {
+				-ms-overflow-style: -ms-autohiding-scrollbar;
+			}
+			@-ms-viewport {
+				width: device-width;
+				initial-scale: 1;
+			}
+			body {
+				background-color: #424242;
+				color: rgba(255, 255, 255, 0.8);
+			}
+			
+			.tbl {
+				width: 100%;
+				border-collapse: collapse;
+				background-color: #616161;
+			}
+			.tbl td.good {
+				background-color: #ff5252;
+			}
+			.tbl th,
+			.tbl td {
+				box-sizing: border-box;
+				border-width: 0.1em;
+				border-style: solid;
+				border-color: #424242;
+				text-align: center;
+			}
+			.tbl th {
+				background-color: #757575;
+			}
+			
+			.blln .icon .name {
+				color: rgba(255, 255, 255, 0.8);
+			}
+			
+			.red.blln {
+				color: rgba(0, 0, 0, 0.7);
+			}
+			.red.right .msg::before {
+				border-left-color: #ef9a9a;
+			}
+			.red.left .msg::before {
+				border-right-color: #ef9a9a;
+			}
+			.red .icon img {
+				background-color: #ef9a9a;
+				border-color: #ef9a9a;
+			}
+			.red .msg {
+				background-color: #ef9a9a;
+				border-color: #ef9a9a;
+			}
+			
+			.pink.blln {
+				color: rgba(0, 0, 0, 0.7);
+			}
+			.pink.right .msg::before {
+				border-left-color: #F48FB1;
+			}
+			.pink.left .msg::before {
+				border-right-color: #F48FB1;
+			}
+			.pink .icon img {
+				background-color: #F48FB1;
+				border-color: #F48FB1;
+			}
+			.pink .msg {
+				background-color: #F48FB1;
+				border-color: #F48FB1;
+			}
+			
+			.blue.blln {
+				color: rgba(0, 0, 0, 0.7);
+			}
+			.blue.right .msg::before {
+				border-left-color: #9FA8DA;
+			}
+			.blue.left .msg::before {
+				border-right-color: #9FA8DA;
+			}
+			.blue .icon img {
+				background-color: #9FA8DA;
+				border-color: #9FA8DA;
+			}
+			.blue .msg {
+				background-color: #9FA8DA;
+				border-color: #9FA8DA;
+			}
+			
+			.yellow.blln {
+				color: rgba(0, 0, 0, 0.7);
+			}
+			.yellow.right .msg::before {
+				border-left-color: #FFEB3B;
+			}
+			.yellow.left .msg::before {
+				border-right-color: #FFF176;
+			}
+			.yellow .icon img {
+				background-color: #FFF176;
+				border-color: #FFF176;
+			}
+			.yellow .msg {
+				background-color: #FFF176;
+				border-color: #FFF176;
+			}
+			
+			.green.blln {
+				color: rgba(0, 0, 0, 0.7);
+			}
+			.green.right .msg::before {
+				border-left-color: #AED581;
+			}
+			.green.left .msg::before {
+				border-right-color: #AED581;
+			}
+			.green .icon img {
+				background-color: #AED581;
+				border-color: #AED581;
+			}
+			.green .msg {
+				background-color: #AED581;
+				border-color: #AED581;
+			}
+			
+			.black.blln {
+				color: rgba(255, 255, 255, 0.7);
+			}
+			.black.right .msg::before {
+				border-left-color: #616161;
+			}
+			.black.left .msg::before {
+				border-right-color: #616161;
+			}
+			.black .icon img {
+				background-color: #616161;
+				border-color: #616161;
+			}
+			.black .msg {
+				background-color: #616161;
+				border-color: #616161;
+			}
+			
+			.white.blln {
+				color: rgba(0, 0, 0, 0.7);
+			}
+			.white.right .msg::before {
+				border-left-color: #E0E0E0;
+			}
+			.white.left .msg::before {
+				border-right-color: #E0E0E0;
+			}
+			.white .icon img {
+				background-color: #E0E0E0;
+				border-color: #E0E0E0;
+			}
+			.white .msg {
+				background-color: #E0E0E0;
+				border-color: #E0E0E0;
+			}
+			
+			.blln {
+				background-attachment: scroll;
+				background-clip: border-box;
+				background-color: transparent;
+				background-image: none;
+				background-origin: padding-box;
+				background-position-x: 0%;
+				background-position-y: 0%;
+				background-repeat: repeat;
+				background-size: auto;
+				box-sizing: border-box;
+				content: normal;
+				display: block;
+				font-size: 0.95em;
+				line-height: 1.5;
+				margin: 1em 0 1.3em;
+				word-wrap: break-word;
+				box-sizing: border-box;
+			}
+			
+			.blln.right .icon {
+				float: right;
+			}
+			.blln.right .msg {
+				float: left;
+				right: auto;
+				top: auto;
+			}
+			.blln.right .msg::before {
+				right: -1.0em;
+				border-left-width: 1.1em;
+				border-left-style: solid;
+			}
+			
+			.blln.left .icon {
+				float: left;
+			}
+			.blln.left .msg {
+				float: right;
+				left: auto;
+				top: auto;
+			}
+			.blln.left .msg::before {
+				left: -1.0em;
+				border-right-width: 1.1em;
+				border-right-style: solid;
+			}
+			
+			.blln .icon {
+				margin: 0;
+				text-align: center;
+			}
+			.blln .icon img {
+				border-width: 3px;
+				border-style: solid;
+				border-radius: 50%;
+				box-sizing: border-box;
+				text-align: center;
+				max-height: 100%;
+				height: 5em;
+				margin: 0;
+				vertical-align: bottom;
+				max-width: 100%;
+				width: 5em;
+			}
+			.blln .icon .name {
+				font-size: 0.7em;
+				font-weight: bold;
+				margin-top: 0.5em;
+				text-align: center;
+			}
+			.blln .msg {
+				border-width: 3px;
+				border-style: solid;
+				border-radius: 12px;
+				
+				padding: 1em 1em 0.8em 1em;
+				font-size: 0.91em;
+				
+				margin-top: 0.5em;
+				padding: 1em 1em 0.8em 1em;
+				position: relative;
+				width: calc(100% - 10em);
+			}
+			.blln .msg::before {
+				content: "";
+				position: absolute;
+				border-bottom: 0.8em solid transparent;
+				border-top: 0.8em solid transparent;
+				top: 1em;
+			}
+			
+		</style>
+	</head>
+	<body>
+		<table class="tbl">
+			<tr>
+				<th>&nbsp;</th>
+				<th>Surface Go</th>
+				<th>GPD Pokect2</th>
+				<th>GPD Pokect</th>
+				<th>Yoga Book</th>
+				<th>iPad Pro 10.5</th>
+			</tr>
+			<tr>
+				<th>価格</th>
+				<td>6万4800円～8万2800円<br>(個人向け)</td>
+				<td>7万円以上？</td>
+				<td class="good">5万7800円</td>
+				<td>6万2739円</td>
+				<td>7万5384円</td>
+			</tr>
+			<tr>
+				<th>ソフトウェア</th>
+				<td>Windows 10 in S mode<br>Office Home & Business 2016</td>
+				<td class="good">Windows 10 Home</td>
+				<td class="good">Windows 10 Home</td>
+				<td class="good">Windows 10 Home</td>
+				<td>iOS 11</td>
+			</tr>
+			<tr>
+				<th>横幅(mm)</th>
+				<td>245.0</td>
+				<td>181.0</td>
+				<td>180.0</td>
+				<td>256.6</td>
+				<td>250.6</td>
+			</tr>
+			<tr>
+				<th>縦幅(mm)</th>
+				<td>175.0</td>
+				<td>113.0</td>
+				<td>106.0</td>
+				<td>170.8</td>
+				<td>174.1</td>
+			</tr>
+			<tr>
+				<th>厚さ(mm)</th>
+				<td> 8.3</td>
+				<td> 8.0</td>
+				<td>18.5</td>
+				<td> 9.6</td>
+				<td> 6.1</td>
+			</tr>
+			<tr>
+				<th>重さ(本体のみ)</th>
+				<td>522g</td>
+				<td class="good">465g</td>
+				<td>480g</td>
+				<td>690g</td>
+				<td>469g</td>
+			</tr>
+			<tr>
+				<th>ストレージ</th>
+				<td>eMMC 64GB<br> or SSD 128GB</td>
+				<td>eMMC 128GB</td>
+				<td class="good">eMMC 128GB</td>
+				<td>eMMC 128GB</td>
+				<td>64GB</td>
+			</tr>
+			<tr>
+				<th>ディスプレイ</th>
+				<td>10.1インチ<br>Gorilla Glass 3<br>IPS</td>
+				<td class="good">7インチ<br>Gorilla Glass 4<br>SHARP有機EL</td>
+				<td>7インチ<br>Gorilla Glass 3<br>IPS</td>
+				<td>10.1インチ<br>IPS</td>
+				<td>10.5インチ<br>Gorilla Glass 4<br>IPS</td>
+			</tr>
+			<tr>
+				<th>タッチ</th>
+				<td>マルチタッチ(10点)</td>
+				<td>マルチタッチ(5点)</td>
+				<td>マルチタッチ(5点)</td>
+				<td>マルチタッチ(10点)</td>
+				<td class="good">マルチタッチ(10点)</td>
+			</tr>
+			<tr>
+				<th>ペン</th>
+				<td class="good">対応</td>
+				<td class="good">対応</td>
+				<td>非対応</td>
+				<td class="good">対応</td>
+				<td class="good">対応</td>
+			</tr>
+			<tr>
+				<th>解像度</th>
+				<td>1800 x 1200 217ppi</td>
+				<td>1920 x 1200 323ppi</td>
+				<td>1920 x 1200 323ppi</td>
+				<td>1920 x 1200</td>
+				<td class="good">2732 x 2048 264ppi</td>
+			</tr>
+			<tr>
+				<th>アスペクト</th>
+				<td>3:2</td>
+				<td>16:10</td>
+				<td>16:10</td>
+				<td>16:10</td>
+				<td>3:2</td>
+			</tr>
+			<tr>
+				<th>動作時間</th>
+				<td class="good">9時間(動画再生)</td>
+				<td>6800mAh</td>
+				<td>7000mAh</td>
+				<td class="good">8500mAh 13時間利用</td>
+				<td class="good">10時間(30.4Wh)</td>
+			</tr>
+			<tr>
+				<th>CPU</th>
+				<td>Pentium Gold 4415Y</td>
+				<td class="good">Core m3 7Y30</td>
+				<td>Atom x7 Z8750</td>
+				<td>Atom x5 Z8550</td>
+				<td>A10X + M10</td>
+			</tr>
+			<tr>
+				<th>セキュリティ</th>
+				<td class="good">TPM 2.0</td>
+				<td>なし</td>
+				<td>なし</td>
+				<td>なし</td>
+				<td>Touch ID(第２世代)</td>
+			</tr>
+			<tr>
+				<th>メモリ</th>
+				<td>LPDDR3 4GB～8GB</td>
+				<td>LPDDR3 4GB～8GB</td>
+				<td class="good">LPDDR3-1600 8GB</td>
+				<td>LPDDR3 4GB</td>
+				<td>不明</td>
+			</tr>
+			<tr>
+				<th>Wifi</th>
+				<td>802.11 a/b/g/n/ac</td>
+				<td>802.11 a/b/g/n/ac</td>
+				<td>802.11 a/b/g/n/ac</td>
+				<td>802.11 a/b/g/n/ac</td>
+				<td>802.11 a/b/g/n/ac</td>
+			</tr>
+			<tr>
+				<th>Bluetooth</th>
+				<td>4.1</td>
+				<td>4.1</td>
+				<td>4.1</td>
+				<td>4.0</td>
+				<td class="good">4.2</td>
+			</tr>
+			<tr>
+				<th>外部端子</th>
+				<td class="good">1x USB Type-C 3.0<br>2x USB A 3.0<br>MicroSDXCスロット<br>3.5mm jack</td>
+				<td class="good">1x USB Type-C 3.0<br>2x USB A 3.0<br>MicroSDスロット<br>3.5mm jack</td>
+				<td>1x USB Type-C 3.0<br>1x USB A 3.0<br>マイクロHDMI<br>3.5mm jack</td>
+				<td>1x Micro USB 2.0(OTG)<br>マイクロHDMI<br>microSDスロット<br>3.5mm jack</td>
+				<td>Lightningコネクタ<br>3.5mm jack</td>
+			</tr>
+			<tr>
+				<th>カメラ</th>
+				<td>5.0MP(前面)<br>8.0MP(背面)</td>
+				<td>なし</td>
+				<td>なし</td>
+				<td>0.2MP(前面)<br>0.8MP(背面)</td>
+				<td class="good">7.0MP(前面)<br>12.0MP(背面)</td>
+			</tr>
+			<tr>
+				<th>スピーカ</th>
+				<td class="good">ドルビーオーディオ<br>プレミアム(2W)</td>
+				<td>あり</td>
+				<td>あり</td>
+				<td>ドルビーオーディオ<br>プレミアム</td>
+				<td>４スピーカー</td>
+			</tr>
+			<tr>
+				<th>マイク</th>
+				<td>あり</td>
+				<td>なし</td>
+				<td>なし</td>
+				<td class="good">デュアルマイクロフォン</td>
+				<td class="good">デュアルマイクロフォン</td>
+			</tr>
+			<tr>
+				<th>グラフィック</th>
+				<td class="good">Intel HD Graphics 615</td>
+				<td class="good">Intel HD Graphics 615</td>
+				<td>Intel HD Graphics 405</td>
+				<td>Intel HD Graphics 400</td>
+				<td>A10X内蔵</td>
+			</tr>
+			<tr>
+				<th>色と材質</th>
+				<td class="good">シルバー<br>(マグネシウム合金)</td>
+				<td class="good">シルバー<br>(マグネシウム合金)</td>
+				<td class="good">シルバー<br>(マグネシウム合金)</td>
+				<td>ルビーレッド<br>パールホワイト<br>カーボンブラック</td>
+				<td>ブラックシルバーゴールドピンクゴールド</td>
+			</tr>
+			<tr>
+				<th>センサー</th>
+				<td>光センサー<br>加速度センサー<br>ジャイロセンサー<br>磁気センサー</td>
+				<td>重力センサー<br>磁気センサー</td>
+				<td>重力センサー<br>磁気センサー</td>
+				<td>光センサー<br>加速度センサー<br>近接センサー<br>GPS<br>GLONASS</td>
+				<td class="good">光センサー<br>加速度センサー<br>ジャイロセンサー<br>磁気センサー<br>GPS<br>GLONASS<br>気圧計</td>
+			</tr>
+			<tr>
+				<th>その他</th>
+				<td>キーボードなし<br>(Surface Connect port有り)<br>Compatible with Surface Dial</td>
+				<td>キーボード<br>光学式ポインティングデバイス</td>
+				<td>キーボード<br>ポインティングスティック</td>
+				<td>タッチキーボード<br>リアルペン＋替芯付属</td>
+				<td>Smart Connector</td>
+			</tr>
+		</table>
+		<div class="blln red left">
+			<figure class="icon">
+				<img />
+				<figcaption class="name">赤さん</figcaption>
+			</figure>
+			<div class="msg">つまりは…</div>
+		</div>
+		<div style="clear: both;"></div>
+		<div class="blln pink right">
+			<figure class="icon">
+				<img />
+				<figcaption class="name">桃さん</figcaption>
+			</figure>
+			<div class="msg">つまりは…</div>
+		</div>
+		<div style="clear: both;"></div>
+		<div class="blln blue left">
+			<figure class="icon">
+				<img src="https://kght6123.work/blog/wp-content/uploads/2018/07/21687766_1971012336478872_8492298609952628292_n1.jpg" />
+				<figcaption class="name">青さん</figcaption>
+			</figure>
+			<div class="msg">つまりは…</div>
+		</div>
+		<div style="clear: both;"></div>
+		<div class="blln green right">
+			<figure class="icon">
+				<img src="https://kght6123.work/blog/wp-content/uploads/2018/07/IMG_0607.jpg" />
+				<figcaption class="name">みどりさん</figcaption>
+			</figure>
+			<div class="msg">つまりは…</div>
+		</div>
+		<div style="clear: both;"></div>
+		<div class="blln yellow left">
+			<figure class="icon">
+				<img />
+				<figcaption class="name">黄色さん</figcaption>
+			</figure>
+			<div class="msg">つまりは…</div>
+		</div>
+		<div style="clear: both;"></div>
+		<div class="blln black right">
+			<figure class="icon">
+				<img />
+				<figcaption class="name">黒さん</figcaption>
+			</figure>
+			<div class="msg">つまりは…</div>
+		</div>
+		<div style="clear: both;"></div>
+		<div class="blln white left">
+			<figure class="icon">
+				<img />
+				<figcaption class="name">白さん</figcaption>
+			</figure>
+			<div class="msg">つまりは…<p></p>
+				<ul>
+				<li><strong>WordPress標準の表は、”レスポンシブ”でない！</strong></li>
+				<li><strong>レスポンシブ化は、横幅100%指定でOK！</strong></li>
+				<li><strong>面倒なら「TablePress」を使う！</strong></li>
+				</ul>
+				<p>ということだねっ！</p>
+			</div>
+		</div>
+		<div style="clear: both;"></div>
+	</body>
+</html>
