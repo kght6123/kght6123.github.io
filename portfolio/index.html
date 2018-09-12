@@ -21,6 +21,14 @@
 				min-height: 75rem;
 				padding-top: 4.5rem;
 			}
+			[id*="skills"], [id*="results"], [id*="profile"], [id*="contacts"] {
+				padding-top: 4.5rem;
+				margin-top: -4.5rem;
+			}
+			[id*="skills-"], [id*="results-"], [id*="profile-"], [id*="contacts-"] {
+				padding-top: 3.5rem;
+				margin-top: -3.5rem;
+			}
 		</style>
 		<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
@@ -37,9 +45,9 @@
 			});
 		</script>
 	</head>
-	<body data-spy="scroll" data-target=".navbar" data-offset="100">
+	<body data-spy="scroll" data-target=".navbar" data-offset="10">
 		<!-- profile skill works -->
-		<nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+		<nav class="navbar navbar-expand-md navbar-dark fixed-top" style="background-color: rgba(0,0,0,0.75);">
 			<a class="navbar-brand" href="#">
 				<img src="../image/illustrain10-doubutu20.png" class="rounded-circle bg-light" style="width:40px;">ひろたか（@kght6123）
 			</a>
@@ -102,7 +110,7 @@
 						三重県四日市市へ転勤中（１２年間）で、結婚（４年前）し、来年１月に第１子が生まれます。<br>
 						現在、名古屋圏内、もしくは大阪や東京へ遠距離通勤やリモートワークへの転職、またはフリーランス転向に向けて、活動中です。</p>
 				</div>
-				<div class="card-group" style="margin-bottom: 1rem;">
+				<div class="card-group" style="margin-top: 1rem;">
 					<div class="card">
 						<div class="card-body">
 							<h5 class="card-title">業務は「Java」が中心</h5>
@@ -121,7 +129,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="card-group" style="margin-bottom: 1rem;">
+				<div class="card-group" style="margin-top: 1rem;">
 					<div class="card">
 						<div class="card-body">
 							<h5 class="card-title">開発リーダー的な存在</h5>
@@ -133,7 +141,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="card-group" style="margin-bottom: 1rem;">
+				<div class="card-group" style="margin-top: 1rem;">
 					<div class="card">
 						<div class="card-body">
 							<h5 class="card-title">その他、役割</h5>
@@ -146,7 +154,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="card-group" style="margin-bottom: 1rem;">
+				<div class="card-group" style="margin-top: 1rem;">
 					<div class="card">
 						<div class="card-body">
 							<h5 class="card-title">役割について</h5>
@@ -169,7 +177,7 @@
 					<p>特に既存の作業の効率化や、より深い技術の習得を意識しています。</p>
 					<p>また、可読性や安定性、汎用性を考慮した最適なコードの記述や、コードレビューや指導、フレームワーク開発に必要な知識の習得を目指しています。</p>
 				</div>
-				<div class="card-group" id="skills-webfront" style="margin-bottom: 1rem;">
+				<div class="card-group" id="skills-webfront" style="margin-top: 1rem;">
 					<div class="card">
 						<div class="card-body">
 							<h5 class="card-title">Webフロントエンド系</h5>
@@ -213,7 +221,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="card-group" id="skills-webback" style="margin-bottom: 1rem;">
+				<div class="card-group" id="skills-webback" style="margin-top: 1rem;">
 					<div class="card">
 						<div class="card-body">
 							<h5 class="card-title">Webバックエンド系</h5>
@@ -262,7 +270,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="card-group" id="skills-env" style="margin-bottom: 1rem;">
+				<div class="card-group" id="skills-env" style="margin-top: 1rem;">
 					<div class="card">
 						<div class="card-body">
 							<h5 class="card-title">その他</h5>
@@ -321,7 +329,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="card-group" id="skills-mobile" style="margin-bottom: 1rem;">
+				<div class="card-group" id="skills-mobile" style="margin-top: 1rem;">
 					<div class="card">
 						<div class="card-body">
 							<h5 class="card-title">モバイル・スマートフォン系</h5>
@@ -363,7 +371,7 @@
 					<hr class="my-2">
 					<p>過去に作成したAndroidアプリや、Dockerの環境設定、OSS公開のAndroidフレームワーク、サンプルのHTMLが中心です。</p>
 				</div>
-				<div class="card-group" style="margin-bottom: 1rem;" id="results-fmwf">
+				<div class="card-group" style="margin-top: 1rem;" id="results-fmwf">
 					<div class="card">
 						<div class="card-body">
 							<h5 class="card-title">Floting Multiple Window Framework α2</h5>
@@ -385,7 +393,7 @@
 					</div>
 				</div>
 				
-				<div class="card-group" style="margin-bottom: 1rem;" id="results-temper">
+				<div class="card-group" style="margin-top: 1rem;" id="results-temper">
 					<div class="card">
 						<div class="card-body">
 							<h5 class="card-title">homebridge-temper</h5>
@@ -405,7 +413,7 @@
 					</div>
 				</div>
 				
-				<div class="card-group" style="margin-bottom: 1rem;" id="results-smallappviewer">
+				<div class="card-group" style="margin-top: 1rem;" id="results-smallappviewer">
 					<div class="card">
 						<div class="card-body">
 							<h5 class="card-title">SmallAppViewer</h5>
@@ -425,7 +433,7 @@
 					</div>
 				</div>
 				
-				<div class="card-group" style="margin-bottom: 1rem;" id="results-rest-struts1">
+				<div class="card-group" style="margin-top: 1rem;" id="results-rest-struts1">
 					<div class="card">
 						<div class="card-body">
 							<h5 class="card-title">REST Struts1</h5>
@@ -441,7 +449,7 @@
 					</div>
 				</div>
 				
-				<div class="card-group" style="margin-bottom: 1rem;" id="results-kotlin-rails">
+				<div class="card-group" style="margin-top: 1rem;" id="results-kotlin-rails">
 					<div class="card">
 						<div class="card-body">
 							<h5 class="card-title">Kotlin＋Railsアプリケーションテンプレート</h5>
@@ -457,7 +465,7 @@
 					</div>
 				</div>
 				
-				<div class="card-group" style="margin-bottom: 1rem;" id="results-wp-dev-docker">
+				<div class="card-group" style="margin-top: 1rem;" id="results-wp-dev-docker">
 					<div class="card">
 						<div class="card-body">
 							<h5 class="card-title">Wordpress開発環境（from Docker）</h5>
@@ -475,7 +483,7 @@
 					</div>
 				</div>
 				
-				<div class="card-group" style="margin-bottom: 1rem;" id="results-orign-respo">
+				<div class="card-group" style="margin-top: 1rem;" id="results-orign-respo">
 					<div class="card">
 						<div class="card-body">
 							<h5 class="card-title">レスポンシブ対応のサンプルWebページ</h5>
@@ -494,7 +502,7 @@
 					</div>
 				</div>
 				
-				<div class="card-group" style="margin-bottom: 1rem;" id="results-chat">
+				<div class="card-group" style="margin-top: 1rem;" id="results-chat">
 					<div class="card">
 						<div class="card-body">
 							<h5 class="card-title">チャット風のブログページ</h5>
@@ -515,7 +523,7 @@
 					</div>
 				</div>
 				
-				<div class="card-group" style="margin-bottom: 1rem;" id="results-stopwatch">
+				<div class="card-group" style="margin-top: 1rem;" id="results-stopwatch">
 					<div class="card">
 						<div class="card-body">
 							<h5 class="card-title">ストップウォッチ</h5>
