@@ -1,0 +1,24 @@
+/* Prettify Custom Style */
+pre.prettyprint {
+	white-space: pre;
+	overflow: auto;
+}
+pre.prettyprint ol.linenums > li {
+	list-style-type: decimal-leading-zero;
+}
+pre.pretty-highlight {
+	background-color: yellow !important;
+}
+pre.prettyprint {
+	position: relative;
+}
+pre.prettyprint:hover:after {
+	position: absolute;
+	top: 0;
+	right: 0;
+	padding: 0.5em;
+	content: "Copy";
+	background-color: rgba(0,0,0,0.5);
+	color: rgba(255,255,255,0.75);
+	font-size: 0.75em;
+}
