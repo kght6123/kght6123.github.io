@@ -32,11 +32,13 @@ $(function(){
 					// イベントが発火したエレメント以外
 					$($(_el).data("target")).addClass("none-toggle");
 					$(_el).removeClass("reverse");
+					$(_el).removeClass("active");
 				}
 			});
 		}
 		// 対象のサイドバーを表示
 		$($(targetEl).data("target")).toggleClass("none-toggle");
 		$(targetEl).toggleClass("reverse");
+		$(targetEl).toggleClass("active");
 	});
 });

@@ -180,15 +180,10 @@
 		left: 0;
 	}
 }
-.sidebar ul li label {
-	margin-bottom: 0;
-	padding: 0 0 0 0;
-}
 .sidebar ul li a.active {
 	background: rgba(0, 0, 0, 0.35);
 }
-.sidebar ul li a:hover,
-.sidebar ul li label:hover {
+.sidebar ul li a:hover {
 	background: rgba(0, 0, 0, 0.15);
 	text-decoration: underline;
 }
@@ -287,3 +282,4 @@
 .breadcrumb-item {
 	font-size: 0.95em;
 }
+.list-tree li { padding-left: 1em; }
