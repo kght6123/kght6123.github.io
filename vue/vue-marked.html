@@ -45,9 +45,12 @@
 				-moz-box-sizing: border-box;
 				box-sizing: border-box;
 				padding: 1em 1em;
+				height: calc(100vh - 60px);
+				overflow: auto;
 			}
 			#mdve div {
 				width: 38vw;
+				background-color: whitesmoke;
 			}
 			#mdve div > * {
 				font-size: calc(100vmin / 35);
@@ -59,9 +62,9 @@
 				width: 60vw;
 				resize: none;
 				outline: none;
-				overflow: hidden;
 				border: none;
 				outline: none;
+				background-color: ghostwhite;
 			}
 		</style>
 		<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
@@ -116,6 +119,45 @@
 				}
 			});
 			
+			$(function(){
+				var onTimerId;
+				// 高さが異なるスクロールの同期（基準のセレクタと、同期対象のセレクタを指定する）
+				function syncRaitoScroll(_selector1, _selector2) {
+					var $t1 = $(_selector1);
+					var $t2 = $(_selector2);
+					if($t1.length < 1 || $t2.length < 1)
+						return;
+					
+					// スクロール量の割合を同期する
+					var scrollTop1 = $t1.scrollTop();
+					var scrollHeight1 = $t1[0].scrollHeight - $t1.innerHeight();
+					var scrollHeight2 = $t2[0].scrollHeight - $t2.innerHeight();
+					var scrollTop2 = scrollTop1 / scrollHeight1 * scrollHeight2;
+
+					// 一時的に同期対象のスクロールイベントを無効にする
+					$t2.off(".syncraito");
+					$t2.scrollTop(scrollTop2);
+
+					// 前回のスクロールイベントの有効化は削除して、新たに設定する
+					if (onTimerId) clearTimeout(onTimerId)
+
+					// 同期対象のスクロールイベントの有効化は一定時間後に非同期で実施する
+					//（同期対象のスクロールイベントも発火してしまう為）
+					onTimerId = setTimeout(function() {
+						$t2.on("scroll.syncraito", function (_e) {
+							syncRaitoScroll(_selector2, _selector1);
+						});
+					}, 500); 
+				}
+				// スクロール１のスクロールイベント設定
+				$("#mdve textarea").on("scroll.syncraito", function (_e) {
+					syncRaitoScroll("#mdve textarea", "#mdve div");
+				});
+				// スクロール２のスクロールイベント設定
+				$("#mdve div").on("scroll.syncraito", function (_e) {
+					syncRaitoScroll("#mdve div", "#mdve textarea");
+				});
+			});
 		</script>
 	</body>
 </html>
