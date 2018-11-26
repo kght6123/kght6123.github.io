@@ -29,7 +29,7 @@ PCとモバイルの両方で、メニューの拡張性、操作性・視認性
 
 開発中のオンラインのマークダウンエディタのUIに利用するために、開発中・・・
 
-* [Link](https://kght6123.github.io/markdown/index.html)
+* [Link](https://kght6123.github.io/sidebar/index.html)
 
 ## 独自レスポンシブ対応ページ
 

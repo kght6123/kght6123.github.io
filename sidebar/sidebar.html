@@ -1,16 +1,16 @@
 <!doctype html>
 <!--
 
-WebアプリでMarkdownエディタ、VueのMarkdownサンプルをエディタにする
-３列のサイドバー（システム、フォルダ、目次）
-GoogleDriveとGitに対応（JSで直接通信できる？！）
-
-ログインはGoogleアカウント、もしくはGitアカウント
-
-Markdownの部分は何かライブラリ無いかな・・・
-
-Google Code ＋ Vue Markdown にカスタマイズ？
-
+	Material Design Color
+	https://www.materialui.co/colors
+	
+	Bootstrap 4 Cheat Sheet
+	https://hackerthemes.com/bootstrap-cheatsheet/#
+	
+	open-iconic
+	https://useiconic.com/open
+	
+	http://phpjavascriptroom.com/?t=ajax&p=jquery_plugin_contextmenu
 -->
 <html>
 <head>
@@ -21,10 +21,11 @@ Google Code ＋ Vue Markdown にカスタマイズ？
   <meta name="viewport" content="width=device-width,maximum-scale=1.0,minimum-scale=0.5,user-scalable=yes,initial-scale=1.0,shrink-to-fit=no">
   <!--link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha256-eSi1q2PG6J7g7ib17yAaWMcrr5GrtohYChqibrV7PBE=" crossorigin="anonymous" /-->
   <link rel="stylesheet" href="../blog/honoka/bootstrap-honoka-4.1.3.min.css" />
+  <!--link rel="stylesheet" href="./css/bootstrap-honoka-4.1.3.min.css" /-->
+  <link rel="stylesheet" href="./css/jquery.halocontext.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/open-iconic/1.1.1/font/css/open-iconic-bootstrap.min.css" integrity="sha256-BJ/G+e+y7bQdrYkS2RBTyNfBHpA9IuGaPmf9htub5MQ=" crossorigin="anonymous" />
   <link rel="stylesheet" href="https://jmblog.github.io/color-themes-for-google-code-prettify/themes/github.min.css" />
-  <link rel="stylesheet" href="../sidebar/css/bootstrap-sidebar.css" />
-  <link rel="stylesheet" href="../prettify/css/prettify-highlight.css" />
+  <link rel="stylesheet" href="./css/bootstrap-sidebar.css" />
   <style type="text/css">
     html {
       -ms-overflow-style: -ms-autohiding-scrollbar;
@@ -34,18 +35,18 @@ Google Code ＋ Vue Markdown にカスタマイズ？
       initial-scale: 1;
     }
   </style>
-  <title>Blog</title>
+  <title>Miraiエディタ＆Miraiノート</title>
 </head>
-<body data-spy="scroll" data-target="#headline" data-offset="60" style="overflow: auto;">
+<body data-spy="scroll" data-target=".floating-2" data-offset="60" class="mw-100 w-100 mhv-100 hv-100 of-hidden">
   <div  class="sidebar-mobile-ctrl">
-    <button type="button" class="btn btn-primary shadow text-center align-middle">
+    <button type="button" class="btn btn-secondary shadow text-center align-middle">
       <i class="oi oi-fullscreen-enter"></i>
       <i class="oi oi-fullscreen-exit"></i>
     </button>
   </div>
-  <div class="sidebar-wrapper bg-light">
+  <div class="sidebar-wrapper">
     <!-- Sidebar1  -->
-    <nav class="sidebar bg-primary simple always">
+    <nav class="sidebar bg-secondary simple always">
       <div class="sticky-top">
         <div class="sidebar-header text-light">
           <h3>ダブルサイドバー</h3>
@@ -58,6 +59,7 @@ Google Code ＋ Vue Markdown にカスタマイズ？
               ホーム
             </a>
           </li>
+          <!--
           <li>
             <a href="#pageSubmenu1" data-toggle="collapse" aria-expanded="false" class="text-light dropdown-toggle">
               <i class="oi oi-list-rich"></i>
@@ -102,6 +104,7 @@ Google Code ＋ Vue Markdown にカスタマイズ？
               </li>
             </ul>
           </li>
+          -->
           <li>
             <a href="#" class="text-light sidebar-toggle reverse active" data-target="#filetree">
               <i class="oi oi-list"></i>
@@ -142,7 +145,7 @@ Google Code ＋ Vue Markdown にカスタマイズ？
                   <form class="px-4 py-3">
                     <div class="form-group">
                       <label for="exampleDropdownFormEmail1">タイトル</label>
-                      <input type="text" class="form-control bg-dark text-light" placeholder="〜について">
+                      <input type="text" class="form-control bg-dark text-light" placeholder="～について">
                     </div>
                     <div class="form-group">
                       <label for="exampleDropdownFormPassword1">本文</label>
@@ -159,136 +162,187 @@ Google Code ＋ Vue Markdown にカスタマイズ？
     </nav>
     <!-- Sidebar3  -->
     <nav class="sidebar bg-dark" id="filetree">
-      <div class="sticky-top">
-        <div class="sidebar-header text-light">
-          <h5>ファイルツリー</h5>
-          <strong>Files</strong>
-        </div>
+      <div class="sticky-top of-y-auto mhv-100 hv-100">
         <ul class="list-unstyled list-tree">
           <li>
             <div class="btn-group dropdown w-100">
+              <a href="#fileTree1" class="text-light dropdown-toggle dropdown-toggle-split open"
+                role="button" data-toggle="collapse" aria-expanded="false"></a>
               <a href="#" class="nav-link text-light w-100">
                 <i class="oi oi-folder"></i>
                 Dir
               </a>
-              <a href="#fileTree1" class="text-light dropdown-toggle dropdown-toggle-split open"
-                role="button" data-toggle="collapse" aria-expanded="false"></a>
             </div>
             <ul class="collapse list-unstyled" id="fileTree1" data-parent=".sidebar">
-              <li><a href="#" class="nav-link text-light">
-                <i class="oi oi-file"></i>
-                File
-              </a></li>
-              <li><a href="#" class="nav-link text-light">
-                <i class="oi oi-file"></i>
-                File
-              </a></li>
               <li>
                 <div class="btn-group dropdown w-100">
+                  <a class="text-light dropdown-toggle dropdown-toggle-split file"></a>
+                  <a href="#" class="nav-link text-light w-100">
+                    <i class="oi oi-file"></i>
+                    File.md
+                  </a>
+                </div>
+              </li>
+              <li>
+                <div class="btn-group dropdown w-100">
+                  <a class="text-light dropdown-toggle dropdown-toggle-split file"></a>
+                  <a href="#" class="nav-link text-light w-100">
+                    <i class="oi oi-file"></i>
+                    File.md
+                  </a>
+                </div>
+              </li>
+              <li>
+                <div class="btn-group dropdown w-100">
+                    <a href="#fileTree2" class="text-light dropdown-toggle dropdown-toggle-split open"
+                      role="button" data-toggle="collapse" aria-expanded="false"></a>
                     <a href="#" class="nav-link text-light w-100">
                       <i class="oi oi-folder"></i>
                       Dir
                     </a>
-                    <a href="#fileTree2" class="text-light dropdown-toggle dropdown-toggle-split open"
-                      role="button" data-toggle="collapse" aria-expanded="false"></a>
                 </div>
                 <ul class="collapse list-unstyled" id="fileTree2" data-parent=".sidebar">
-                  <li><a href="#" class="nav-link text-light">
-                    <i class="oi oi-file"></i>
-                    File
-                  </a></li>
-                  <li><a href="#" class="nav-link text-light">
-                    <i class="oi oi-file"></i>
-                    File
-                  </a></li>
                   <li>
                     <div class="btn-group dropdown w-100">
+                      <a class="text-light dropdown-toggle dropdown-toggle-split file"></a>
+                      <a href="#" class="nav-link text-light w-100">
+                        <i class="oi oi-file"></i>
+                        File.md
+                      </a>
+                    </div>
+                  </li>
+                  <li>
+                    <div class="btn-group dropdown w-100">
+                      <a class="text-light dropdown-toggle dropdown-toggle-split file"></a>
+                      <a href="#" class="nav-link text-light w-100">
+                        <i class="oi oi-file"></i>
+                        File.md
+                      </a>
+                    </div>
+                  </li>
+                  <li>
+                    <div class="btn-group dropdown w-100">
+                        <a href="#fileTree3" class="text-light dropdown-toggle dropdown-toggle-split open"
+                          role="button" data-toggle="collapse" aria-expanded="false"></a>
                         <a href="#" class="nav-link text-light w-100">
                           <i class="oi oi-folder"></i>
                           Dir
                         </a>
-                        <a href="#fileTree3" class="text-light dropdown-toggle dropdown-toggle-split open"
-                          role="button" data-toggle="collapse" aria-expanded="false"></a>
                     </div>
                     <ul class="collapse list-unstyled" id="fileTree3" data-parent=".sidebar">
-                      <li><a href="#" class="nav-link text-light">
-                        <i class="oi oi-file"></i>
-                        File
-                      </a></li>
-                      <li><a href="#" class="nav-link text-light">
-                        <i class="oi oi-file"></i>
-                        File
-                      </a></li>
-                      <li><a href="#" class="nav-link text-light">
-                        <i class="oi oi-file"></i>
-                        File
-                      </a></li>
+                      <li>
+                        <div class="btn-group dropdown w-100">
+                          <a class="text-light dropdown-toggle dropdown-toggle-split file"></a>
+                          <a href="#" class="nav-link text-light w-100">
+                            <i class="oi oi-file"></i>
+                            File.md
+                          </a>
+                        </div>
+                      </li>
+                      <li>
+                        <div class="btn-group dropdown w-100">
+                          <a class="text-light dropdown-toggle dropdown-toggle-split file"></a>
+                          <a href="#" class="nav-link text-light w-100">
+                            <i class="oi oi-file"></i>
+                            File.md
+                          </a>
+                        </div>
+                      </li>
+                      <li>
+                        <div class="btn-group dropdown w-100">
+                          <a class="text-light dropdown-toggle dropdown-toggle-split file"></a>
+                          <a href="#" class="nav-link text-light w-100">
+                            <i class="oi oi-file"></i>
+                            File.md
+                          </a>
+                        </div>
+                      </li>
                     </ul>
                   </li>
                 </ul>
               </li>
-              <li><a href="#" class="nav-link text-light">
-                <i class="oi oi-file"></i>
-                File
-              </a></li>
-              <li><a href="#" class="nav-link text-light">
-                <i class="oi oi-file"></i>
-                File
-              </a></li>
+              <li>
+                <div class="btn-group dropdown w-100">
+                  <a class="text-light dropdown-toggle dropdown-toggle-split file"></a>
+                  <a href="#" class="nav-link text-light w-100">
+                    <i class="oi oi-file"></i>
+                    File.md
+                  </a>
+                </div>
+              </li>
+              <li>
+                <div class="btn-group dropdown w-100">
+                  <a class="text-light dropdown-toggle dropdown-toggle-split file"></a>
+                  <a href="#" class="nav-link text-light w-100">
+                    <i class="oi oi-file"></i>
+                    File.md
+                  </a>
+                </div>
+              </li>
             </ul>
           </li>
           <li>
-            <a href="#" class="nav-link text-light">
-              <i class="oi oi-file"></i>
-              File
-            </a>
+            <div class="btn-group dropdown w-100">
+              <a class="text-light dropdown-toggle dropdown-toggle-split file"></a>
+              <a href="#" class="nav-link text-light w-100">
+                <i class="oi oi-file"></i>
+                File.md
+              </a>
+            </div>
           </li>
           <li>
-            <a href="#" class="nav-link text-light">
-              <i class="oi oi-file"></i>
-              File
-            </a>
+            <div class="btn-group dropdown w-100">
+              <a class="text-light dropdown-toggle dropdown-toggle-split file"></a>
+              <a href="#" class="nav-link text-light w-100">
+                <i class="oi oi-file"></i>
+                File.md
+              </a>
+            </div>
           </li>
           <li>
-            <a href="#" class="nav-link text-light">
-              <i class="oi oi-file"></i>
-              File
-            </a>
+            <div class="btn-group dropdown w-100">
+              <a class="text-light dropdown-toggle dropdown-toggle-split file"></a>
+              <a href="#" class="nav-link text-light w-100">
+                <i class="oi oi-file"></i>
+                File.md
+              </a>
+            </div>
           </li>
           <li>
-            <a href="#" class="nav-link text-light">
-              <i class="oi oi-file"></i>
-              File
-            </a>
+            <div class="btn-group dropdown w-100">
+              <a class="text-light dropdown-toggle dropdown-toggle-split file"></a>
+              <a href="#" class="nav-link text-light w-100">
+                <i class="oi oi-file"></i>
+                File.md
+              </a>
+            </div>
           </li>
           <li>
-            <a href="#" class="nav-link text-light">
-              <i class="oi oi-file"></i>
-              File
-            </a>
+            <div class="btn-group dropdown w-100">
+              <a class="text-light dropdown-toggle dropdown-toggle-split file"></a>
+              <a href="#" class="nav-link text-light w-100">
+                <i class="oi oi-file"></i>
+                File.md
+              </a>
+            </div>
           </li>
           <li>
-            <a href="#" class="nav-link text-light">
-              <i class="oi oi-file"></i>
-              File
-            </a>
+            <div class="btn-group dropdown w-100">
+              <a class="text-light dropdown-toggle dropdown-toggle-split file"></a>
+              <a href="#" class="nav-link text-light w-100">
+                <i class="oi oi-file"></i>
+                File.md
+              </a>
+            </div>
           </li>
         </ul>
       </div>
     </nav>
     <!-- Sidebar2  -->
-    <nav class="sidebar bg-dark none-toggle" id="headline">
-      <div class="sticky-top">
-        <div class="sidebar-header text-light">
-          <h5>目次</h5>
-          <strong>目次</strong>
-        </div>
+    <nav class="sidebar bg-dark none-toggle of-y-auto" id="headline">
+      <div class="sticky-top of-y-auto mhv-100 hv-100">
         <ul class="list-unstyled">
           <li>
-            <!--a href="#pageSubmenu4" data-toggle="collapse" aria-expanded="false" class="text-light dropdown-toggle">
-              <i class="oi oi-header"></i>
-              機能一覧
-            </a-->
             <div class="btn-group dropdown w-100">
               <a href="#header1" class="nav-link text-light w-100">
                 <i class="oi oi-header"></i>
@@ -389,7 +443,7 @@ Google Code ＋ Vue Markdown にカスタマイズ？
       <div class="sidebar-btn sticky-top"></div>
     </div>
     <!-- Page Content  -->
-    <main class="sidebar-content">
+    <main class="sidebar-content of-y-auto mhv-100 hv-100">
       <!-- Topに使うか？
         <div class="jumbotron-fluid bg-light mt-4">
           <h1 class="display-4">Title</h1>
@@ -441,14 +495,14 @@ Google Code ＋ Vue Markdown にカスタマイズ？
       <p>スマートフォンなど、画面が小さいxs以下でも画面が見やすいように、<br>
         右下のマテリアルボタンで、サイドバーの表示・非表示が切り替えられ、<br>
         メインコンテンツに集中しやすい表示になります。</p>
-      
+
       <h5 id="header1-7">パンくずリスト</h5>
       <p>上部に固定のパンくずリストを表示し、どのスクロール位置でもページの位置の確認や移動ができます。</p>
-        
+
       <h2 id="header2">開発方針</h2>
       <p>レスポンシブレイアウトでPCでもモバイルでもメニューの拡張性と操作性、一覧性を重視しました。<br>
         JavaScript(JQuery)の利用は最小限になるように考慮しています。</p>
-      
+
       <h2 id="header3">ライブラリ</h2>
       <p>利用しているライブラリです。
         <ol>
@@ -465,21 +519,24 @@ Google Code ＋ Vue Markdown にカスタマイズ？
         </ol>
       </p>
 
+
       <h2 id="header4">推奨環境</h2>
       <p>Edge、Safari、Chromeで動きます。<br>
         IE11は一部の機能が制限されますが動きます。</p>
       <p>みんなでIEの互換モードを撲滅しましょう、、、障害が多すぎる。</p>
+
 
       <h2 id="header5">開発環境</h2>
       <p>主に「VSCode」と「Brackets」を利用しています。<br>
         メインのブラウザは「Safari」です。</p>
       <p>「VSCode」では「Live Serverプラグイン」を利用して、画面表示を確認しています。</p>
 
+
       <h2 id="header6">今後の予定</h2>
       <p>CSS・JSの外部化、「webpack」によるテンプレート化と、<br>
         レイアウトや機能の追加、微調整などを行なっていく予定です。</p>
       <p>また、Prettifyを使って、コードを綺麗に表示したいと思ってます。</p>
-      
+
       <p>
         <h3>Prettifyの対応サンプル</h3>
         <p><code>hl:行番号</code>のクラスを追加すると、その行がハイライトされます。</p>
@@ -490,9 +547,9 @@ console.log("Hellow world!!");
 console.log("Hellow world!!");
 console.log("Hellow world!!");
 console.log("Hellow world!!");</pre>
-        
+
         <p>Prettifyはインラインでのコード表記（<code class="prettyprint lang-js">console.log("Hellow world!!");</code>）も対応できます。</p>
-        
+
       </p>
       <h2 id="header7">連絡先</h2>
       <p>公開内容などなどについて、お気軽にお声かけください。
@@ -501,8 +558,49 @@ console.log("Hellow world!!");</pre>
               <li><a href="https://kght6123.work/" target="_blank">ブログ</a></li>
           </ul>
       </p>
-
     </main>
+    <nav class="sidebar bg-light simple always mini">
+      <div class="sticky-top">
+        <ul class="list-unstyled">
+          <li>
+            <a href="#" class="text-dark active">
+              <i class="oi oi-heart"></i>
+              Love
+            </a>
+          </li>
+          <li>
+            <a href="#" class="text-dark">
+              <i class="oi oi-bold"></i>
+              Bold
+            </a>
+          </li>
+          <li>
+            <a href="#" class="text-dark">
+              <i class="oi oi-italic"></i>
+              Italic
+            </a>
+          </li>
+          <li>
+            <a href="#" class="text-dark">
+              <i class="oi oi-check"></i>
+              Check
+            </a>
+          </li>
+          <li>
+            <a href="#" class="text-dark">
+              <i class="oi oi-code"></i>
+              Code
+            </a>
+          </li>
+          <li>
+            <a href="#" class="text-dark">
+              <i class="oi oi-grid-three-up"></i>
+              Grid
+            </a>
+          </li>
+        </ul>
+      </div>
+    </nav>
   </div>
   <!-- Optional JavaScript -->
   <!-- jQuery first, then Popper.js, then Bootstrap JS -->
@@ -511,10 +609,27 @@ console.log("Hellow world!!");</pre>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha256-VsEqElsCHSGmnmHXGQzvoWjWwoznFSZc6hs7ARLRacQ=" crossorigin="anonymous"></script>
   <!-- popper.jsを bootstrap.bundle.js や bootstrap.bundle.min.js は内部に含む。 -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/prettify/r298/prettify.min.js" integrity="sha256-SHXnnZAbgSEf+OBhDLR7I2mx9vNZAIzPeCGhxRV+VQw=" crossorigin="anonymous"></script>
-  <script src="../sidebar/js/bootstrap-sidebar.js"></script>
-  <script src="../prettify/js/prettify-highlight.js"></script>
+  <script src="./js/bootstrap-sidebar.js"></script>
+  <script src="./js/jquery.halocontext.js"></script>
   <script type="text/javascript">
-    
+  $(function(){
+    // haloContext 右クリックメニューを表示 _pthisや_peで右クリックされた要素を特定
+    $('#filetree li').haloContext({
+      bindings : [
+        { label : "Heart0", iconClassNames : "oi oi-heart", onclick : function(_e, _pthis, _pe) { alert('0:'+$(_pe.target).html()); } },
+        { label : "Heart1", iconClassNames : "oi oi-heart", onclick : function(_e, _pthis, _pe) { alert('1:'+$(_pe.target).html()); } },
+        { label : "Heart2", iconClassNames : "oi oi-heart", onclick : function(_e, _pthis, _pe) { alert('2:'+$(_pe.target).html()); } },
+        { label : "Heart3", iconClassNames : "oi oi-heart", onclick : function(_e, _pthis, _pe) { alert('3:'+$(_pe.target).html()); } },
+        { label : "Heart4", iconClassNames : "oi oi-heart", onclick : function(_e, _pthis, _pe) { alert('4:'+$(_pe.target).html()); } },
+        { label : "Heart5", iconClassNames : "oi oi-heart", onclick : function(_e, _pthis, _pe) { alert('5:'+$(_pe.target).html()); } },
+        { label : "Heart6", iconClassNames : "oi oi-heart", onclick : function(_e, _pthis, _pe) { alert('6:'+$(_pe.target).html()); } },
+        { label : "Heart7", iconClassNames : "oi oi-heart", onclick : function(_e, _pthis, _pe) { alert('7:'+$(_pe.target).html()); } },
+        { label : "Heart8", iconClassNames : "oi oi-heart", onclick : function(_e, _pthis, _pe) { alert('8:'+$(_pe.target).html()); } },
+        { label : "Heart9", iconClassNames : "oi oi-heart", onclick : function(_e, _pthis, _pe) { alert('9:'+$(_pe.target).html()); } },
+      ],
+      options : {}
+    });
+  });
   </script>
 </body>
 
