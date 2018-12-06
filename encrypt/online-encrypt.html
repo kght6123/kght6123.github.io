@@ -99,12 +99,12 @@
 							<p class="lead">Please enter the above key "encrypted text" or "encrypted text".</p>
 							
 							<div class="form-group">
-								<textarea id="input" class="form-control form-control-lg bg-dark text-light" rows="3" placeholder="Please enter a Encrypt text." /></textarea>
+								<textarea id="input" class="form-control form-control-lg bg-dark text-light" rows="3" placeholder="Please enter a Encrypt text." ></textarea>
 								<div class="invalid-feedback">Please enter "encrypted text" or "encrypted text"!!!</div>
 							</div>
 							
 							<div class="form-group">
-								<textarea id="encrypted" class="form-control form-control-lg bg-dark text-light" rows="3" placeholder="Please enter a Encrypted text." /></textarea>
+								<textarea id="encrypted" class="form-control form-control-lg bg-dark text-light" rows="3" placeholder="Please enter a Encrypted text." ></textarea>
 								<div class="invalid-feedback">Please enter "encrypted text" or "encrypted text"!!!</div>
 							</div>
 							
@@ -228,8 +228,10 @@
 				});
 				
 				$("input[type='text'], textarea").on("click", function(){
-					this.select();
-					document.execCommand("Copy");
+					if($(this).val()) {
+						this.select();
+						document.execCommand("Copy");
+					}
 				});
 			});
 		</script>
