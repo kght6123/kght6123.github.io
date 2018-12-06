@@ -1,0 +1,237 @@
+<!doctype html>
+
+<html lang="ja">
+	<!--
+		
+	-->
+	<head>
+		<meta charset="utf-8">
+		<title>Online, Encrypt!!!</title>
+		<meta name="description" content="Online, Encrypt Tools.">
+		<meta name="author" content="Koga">
+		<meta name="viewport" content="width=device-width, maximum-scale=1.0, minimum-scale=0.5,user-scalable=yes,initial-scale=1.0" />
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha256-eSi1q2PG6J7g7ib17yAaWMcrr5GrtohYChqibrV7PBE=" crossorigin="anonymous" />
+		<link rel="stylesheet" href="https://unpkg.com/jpn.css@latest/dist/bootstrap/jpn.min.css">
+		<style type="text/css">
+			
+			html {
+				-ms-overflow-style: -ms-autohiding-scrollbar;
+			}
+			@-ms-viewport {
+				width: device-width;
+				initial-scale: 1;
+			}
+			
+			.card-body {
+				background-color: rgba(255, 255, 255, 0.1);
+			}
+			.jumbotron-dark, .accordion, .card, .card-header {
+				background-color: rgba(255, 255, 255, 0.05);
+			}
+			
+			.card .card-header a[data-toggle="collapse"] {
+				display: block;
+				padding: .75rem 1.25rem;
+				margin: -.75rem -1.25rem;
+			}
+			.card .card-header a[data-toggle="collapse"]:active,
+			.card .card-header a[data-toggle="collapse"]:hover,
+			.card .card-header a[data-toggle="collapse"]:focus {
+				text-decoration: none;
+			}
+			
+		</style>
+	</head>
+	<body class="bg-dark text-light p-lg-4">
+		<!-- HTMLを書く -->
+		
+		<div class="jumbotron jumbotron-dark p-sm-4 p-lg-5">
+			<h1 class="display-4">Online, Encrypt!!!</h1>
+			<p class="lead text-right">I used travist/jsencrypt.</p>
+			<p class="lead">This page to perform OpenSSL RSA Encryption, Decryption, and Key Generation.
+			<span class="font-weight-bold">Click on the text box or text area to select it and copy it.</span></p>
+			
+			<div class="accordion" id="accordion" role="tablist" aria-multiselectable="true">
+				<div class="card">
+					<div class="card-header" role="tab" id="headingOne">
+						<a class="text-light" data-toggle="collapse" href="#collapseOne" role="button" aria-expanded="true" aria-controls="collapseOne">
+							Generate or enter Public key and Private key.
+						</a>
+					</div><!-- /.card-header -->
+					<div id="collapseOne" class="collapse" role="tabpanel" aria-labelledby="headingOne" data-parent="#accordion">
+						<div class="card-body">
+							<div class="form-group">
+								<select id="keysize" class="custom-select">
+									<option>Select Key Size.</option>
+									<option value="512">512 bit</option>
+									<option value="1024" selected>1024 bit</option>
+									<option value="2048">2048 bit</option>
+									<option value="4096">4096 bit</option>
+								</select>
+							</div>
+							<div class="form-group">
+								<input type="text" id="pubkey" class="form-control form-control-lg bg-dark text-light" placeholder="Public Key" />
+								<div class="invalid-feedback">Generate or enter Public key.</div>
+							</div>
+							<div class="form-group">
+								<input type="text" id="privkey" class="form-control form-control-lg bg-dark text-light" placeholder="Private Key" />
+								<div class="invalid-feedback">Generate or enter Private key.</div>
+							</div>
+							<div class="form-group form-check custom-control custom-checkbox">
+								<input type="checkbox" class="custom-control-input" id="async">
+								<label class="custom-control-label" for="async">Async</label>
+							</div>
+							<div class="form-group">
+								<button id="genkey" class="form-control btn btn-dark">Generate Key</button>
+								<p id="report-genkey-time" class="lead text-right"></p>
+							</div>
+						</div><!-- /.card-body -->
+					</div><!-- /.collapse -->
+				</div><!-- /.card -->
+				<div class="card">
+					<div class="card-header" role="tab" id="headingTwo">
+						<a class="text-light" data-toggle="collapse" href="#collapseTwo" role="button" aria-expanded="false" aria-controls="collapseTwo">
+							Perform OpenSSL RSA Encryption, Decryption.
+						</a>
+					</div><!-- /.card-header -->
+					<div id="collapseTwo" class="collapse show" role="tabpanel" aria-labelledby="headingTwo" data-parent="#accordion">
+						<div class="card-body">
+							<p class="lead">Please enter the above key "encrypted text" or "encrypted text".</p>
+							
+							<div class="form-group">
+								<textarea id="input" class="form-control form-control-lg bg-dark text-light" rows="3" placeholder="Please enter a Encrypt text." /></textarea>
+								<div class="invalid-feedback">Please enter "encrypted text" or "encrypted text"!!!</div>
+							</div>
+							
+							<div class="form-group">
+								<textarea id="encrypted" class="form-control form-control-lg bg-dark text-light" rows="3" placeholder="Please enter a Encrypted text." /></textarea>
+								<div class="invalid-feedback">Please enter "encrypted text" or "encrypted text"!!!</div>
+							</div>
+							
+							<p class="lead">
+								<button id="execute" class="form-control btn btn-primary" type="submit">Encryption or decryption</button>
+								<p id="report-execute-time" class="lead text-right"></p>
+							</p>
+						</div><!-- /.card-body -->
+					</div><!-- /.collapse -->
+				</div><!-- /.card -->
+			</div><!-- /#accordion -->
+		</div>
+		
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jsencrypt/2.3.1/jsencrypt.min.js"></script>
+		<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/js/bootstrap.min.js"></script>
+		<script>
+			$(function(){
+				
+				// キー生成の経過時間を表示する処理
+				var startTimeReportAsync = function(_selector) {
+					var $timeReport = $(_selector);
+					$timeReport.text(".");
+					
+					var progress = function () {
+						var text = $timeReport.text();
+						$timeReport.text(text + ".");
+					};
+					return setInterval(progress, 500);
+				};
+				var endTimeReportAsync = function(_intv) {
+					clearInterval(_intv);
+				};
+				var startTimeReport = function() {
+					var dt = new Date();
+					return dt.getTime();
+				};
+				var endTimeReport = function(_time, _selector) {
+					$(_selector).text("Generated in " + (new Date().getTime() - _time) + " ms");
+				};
+				
+				// キー生成処理
+				var generateKeys = function() {
+					
+					var crypt = new JSEncrypt({default_key_size: parseInt($("#keysize:selected").val()) });
+					var async = $("#async").is(":checked");
+					
+					var time = startTimeReport();
+					
+					if (async) {
+						// キー生成（非同期処理）
+						var intv = startTimeReportAsync("#report-genkey-time");
+						
+						crypt.getKey(function() {
+							
+							endTimeReportAsync(intv);
+							endTimeReport(time, "#report-genkey-time");
+							
+							$("#privkey").val(crypt.getPrivateKey());
+							$("#pubkey").val(crypt.getPublicKey());
+						});
+						
+					} else {
+						// キー生成（同期処理）
+						crypt.getKey();
+						
+						endTimeReport(time);
+						
+						$("#privkey").val(crypt.getPrivateKey());
+						$("#pubkey").val(crypt.getPublicKey());
+					}
+				};
+				generateKeys();
+				
+				$("#genkey").on("click", generateKeys);
+				
+				$("#execute").on("click", function() {
+					
+					var pubkey = $("#pubkey").removeClass("is-invalid").val();
+					var privkey = $("#privkey").removeClass("is-invalid").val();
+					
+					var inputText = $("#input").removeClass("is-invalid").val();
+					var encryptedText = $("#encrypted").removeClass("is-invalid").val();
+					
+					if((inputText && encryptedText) || (!inputText && !encryptedText)) {
+						
+						$("#input").addClass("is-invalid");
+						$("#encrypted").addClass("is-invalid");
+						
+					} else if(inputText) {
+						
+						if(!pubkey) {$("#pubkey").addClass("is-invalid"); return;}
+						
+						var time = startTimeReport();
+						
+						// Encrypt with the public key...
+						var encrypt = new JSEncrypt();
+						encrypt.setPublicKey(pubkey);
+						var encrypted = encrypt.encrypt($("#input").val());
+						
+						$("#encrypted").val(encrypted);
+						
+						endTimeReport(time, "#report-execute-time");
+						
+					} else if(encryptedText) {
+						
+						if(!privkey) {$("#privkey").addClass("is-invalid"); return;}
+						
+						var time = startTimeReport();
+						
+						// Decrypt with the private key...
+						var decrypt = new JSEncrypt();
+						decrypt.setPrivateKey(privkey);
+						var uncrypted = decrypt.decrypt(encryptedText);
+						
+						$("#input").val(uncrypted);
+						
+						endTimeReport(time, "#report-execute-time");
+					}
+				});
+				
+				$("input[type='text'], textarea").on("click", function(){
+					this.select();
+					document.execCommand("Copy");
+				});
+			});
+		</script>
+	</body>
+</html>

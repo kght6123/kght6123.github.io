@@ -31,6 +31,14 @@ PCとモバイルの両方で、メニューの拡張性、操作性・視認性
 
 * [Link](https://kght6123.github.io/sidebar/index.html)
 
+## オンライン暗号化
+
+暗号化して文字列を送りたい時の為に作成しました。
+
+Chorme、Safariで動作確認済み。
+
+* [Link](https://kght6123.github.io/encrypt/online-encrypt.html)
+
 ## 独自レスポンシブ対応ページ
 
 既存のUIフレームワークを利用せずに、レスポンシブデザインとマテリアルっぽいデザインを学ぶ為に作成したページです。
