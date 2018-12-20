@@ -497,6 +497,8 @@ Reveal.addEventListener( 'customevent', function() {
 				"A paragraph with some text and a [link](http://hakim.se)."
 				].join("\n");
 			
+			if (parent)
+				initMarkdownText = $("#delegate-markdown", parent.document).val();
 			
 			// スライド毎にMarkdownを分割し、配列に格納する
 			var separatorReg = new RegExp(revealOptions.separator, "gmy");
@@ -660,9 +662,11 @@ Reveal.addEventListener( 'customevent', function() {
 						$hsection.html(tempHtml);
 					}
 				}
-				
 				// 同期
 				setMarkdownSlide(state.indexh, state.indexv, mdText);
+
+				if (parent)
+					$("#delegate-markdown", parent.document).val(getMarkdownText());
 			});
 			
 			$(".editmode-ctrl").on("click", function(){
