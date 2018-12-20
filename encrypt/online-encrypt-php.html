@@ -1,0 +1,473 @@
+<!doctype html>
+
+<html lang="ja">
+	<!--
+	
+	
+	## 公開鍵方式で二重に暗号化、SSLの中身をプロキシ等で読み取られない
+
+	Encrypt in PHP openssl and decrypt in javascript CryptoJS ⇒ 単にcryptoとopenssl間で暗複合をやるだけ
+	https://stackoverflow.com/questions/41222162/encrypt-in-php-openssl-and-decrypt-in-javascript-cryptojs
+
+	 - crypticoは公開鍵認証ができる。cryptoはNGっぽい。
+
+	crypticoでPure JavaScriptによる公開鍵暗号を用いるメモ https://qiita.com/miyanaga/items/8692d0742a49fb37a6da
+
+	JSとPHPでの公開鍵・秘密鍵による暗号化と復号化 https://teratail.com/questions/71680
+
+	 - crypticoはPHPと相性悪い、tjw/jsbnは古すぎ。
+
+	OpenSSLを使ってデータの暗号化/復号 (公開鍵暗号方式) https://qiita.com/msysyamamoto/items/472c4a41b54d857fe49e
+
+	Node-RSA
+	https://www.npmjs.com/package/node-rsa
+	https://github.com/rzcoder/node-rsa
+
+	 - 利用例が少ないけど、tjw/jsbnの後継のNode-RSAと、PHPならいけそう。
+
+	Working with PHP data #24
+	https://github.com/travist/jsencrypt/issues/24
+
+	Cannot decrypt in PHP #108
+	https://github.com/travist/jsencrypt/issues/108
+
+	How to decrypt data in PHP encrypted with JSEncrypt
+	https://stackoverflow.com/questions/48963747/how-to-decrypt-data-in-php-encrypted-with-jsencrypt
+
+	 - jsencryptでもいけそう。cdnあるしどこでも検証が楽？
+
+
+	```
+	┼─┼─────────┼──┼──────────┼──────────────┼
+	│  │JS (Node-RSA)     │    │PHP (openssl)       │備考                        │
+	┼─┼─────────┼──┼──────────┼──────────────┼
+	│  │公開＋秘密鍵作成  │    │                    │                            │
+	│受│公開鍵の送付      │ ⇒ │暗号化              │常にリクエストに公開鍵を付与│
+	│  │                  │    │  ↓                │                            │
+	│信│秘密鍵で複合化    │ ← │暗号化データ送付    │                            │
+	│  │                  │    │                    │                            │
+	┼─┼─────────┼──┼──────────┼──────────────┼
+	│  │                  │    │公開＋秘密鍵作成    │                            │
+	│送│暗号化            │ ← │公開鍵の送付        │常にレスポンスに公開鍵を付与│
+	│  │  ↓              │    │                    │                            │
+	│信│暗号化データ送付  │ ⇒ │秘密鍵で複合化      │                            │
+	│  │                  │    │                    │                            │
+	┼─┼─────────┼──┼──────────┼──────────────┼
+	```
+
+	*****
+
+	jsencryptは、パスワード保護されたPrivateKeyに対応していない。
+
+	jsrsasignを組み合わせることで、対応できるっぽい。 https://github.com/travist/jsencrypt/issues/35#issuecomment-115277985
+
+	I worked around it using some other encryption libraries: https://kjur.github.io/jsrsasign/
+
+	今は非推奨なメソッドを使ったりしているので、下記を参考にパスワード付きのPrivateKey生成を見直す。
+	https://github.com/kjur/jsrsasign/issues/185#issuecomment-234182370
+	https://kjur.github.io/jsrsasign/api/symbols/KEYUTIL.html
+
+	*****
+
+	php版をpaiza.ioとかで作る
+	https://paiza.io/ja/projects/new
+
+	OpenSSLを使ってデータの暗号化/復号 (公開鍵暗号方式) https://qiita.com/msysyamamoto/items/472c4a41b54d857fe49e
+
+	Public Keyと暗号化データ、ユーザパスワードだけやり取りするので、Public Keyと暗号化形式がJSとPHPで違ってなければ、大丈夫？？
+
+	php ==> pub, priv, pass生成 ==> Cookie格納 ==> レスポンス ×
+
+	js ==> pub, priv生成 ==> Cookie格納 ==> Form表示(phpのpub, priv, pass、jsのpub, priv) ×
+
+	html ==> Form入力(送受信文字列) ==> ボタン押下 ×
+
+	js ==> 送信文字列をphpのpubで暗号化 ==> Cookie格納 ==> リクエスト ×
+
+	php ==> 送信文字列をphpのprivで複合化 ==> 受信文字列をjsのpubで暗号化 ==> Cookie格納 ==> レスポンス ×
+
+	js ==> 受信文字列をjsのprivで複合化 ==> Form表示(応答文字列)
+
+
+<?php
+
+// In
+
+$_COOKIE = [];
+function _setcookie($key, $val, $time) {
+	$_COOKIE[$key] = $val;// setcookie($key, $val, $time);
+}
+
+_setcookie("php.output", "Hello World, Encrypt!!! for PHP", time());
+_setcookie("js.public.key", "-----BEGIN PUBLIC KEY-----
+MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCC4Giu7Z48/MDmoSWZx+kxcd7l
+ITW/tnDz3SvpIo7VK7PSZoKI3X3b9IDIr7Y2x/7bxb8K9i7eRinRkM6cp8mrh+4L
+Ja6ZctGsDfjafngaCyxXaECGRfITvZJyYJT+mf2o0A1zXiT91loJM5B43J5hrTYD
+UsEjr2VmRR9p0USlEwIDAQAB
+-----END PUBLIC KEY-----", time());
+_setcookie("js.encrypt.base64", "batvC/LdUlFDKdFCYpa2QroBnVK/GHuv7nFKe/PiP7Hg716R4kUCHHk1KY7oqxmc02fAssrIhP2DHOWCvv4GS4DsAsXsmyQ2xPeDNIcHUbC2V9u0BuF7RNRqSasHE873hhw/D2QXhClW9ibpzfTgAcRdwo6k43UUauKVdq7on5waKdW2LLcfprZosNSSjfBCD2hUEfXhPrnce5SB4IUd6nLjV+HFFnnuRHt9Jm3+COZpnMENRsR++3hvQm0gt1BD0UglKTkRr/ZmEVN7xuJP9Qu/nnLakagWGsaJSeqz1pMnXocJBAP77COLoCXWM6IgssZEo9+TYa2WgT/xrabscA==", time());
+
+_setcookie("php.private.key", '-----BEGIN ENCRYPTED PRIVATE KEY-----
+MIIFHDBOBgkqhkiG9w0BBQ0wQTApBgkqhkiG9w0BBQwwHAQIBcPqKRohap0CAggA
+MAwGCCqGSIb3DQIJBQAwFAYIKoZIhvcNAwcECAir9YSMKzEaBIIEyE/v7cE/RZi7
+1qvTnyoZOsJmNVSnDxegYUslxxO2oe3sZV9Yfxy8kUbK8LJYtnsxezM5o7dqWTCS
+oLXscKwwg9tvJlDFM12QfvlDOAvfFrIlr5yrVoz82w4tQfHO0CveHWq7IGUdC7WM
+Xo6l3KhwYf4dO0Zrr1zmpf90jlCKlV6jzBJMPwStlD4L66XwKm0va6GTpfpKZQ+A
+UurQlfMQje6K9M5tPr4UcJBy/pfrK3UyjruTg/4ozwxeEG17IJ5T+N2mI2L0+cg6
+JiaRqdu+3ODmPqnce2dD7a9RS/TbpSIA7C13cLP348GOOodEyiOUIWbm87226ZOK
+7zWFSLov7LyPIDE5tbH9N2wuRSLxIVB6odaj8ZjISe3HiAttYzGBaALCYj3ksqGK
+9nsFEKvQNGC8+nTm3nFSIMf/g72cXkKPwKfZ34ohOkHAU2o5oQWz+XmVELZ7PsHO
+j0rCArY69Ao8Z88VwcU8AcCYUddV+7ymJQw2zk4ZmGMPQSZW0cjMs6aFk/KxOpFz
+bYZk35ewPTcBex5ullKTcx8tnuN+GfwEryDqKPozelj/eCkXTK5v4J2Fyk6XU9/D
+SyO0es3AlVnnNgXNSA+/EuyFQTzOqScf8GPQwVD6cEMvxcrm3k4D/3dUL0n3cO9F
+6CzIbr+YtsTTXs3T6VEzy7pxIAfl0vlor6mkiUUE8HcMFHvviP99ORJuc1mhl6EN
+y++f/L6KmE8+/D1IjpNc5X9LBe0mrDqMkIY2vFGnV3HkH6xuJWZbJjypogMX6aU0
+jdXdK6oDb5aQF5U0MYvdcSOJT6YKCycEITNmygflKYlUvOrw8DeAKCVlLccnrQ5T
+SI7OQNPFVo8KXaWAcdBEtaEuUwIH4KnvQ3rdXB9qaypFw/ZbEoivTLY/lvg3JaDC
+Mj3J44AxVCvZ7nKtyPEJYZuKCDh7kWnwUZJ+d+YJ8THRmmKvY21jVXmG9/gEQkLy
+Ktgi4SQLP2kgpgIuqmcYC88O1ElfhF9H66E5aFCA3q4ky1Z4VwrQjBqzPOsU+Shs
+OjYGstCQs5Y64GQwV/gdnjFoSnRBqjPe3qyPlVQhUOzDC0HHLNCK9mWWfCXPqUfS
+MqIZ0KJu0g6AVQkhkPDdJWqYsnS20e5VSe0LVlSmWeVKPIIQAqXtf8s7SJtVQAX1
+vE8gqWgiwVFk4bwKIUXYfCJOfZnRHj7Wpi0WkNsbvZuoFKYYGmBbIczFV3Tim9KT
+W7WwTIdtcTHIBdnFnQhmrBCEpX0NnvPZXXggTyigJgJ+MWfuc9xFHc/w8lgjq9of
+orI7BDvMfOQMZd1vBsneZ0Ec04K416gQ6Z6VztgKQl42jWDL6gW5i6NnEfmcGkq5
+r47O3udT26RShK8YG5NTc1Ue5cs3AWOo0f3IIJ56U/BelrOMF00j/f/9iVeDa5KZ
+L4Q9RJsHyUl2HRfKuWccfgMSvFl3v5yrsLvw3VbtvTaecE8IjasPyfYtV18prH3W
+/1BqCmx9TJHF8VLxfNcONd+38LvTPdagIAkdOpQkhfi1lY1ZdB9Bkew7HqrB8Wyk
+FXwHQ2e0Er364c0DFyturfpABeUjr42pT5ZQVvWrc/UissYWyKqORUV983aAq3jk
+iWl+QIFYy6KvpWlzHQIaGQ==
+-----END ENCRYPTED PRIVATE KEY-----', time());
+_setcookie("php.public.key", '-----BEGIN PUBLIC KEY-----
+MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAq9dFqaiY7QpcEPpy38gN
+ClT0FKV+B8j5i7JYZjEQ5NU15XrPLooBgyijaQB1AGkITmoQK1HtrZg07jRmm7P2
+t6j2jIvMB1N3IgUYufIlwRM7+d+ad7vEWFKKveVnjN17jvwksL4Iib9GrdIwQXkR
+VlFjD6VlBVBPZPAW3U0KKF1GUX1On0kfpjWaQn5BEPbe+YTk8TAqqpECmLF+pg/W
+Vxdz75BwClyuO+x+Bmo0KRkooHnkqcU3nHFMNngwtidhv9B4eFo1R/ErfUNbKWII
+tjcE4xk1eGryUyOr2BoiottPzV1FDZGaBFfdrML0X5Kx98nrAHHiDiJ7xfF5Evrp
+MwIDAQAB
+-----END PUBLIC KEY-----', time());
+_setcookie("passphrase", 'passphrase!', time());
+
+// キー、パスフレーズ生成
+if(!isset($_COOKIE['passphrase'])) {
+	// パスフレーズが無いとき、生成する
+	$passphrase = 'passphrase!';
+	
+	$key = openssl_pkey_new();
+	openssl_pkey_export($key, $prvkey, $passphrase);
+	
+	$pubkey = openssl_pkey_get_details($key);
+	$pubkey = $pubkey['key'];
+	
+	_setcookie("php.private.key", $prvkey, time());
+	_setcookie("php.public.key", $pubkey, time());
+	
+	_setcookie("passphrase", $passphrase, time());
+}
+
+// 暗号化
+if(isset($_COOKIE['php.output']) && isset($_COOKIE['js.public.key'])) {
+	// php.inputがあるとき、jsのpubで暗号化する
+	openssl_public_encrypt($_COOKIE['php.output'], $crypted, $_COOKIE['js.public.key']);
+	
+	// 暗号化データを格納
+	$encdata = base64_encode($crypted);
+	_setcookie("php.encrypt.base64", $encdata, time());
+	
+	// 削除
+	//unset($_COOKIE['php.output']);
+}
+
+// 複合化
+if(isset($_COOKIE['js.encrypt.base64']) && isset($_COOKIE['php.private.key'])) {
+	// js.encryptがあるとき、phpのprivで複合化する
+	// privのパスワード解除
+	$prvkey = openssl_get_privatekey($_COOKIE['php.private.key'], $_COOKIE['passphrase']);
+	
+	// 複合化
+	$decdata = base64_decode($_COOKIE['js.encrypt.base64']);
+	openssl_private_decrypt($decdata, $output, $prvkey);
+	
+	// 設定
+	_setcookie("php.decrypt", $output, time());
+}
+
+// Out
+echo "passphrase=" . $_COOKIE["passphrase"];
+echo "php.private.key=" . $_COOKIE["php.private.key"];
+echo "php.public.key=" . $_COOKIE["php.public.key"];
+
+if(isset($_COOKIE['php.encrypt.base64'])) { echo "php.encrypt.base64=" . $_COOKIE["php.encrypt.base64"]; }
+if(isset($_COOKIE['php.decrypt'])) { echo "php.decrypt=" . $_COOKIE["php.decrypt"]; }
+
+?>
+
+php.decrypt=Hello World, Encrypt!!! for JS
+
+	-->
+	<head>
+		<meta charset="utf-8">
+		<title>Online, Encrypt!!! for PHP</title>
+		<meta name="description" content="Online, Encrypt Tools for PHP.">
+		<meta name="author" content="Koga">
+		<meta name="viewport" content="width=device-width, maximum-scale=1.0, minimum-scale=0.5,user-scalable=yes,initial-scale=1.0" />
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha256-eSi1q2PG6J7g7ib17yAaWMcrr5GrtohYChqibrV7PBE=" crossorigin="anonymous" />
+		<link rel="stylesheet" href="https://unpkg.com/jpn.css@latest/dist/bootstrap/jpn.min.css">
+		<style type="text/css">
+			
+			html {
+				-ms-overflow-style: -ms-autohiding-scrollbar;
+			}
+			@-ms-viewport {
+				width: device-width;
+				initial-scale: 1;
+			}
+			
+			.card-body {
+				background-color: rgba(255, 255, 255, 0.1);
+			}
+			.jumbotron-dark, .accordion, .card, .card-header {
+				background-color: rgba(255, 255, 255, 0.05);
+			}
+			
+			.card .card-header a[data-toggle="collapse"] {
+				display: block;
+				padding: .75rem 1.25rem;
+				margin: -.75rem -1.25rem;
+			}
+			.card .card-header a[data-toggle="collapse"]:active,
+			.card .card-header a[data-toggle="collapse"]:hover,
+			.card .card-header a[data-toggle="collapse"]:focus {
+				text-decoration: none;
+			}
+			
+		</style>
+	</head>
+	<body class="bg-dark text-light p-lg-4">
+		<!-- HTMLを書く -->
+		
+		<div class="jumbotron jumbotron-dark p-sm-4 p-lg-5">
+			<h1 class="display-4">Online, Encrypt!!! for PHP</h1>
+			<p class="lead text-right">I used travist/jsencrypt.</p>
+			<p class="lead">This page to perform OpenSSL RSA Encryption, Decryption, and Key Generation.
+			<span class="font-weight-bold">Click on the text box or text area to select it and copy it.</span></p>
+			
+			
+			<p class="lead">Generate or enter Public key and Private key.</p>
+			
+			<div class="form-group">
+				<select id="keysize" class="custom-select">
+					<option>Select Key Size.</option>
+					<option value="512">512 bit</option>
+					<option value="1024" selected>1024 bit</option>
+					<option value="2048">2048 bit</option>
+					<option value="4096">4096 bit</option>
+				</select>
+			</div>
+			<div class="form-group">
+				<input type="text" id="passphrase" class="form-control form-control-lg bg-dark text-light" placeholder="Passphrase" value="passphrase!" />
+			</div>
+			<div class="form-group">
+				<textarea id="pubkey" class="form-control form-control-lg bg-dark text-light" rows="3" placeholder="Public Key" >-----BEGIN PUBLIC KEY-----
+MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCC4Giu7Z48/MDmoSWZx+kxcd7l
+ITW/tnDz3SvpIo7VK7PSZoKI3X3b9IDIr7Y2x/7bxb8K9i7eRinRkM6cp8mrh+4L
+Ja6ZctGsDfjafngaCyxXaECGRfITvZJyYJT+mf2o0A1zXiT91loJM5B43J5hrTYD
+UsEjr2VmRR9p0USlEwIDAQAB
+-----END PUBLIC KEY-----</textarea>
+			</div>
+			<div class="form-group">
+				<textarea id="privkey" class="form-control form-control-lg bg-dark text-light" rows="3" placeholder="Private Key" >-----BEGIN RSA PRIVATE KEY-----
+Proc-Type: 4,ENCRYPTED
+DEK-Info: AES-256-CBC,EBBFC9029602BC59EC2B17230BDEA6E3
+
+lw8NAHJ8YKlVPJFPrlqSP+Q1YHufItA9sVkXxHj+seZKg7CT3qiVbAwU2aizzsuC
+6h4CP5XsWrxWBnpcpiPT89IXbLdNhxkIf96guu2qq/yuUdJ3wdLW5iF9gkxdL05r
+Uhlm4WS//3XvImTg3+yiam6cseGG155GvPt+Q1j1IYYioYdrcj1xOI7b9UdddqnX
+XzYWjbmhTdx33eVzO1J9hQS/pksBtwv9NRMmbimof3zxF9rW0ssNBdHJ1czR6Omo
+ENZHXREOHL8sGHWSTqeeNSRYOqFBO2JtZXMiAPXjya1RAHYTAf4D/+SkMU+DX2EI
+9UpH9pAm5twsb4qapsAp3Rwt+3tfks0ZahZICu+bzbdAfkBIEp+3YCqcIBwK9uj4
+RwzJNPMg1cOzsKG2rqcqhdgvDRWh5ZF7S+xko6RRHN5rM1/9BXib6E1Tpb1yjRME
+haTlXojsrHqqZ4P2ASILOCoCIV/h1cE50FSpZd/Qm7BENMgQitt+oeo1fDVmk8uy
+jAD/0w5TuN1qRbUpywin8/QdRpWEbYVXX8Jpr49yXLa6CLwLRuI6NVqYm+TR9Ko2
+BylM3scc1FyJj/qWK2TEy086qv5NQakk3p601LbzT/P1IZGNDAVCqhhfYk+kdsbU
+PzRTxW5LVM+3UlwD2IcNsCtIj4LLuM9AqSkeLPM4WzXd+FcWpddif2haVknhyYPa
+ihTboFW7cp+mShmes1dLQCimMwYmHiEYGqttc8wRIXpGOKuRhX1OUwdTpDGZA09y
+mZM9Qc65EmvbE0Sj3LA9PLGWfTVI15iS+c6t3eLOmMw=
+-----END RSA PRIVATE KEY-----</textarea>
+			</div>
+			<div class="form-group">
+				<textarea id="php-pubkey" class="form-control form-control-lg bg-dark text-light" rows="3" placeholder="Please enter a PHP Output text." >-----BEGIN PUBLIC KEY-----
+MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAq9dFqaiY7QpcEPpy38gN
+ClT0FKV+B8j5i7JYZjEQ5NU15XrPLooBgyijaQB1AGkITmoQK1HtrZg07jRmm7P2
+t6j2jIvMB1N3IgUYufIlwRM7+d+ad7vEWFKKveVnjN17jvwksL4Iib9GrdIwQXkR
+VlFjD6VlBVBPZPAW3U0KKF1GUX1On0kfpjWaQn5BEPbe+YTk8TAqqpECmLF+pg/W
+Vxdz75BwClyuO+x+Bmo0KRkooHnkqcU3nHFMNngwtidhv9B4eFo1R/ErfUNbKWII
+tjcE4xk1eGryUyOr2BoiottPzV1FDZGaBFfdrML0X5Kx98nrAHHiDiJ7xfF5Evrp
+MwIDAQAB
+-----END PUBLIC KEY-----</textarea>
+			</div>
+			<div class="form-group">
+				<textarea id="php-privkey" class="form-control form-control-lg bg-dark text-light" rows="3" placeholder="Please enter a PHP Output text." >-----BEGIN ENCRYPTED PRIVATE KEY-----
+MIIFHDBOBgkqhkiG9w0BBQ0wQTApBgkqhkiG9w0BBQwwHAQIBcPqKRohap0CAggA
+MAwGCCqGSIb3DQIJBQAwFAYIKoZIhvcNAwcECAir9YSMKzEaBIIEyE/v7cE/RZi7
+1qvTnyoZOsJmNVSnDxegYUslxxO2oe3sZV9Yfxy8kUbK8LJYtnsxezM5o7dqWTCS
+oLXscKwwg9tvJlDFM12QfvlDOAvfFrIlr5yrVoz82w4tQfHO0CveHWq7IGUdC7WM
+Xo6l3KhwYf4dO0Zrr1zmpf90jlCKlV6jzBJMPwStlD4L66XwKm0va6GTpfpKZQ+A
+UurQlfMQje6K9M5tPr4UcJBy/pfrK3UyjruTg/4ozwxeEG17IJ5T+N2mI2L0+cg6
+JiaRqdu+3ODmPqnce2dD7a9RS/TbpSIA7C13cLP348GOOodEyiOUIWbm87226ZOK
+7zWFSLov7LyPIDE5tbH9N2wuRSLxIVB6odaj8ZjISe3HiAttYzGBaALCYj3ksqGK
+9nsFEKvQNGC8+nTm3nFSIMf/g72cXkKPwKfZ34ohOkHAU2o5oQWz+XmVELZ7PsHO
+j0rCArY69Ao8Z88VwcU8AcCYUddV+7ymJQw2zk4ZmGMPQSZW0cjMs6aFk/KxOpFz
+bYZk35ewPTcBex5ullKTcx8tnuN+GfwEryDqKPozelj/eCkXTK5v4J2Fyk6XU9/D
+SyO0es3AlVnnNgXNSA+/EuyFQTzOqScf8GPQwVD6cEMvxcrm3k4D/3dUL0n3cO9F
+6CzIbr+YtsTTXs3T6VEzy7pxIAfl0vlor6mkiUUE8HcMFHvviP99ORJuc1mhl6EN
+y++f/L6KmE8+/D1IjpNc5X9LBe0mrDqMkIY2vFGnV3HkH6xuJWZbJjypogMX6aU0
+jdXdK6oDb5aQF5U0MYvdcSOJT6YKCycEITNmygflKYlUvOrw8DeAKCVlLccnrQ5T
+SI7OQNPFVo8KXaWAcdBEtaEuUwIH4KnvQ3rdXB9qaypFw/ZbEoivTLY/lvg3JaDC
+Mj3J44AxVCvZ7nKtyPEJYZuKCDh7kWnwUZJ+d+YJ8THRmmKvY21jVXmG9/gEQkLy
+Ktgi4SQLP2kgpgIuqmcYC88O1ElfhF9H66E5aFCA3q4ky1Z4VwrQjBqzPOsU+Shs
+OjYGstCQs5Y64GQwV/gdnjFoSnRBqjPe3qyPlVQhUOzDC0HHLNCK9mWWfCXPqUfS
+MqIZ0KJu0g6AVQkhkPDdJWqYsnS20e5VSe0LVlSmWeVKPIIQAqXtf8s7SJtVQAX1
+vE8gqWgiwVFk4bwKIUXYfCJOfZnRHj7Wpi0WkNsbvZuoFKYYGmBbIczFV3Tim9KT
+W7WwTIdtcTHIBdnFnQhmrBCEpX0NnvPZXXggTyigJgJ+MWfuc9xFHc/w8lgjq9of
+orI7BDvMfOQMZd1vBsneZ0Ec04K416gQ6Z6VztgKQl42jWDL6gW5i6NnEfmcGkq5
+r47O3udT26RShK8YG5NTc1Ue5cs3AWOo0f3IIJ56U/BelrOMF00j/f/9iVeDa5KZ
+L4Q9RJsHyUl2HRfKuWccfgMSvFl3v5yrsLvw3VbtvTaecE8IjasPyfYtV18prH3W
+/1BqCmx9TJHF8VLxfNcONd+38LvTPdagIAkdOpQkhfi1lY1ZdB9Bkew7HqrB8Wyk
+FXwHQ2e0Er364c0DFyturfpABeUjr42pT5ZQVvWrc/UissYWyKqORUV983aAq3jk
+iWl+QIFYy6KvpWlzHQIaGQ==
+-----END ENCRYPTED PRIVATE KEY-----</textarea>
+			</div>
+			<div class="form-group">
+				<textarea id="php-output" class="form-control form-control-lg bg-dark text-light" rows="3" placeholder="Please enter a PHP Output text." >Hello World, Encrypt!!! for PHP</textarea>
+			</div>
+			
+			<div class="form-group">
+				<textarea id="js-input" class="form-control form-control-lg bg-dark text-light" rows="3" placeholder="Please enter a JS Input text." >Hello World, Encrypt!!! for JS</textarea>
+			</div>
+			
+			<div class="form-group">
+				<textarea id="encrypted" class="form-control form-control-lg bg-dark text-light" rows="3" placeholder="Please enter a JS Encrypted text." >heu1xE8d1XLS/UY9nW3gMtMcCSJlB3W4GVUMbVk2IPYU9/IIRMzXfw7mG3UA5+JqXE0n/TEgg4lRcuUTmUn0cu2uslGXot69ZyMrGFZ/kvFQEy9mOvpoR2zjcIB64MYjGMMaYQVlcFyU4bRG2r6+vw+foJFVhab8dHpk3A0ruD2AmrG9H2QC5xVjr/Naq6Bzb2nlrhCCsmbkjb8LIAH1NLQ27BarPoGltSdoJhQPVohr1lX6r8FNU/HMsud1a75sC2Ppftl2bjRF7Gz5QiTq+s7L3fGKz0ty3/FccR3QvJcIEaFwIwqlBRMXMWu7PK6jDrPfcz3PoP1pJlZP3we2lA==</textarea>
+			</div>
+			
+			<div class="form-group">
+				<textarea id="php-encrypted" class="form-control form-control-lg bg-dark text-light" rows="3" placeholder="Please enter a PHP Encrypted text." >Pmp/IgZ7KhPcWxMvyB0wjAgtCPubG+MQ2FS5xwzcwUlo/vaIlSwjpVqpPKPKnOPYcxG2dbXbI2Dal9L/KfcQ96QwqqrK6ugQEc49IlqtqaK/oGZZK7+XM2nwWyGc7LlTU7JdnJpwlgoo6RCElFiDCwJGLqSziVv5mEjFERAZtfg=</textarea>
+			</div>
+			
+			<p class="lead">
+				<button id="execute" class="form-control btn btn-primary" type="submit">Encryption or decryption</button>
+			</p>
+		</div>
+		
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jsencrypt/2.3.1/jsencrypt.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jsrsasign/8.0.12/jsrsasign-all-min.js"></script>
+		
+		<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+		<!--script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script-->
+		
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/js/bootstrap.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/js-cookie/2.2.0/js.cookie.min.js"></script>
+		
+		<script>
+			
+			$(function(){
+				
+				var Base64 = {
+					encode: function(str) {
+						return btoa(unescape(encodeURIComponent(str)));
+					},
+					decode: function(str) {
+						//return decodeURIComponent(escape(atob(str)));
+						return decodeURIComponent(str);
+					}
+				};
+				
+				var FormOrCookie = {
+					get: function (ckey, fkey) {
+						var valu = Cookies.get(ckey);
+						if(valu) {
+							$(fkey).val(valu);
+						} else {
+							valu = $(fkey).val();
+						}
+						return valu;
+					},
+				};
+				
+				var passphrase = FormOrCookie.get("passphrase", "#passphrase");
+				var publicKeyPhp = FormOrCookie.get("php.public.key", "#php-pubkey");
+				var privateKeyPhp = FormOrCookie.get("php.private.key", "#php-privkey");
+				
+				// キー生成処理
+				var generateKeys = function() {
+					
+					var keysize = parseInt($("#keysize option:selected").val());
+					
+					var publicKey = FormOrCookie.get("js.public.key", "#pubkey");
+					var privateKey = FormOrCookie.get("js.private.key", "#privkey");
+				
+					if(!publicKey || !privateKey) {
+						
+						// 秘密鍵と公開鍵を生成します
+						var rsaKeypair = KEYUTIL.generateKeypair('RSA', keysize);
+						
+						// パスコードを使用して、PKCS＃5秘密鍵をPEM形式に保護します
+						privateKey = KEYUTIL.getPEM(rsaKeypair.prvKeyObj, 'PKCS5PRV', passphrase, 'AES-256-CBC');
+						
+						// JSEncrypt向けに、公開鍵のPEM文字列を取得する
+						publicKey = KEYUTIL.getPEM(rsaKeypair.pubKeyObj);
+						
+						Cookies.set("js.private.key", privateKey, { expires: 0 });
+						Cookies.set("js.public.key", publicKey, { expires: 0 });
+					}
+					
+					// フォームに設定する
+					$("#privkey").val(privateKey);
+					$("#pubkey").val(publicKey);
+					
+					console.log(privateKey);
+					console.log(publicKey);
+				};
+				generateKeys();
+				
+				if (FormOrCookie.get("php.encrypt.base64", "#php-encrypted") && $("#privkey").val()) {
+					
+					// PHP -> JS
+					// パスコードを使用して、PEM形式の保護されたPKCS＃5秘密鍵をHex形式に復号化します
+					var decPKHex = KEYUTIL.getDecryptedKeyHex($("#privkey").val(), passphrase);
+					
+					// JSEncrypt向けに、16進データとヘッダー文字列からPEM文字列を取得する
+					// このメソッドは、16進文字列を指定されたヘッダーを持つPEM文字列に変換します
+					var decPKPEM = KJUR.asn1.ASN1Util.getPEMStringFromHex(decPKHex, "RSA PRIVATE KEY");
+					
+					// Decrypt with the private key...
+					var decrypt = new JSEncrypt();
+					decrypt.setPrivateKey(decPKPEM);
+					var uncrypted = decrypt.decrypt(Base64.decode(FormOrCookie.get("php.encrypt.base64", "#php-encrypted")));
+					
+					$("#php-output").val(uncrypted);
+				}
+				
+				$("#execute").on("click", function() {
+					
+					// JS -> PHP
+					Cookies.set("php.output", $("#php-output").val(), { expires: 0 });
+					
+					// Encrypt with the public key...
+					var encrypt = new JSEncrypt();
+					encrypt.setPublicKey($("#php-pubkey").val());
+					var encrypted = encrypt.encrypt($("#js-input").val());
+					$("#encrypted").val(encrypted);
+					
+					Cookies.set("js.encrypt.base64", Base64.encode(encrypted), { expires: 0 });
+				});
+				
+				$("input[type='text'], textarea").on("click", function(){
+					this.select();
+					document.execCommand("Copy");
+				});
+			});
+		</script>
+	</body>
+</html>
