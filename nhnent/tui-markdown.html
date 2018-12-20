@@ -1,0 +1,327 @@
+<!doctype html>
+
+<html lang="ja">
+<!--
+  Material Design Color
+  https://www.materialui.co/colors
+  
+  tui-editor
+   ⇒ options.previewStyle を tab, vertical で切り替え changePreviewStyle(style)、getCurrentPreviewStyle()関数を使う
+   ⇒ highlight.js対応 ⇒ addWidget(getRange(), node, style, offsetopt)関数でWidget追加
+   ⇒ options.initialEditType、changeMode、getCurrentModeEditor()関数 で切り替え(markdown, wysiwyg) options.hideModeSwitch=falseで非表示にもできる
+   ⇒ insertText(text)で提携テキスト追加
+   ⇒ 初期はToastUIEditorViewerを表示。その後、Editorに切り替え。変えられるようにする。
+   ⇒ HTMLで編集してプレビューするHTMLモード(wysiwygにtextareaを組み合わせて、編集を同期する。)
+
+  https://nhnent.github.io/tui.editor/api/latest/ToastUIEditor.html#ToastUIEditor
+  
+  https://uicdn.toast.com/tui-editor/latest/tui-editor.css
+  https://uicdn.toast.com/tui-editor/latest/tui-editor-contents.css
+  https://uicdn.toast.com/tui-editor/latest/tui-editor-Editor.min.js
+  
+  https://nhnent.github.io/tui.editor/api/latest/tutorial-example12-writing-extension.html#
+  
+  tui.Editorは、editorのプレビューより、viewerの表示がはやい。
+   ⇒ プレビューは消す。viewerをflexboxで右側に。スクロール同期する？？
+  
+  editor.execですべてのコマンドを実行できるようにして、見た目やボタンの大きさを変える。
+  
+-->
+<head>
+  <meta charset="utf-8">
+  <title>TOAST UIサンプル</title>
+  <meta name="description" content="TOAST UIサンプル">
+  <meta name="viewport" content="width=device-width, maximum-scale=1.0, minimum-scale=0.5,user-scalable=yes,initial-scale=1.0" />
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.42.0/codemirror.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/styles/github.min.css" />
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tui-editor/1.2.8/tui-editor.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tui-editor/1.2.8/tui-editor-contents.min.css" />
+  
+  <link rel="stylesheet" href="./tui/tui-color-picker.min.css" /><!-- https://github.com/nhnent/tui.color-picker/blob/production/dist/tui-color-picker.min.css -->
+  <link rel="stylesheet" href="./tui/tui-chart.min.css" /><!-- https://github.com/nhnent/tui.chart/blob/master/dist/tui-chart.min.css -->
+  
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" />
+  
+  <style type="text/css">
+  <!--
+    html {
+      -ms-overflow-style: -ms-autohiding-scrollbar;
+      /*font-size: calc(100vmin / 30);*/
+    }
+    
+    @-ms-viewport {
+      width: device-width;
+      initial-scale: 1;
+    }
+    .fas, .fab {
+      color: black !important;
+      background: none !important;
+    }
+    /* fullscreen */
+    .te-toolbar-section.full, .te-preview.full, .te-md-splitter.full {
+      display: none !important;
+    }
+    .te-editor.full {
+      width: 100% !important;
+    }
+    .tui-editor-defaultUI.full {
+      border: none !important;
+    }
+    /* darkmode */
+    .CodeMirror.dark {
+      background-color: black !important;
+      color: white;
+    }
+  //-->
+  </style>
+</head>
+<body>
+  <div>
+    <label for="edit-markdown"><input type="radio" name="editType" value="markdown" id="edit-markdown" checked>Markdown</label>
+    <label for="edit-wysiwyg"><input type="radio" name="editType" value="wysiwyg" id="edit-wysiwyg" >WYSIWYG</label>
+  <div>
+  <div>
+    <label for="style-tab"><input type="radio" name="prevType" value="tab" id="style-tab">Tab</label>
+    <label for="style-vertical"><input type="radio" name="prevType" value="vertical" id="style-vertical" checked>Vertical</label>
+  <div>
+  <div>
+    <label for="color-light"><input type="radio" name="colorType" value="dark" id="color-light" checked>Light</label>
+    <label for="color-dark"><input type="radio" name="colorType" value="dark" id="color-dark">Dark</label>
+  <div>
+  <div>
+    <label for="normal"><input type="radio" name="viewType" value="full" id="normal" checked>Normal</label>
+    <label for="fullscreen"><input type="radio" name="viewType" value="full" id="full">FullScreen</label>
+  <div>
+  <button name="execBold">Bold</button>
+  
+  <div id="edit-section"></div>
+  <div id="viewer-section"></div>
+  
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/markdown-it/8.4.2/markdown-it.min.js"></script>
+  
+  <script src="./tui/to-mark.min.js"></script><!-- https://github.com/nhnent/to-mark/blob/production/dist/to-mark.min.js -->
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.42.0/codemirror.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/highlight.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/squire-rte/1.9.0/squire-raw.js"></script>
+  
+  <script src="./tui/tui-code-snippet.min.js"></script><!-- https://github.com/nhnent/tui.code-snippet/blob/production/dist/tui-code-snippet.min.js -->
+  <script src="./tui/tui-color-picker.min.js"></script><!-- https://github.com/nhnent/tui.color-picker/blob/production/dist/tui-color-picker.min.js -->
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.2.7/raphael.min.js"></script>
+  
+  <script src="./tui/plantuml-encoder.min.js"></script><!-- https://github.com/markushedvall/plantuml-encoder/blob/master/dist/plantuml-encoder.min.js -->
+  
+  <script src="./tui/tui-chart-all.min.js"></script><!-- https://github.com/nhnent/tui.chart/blob/master/dist/tui-chart-all.min.js -->
+  <script src="./tui/maps/world.js"></script>
+  
+  <!--script src="https://cdnjs.cloudflare.com/ajax/libs/tui-editor/1.2.8/tui-editor-Editor-all.min.js"></script-->
+  <!--script src="https://cdnjs.cloudflare.com/ajax/libs/tui-editor/1.2.8/tui-editor-Viewer-all.min.js"></script-->
+  
+  <script>
+    
+    var content = [
+        "![image](https://cloud.githubusercontent.com/assets/389021/16107646/9729e556-33d8-11e6-933f-5b09fa3a53bb.png)",
+        "# Heading 1",
+        "## Heading 2",
+        "### Heading 3",
+        "#### Heading 4",
+        "##### Heading 5",
+        "###### Heading 6",
+        "    code block",
+        "```js",
+        "console.log('fenced code block');",
+        "```",
+        "<pre>**HTML block**</pre>",
+        "* list",
+        "    * list indented",
+        "1. ordered",
+        "2. list",
+        "    1. ordered list",
+        "    2. indented",
+        "",
+        "- [ ] task",
+        "- [x] list completed",
+        "",
+        "[link](https://nhnent.github.io/tui.editor/)",
+        "> block quote",
+        "---",
+        "horizontal line",
+        "***",
+        "`code`, *italic*, **bold**, ~~strikethrough~~, <span style='color:#e11d21'>Red color</span>",
+        "|table|head|",
+        "|---|---|",
+        "|table|body|",
+        '',
+        '```uml',
+        'partition Conductor {',
+        '  (*) --> "Climbs on Platform"',
+        '  --> === S1 ===',
+        '  --> Bows',
+        '}',
+        '',
+        'partition Audience #LightSkyBlue {',
+        '  === S1 === --> Applauds',
+        '}',
+        '',
+        'partition Conductor {',
+        '  Bows --> === S2 ===',
+        '  --> WavesArmes',
+        '  Applauds --> === S2 ===',
+        '}',
+        '',
+        'partition Orchestra #CCCCEE {',
+        '  WavesArmes --> Introduction',
+        '  --> "Play music"',
+        '}',
+        '```',
+        '',
+        '```chart',
+        ',category1,category2',
+        'Jan,21,23',
+        'Feb,31,17',
+        '',
+        'type: column',
+        'title: Monthly Revenue',
+        'x.title: Amount',
+        'y.title: Month',
+        'y.min: 1',
+        'y.max: 40',
+        'y.suffix: $',
+        '```'
+      ].join("\n");
+    
+    $(function(){
+      var editor, viewer;
+      
+      $.getScript("https://cdnjs.cloudflare.com/ajax/libs/tui-editor/1.2.8/tui-editor-Editor-all.min.js") // jquery slimはNG
+        .done(function( script, textStatus ) {
+            console.log( textStatus );
+            
+            editor = new tui.Editor({
+              el: document.querySelector('#edit-section'),
+              initialValue: content,
+              initialEditType: "markdown",
+              previewStyle: "vertical",
+              /* fullscreen
+              height: "auto",
+              minHeight: "auto",
+              */
+              height: "300px",
+              minHeight: "200px",
+              
+              language: 'ja_JP',
+              useCommandShortcut: true,
+              useDefaultHTMLSanitizer: true,
+              hideModeSwitch: true,
+              usageStatistics: true,
+              events: { change: function(){ if(viewer) viewer.setMarkdown(editor.getMarkdown()); } },
+              exts: ['scrollSync', 'colorSyntax', 'table', 'uml', 'chart', 'mark', ],
+              toolbarItems: [
+                'heading',
+                'bold',
+                'italic',
+                'strike',
+                'divider',
+                'hr',
+                'quote',
+                'divider',
+                'ul',
+                'ol',
+                'task',
+                'indent',
+                'outdent',
+                'divider',
+                'table',
+                'image',
+                'link',
+                'divider',
+                'code',
+                'codeblock',
+                'divider',
+                // ADD button method 1
+                {
+                  type: 'button',
+                  options: {
+                    $el: $('<button class="tui-heading tui-toolbar-icons fas fa-briefcase-medical"></button>'),
+                    name: 'test2',
+                    className: '',
+                    command: 'Bold', // you can use "Bold"
+                    tooltip: 'Bold'
+                  }
+                }
+              ]
+            });
+            
+            $("input[name=editType]").on("click", function(){
+              editor.changeMode($("input[name=editType]:checked").val(), true);
+            });
+            
+            $("input[name=prevType]").on("click", function(){
+              editor.changePreviewStyle($("input[name=prevType]:checked").val());
+            });
+		  
+            $("input[name=colorType]").on("click", function(){
+              $(".CodeMirror").toggleClass($("input[name=colorType]:checked").val());
+            });
+		    
+            $("input[name=viewType]").on("click", function(){
+              $(".te-toolbar-section, .te-preview, .te-md-splitter, .te-editor, .tui-editor-defaultUI").toggleClass($("input[name=viewType]:checked").val());
+            });
+            
+            $("button[name=execBold]").on('click', function(){
+              editor.exec('Bold');
+            });
+            
+            // ADD button method 2
+            editor.eventManager.addEventType('Event1');
+            editor.eventManager.listen('Event1', () => {
+              alert('button click!');
+              // do some other thing...
+            });
+            
+            var toolbar = editor.getUI().getToolbar();
+            toolbar.addButton({
+              name: 'customize',
+              className: 'fab fa-accessible-icon',
+              event: 'Event1',
+              tooltip: 'Apple!!!',
+              $el: $('<button class="tui-heading tui-toolbar-icons fab fa-apple"></button>')
+            }, 1);
+        })
+        .fail(function( jqxhr, settings, exception ) {
+            console.log( jqxhr.status );
+        })
+        .always(function( script, settings, exception ) {
+            
+        });
+      
+      $.getScript("https://cdnjs.cloudflare.com/ajax/libs/tui-editor/1.2.8/tui-editor-Viewer-all.min.js") // jquery slimはNG
+        .done(function( script, textStatus ) {
+            console.log( textStatus );
+            
+            viewer = new tui.Editor({
+              el: document.querySelector('#viewer-section'),
+              initialValue: content,
+              exts: ['table', 'uml', 'mark', 'chart', ],
+            });
+        })
+        .fail(function( jqxhr, settings, exception ) {
+            console.log( jqxhr.status );
+        })
+        .always(function( script, settings, exception ) {
+            
+        });
+    });
+    
+  </script>
+  <script>
+    $(function(){
+      
+    });
+  </script>
+</body>
+</html>
