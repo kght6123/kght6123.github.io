@@ -31,6 +31,35 @@ PCとモバイルの両方で、メニューの拡張性、操作性・視認性
 
 * [Link](https://kght6123.github.io/sidebar/index.html)
 
+## ToastUI Editor サンプル
+
+開発中のオンラインのマークダウンエディタのメインUIに利用する為に、改造しました。
+
+EditorとViewerを共存したり、EditorとViewerを同期、フルスクリーン・ダークモード対応を行なったサンプルです。
+
+その他、役立ちそうなオプション機能を網羅しました。
+
+* [Link](https://kght6123.github.io/nhnent/tui-markdown.html)
+
+## Reveal.js リアルタイム編集サンプル
+
+Reveal.jsのプレゼンテーションをリアルタイムで編集できるようにしたサンプルです。
+
+編集、表示、フローティングモードに切り替えることが出来ます。
+
+* [Link](https://kght6123.github.io/revealjs/revealjs.html)
+
+## StoryBook サンプル
+
+StoryBookの機能確認の為に作ったサンプルです。
+
+```zsh
+npm run build-storybook # create storybook-static
+num run storybook # run server
+```
+
+* [Link](https://kght6123.github.io/kght6123/storybook/storybook-static/index.html)
+
 ## オンライン暗号化
 
 暗号化して文字列を送りたい時の為に作成しました。
@@ -45,17 +74,13 @@ Chorme、Safariで動作確認済み。
 
 WebComponetsを利用している為、Chormeのみ正しく表示できます。
 
-VSCodeのDebgger for Chromeプラグインで動作確認しています。
-
 * [Link](https://kght6123.github.io/simple/top.html)
-
 
 ## Bootstrap4 サンプルページ
 
 Bootstrap4を利用したサンプルページで、Bootstrap4の使い勝手や挙動を学ぶ為に作成しました。
 
 * [Link](https://kght6123.github.io/bootstrap4-sample/index.html)
-
 
 ## チャット風 サンプルページ
 
