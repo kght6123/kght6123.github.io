@@ -58,7 +58,7 @@ npm run build-storybook # create storybook-static
 num run storybook # run server
 ```
 
-* [Link](https://kght6123.github.io/kght6123/storybook/storybook-static/index.html)
+* [Link](https://kght6123.github.io/storybook/storybook-static/index.html)
 
 ## オンライン暗号化
 
