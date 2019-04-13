@@ -1,0 +1,122 @@
+<!doctype html>
+<!--
+
+Bootstrap 4 Cheat Sheet
+https://hackerthemes.com/bootstrap-cheatsheet/
+
+-->
+<html lang="ja">
+	<head>
+		<meta charset="utf-8">
+		<title>IME Events</title>
+		<meta name="description" content="Balloon Sample.">
+		<meta name="author" content="kght6123">
+		<meta name="viewport" content="width=device-width, maximum-scale=1.0, minimum-scale=0.5,user-scalable=yes,initial-scale=1.0" />
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css">
+		<link rel="stylesheet" href="https://unpkg.com/jpn.css@latest/dist/bootstrap/jpn.min.css">
+		<link rel="stylesheet" href="./style/balloon.css">
+		<style type="text/css">
+			html {
+				-ms-overflow-style: -ms-autohiding-scrollbar;
+				font-size: calc(15px + 0.25vw);
+				/*font-size: calc(350% + 0.75vw);*/
+			}
+			@-ms-viewport {
+				width: device-width;
+				initial-scale: 1;
+			}
+		</style>
+		<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+	</head>
+    <body class="bg-light" style="padding:0.75em;">
+        <form class="form-inline">
+            <div class="input-group">
+                <input type="text" id="text"  class="form-control form-control-lg shadow bg-white rounded" />
+                <button type="button" id="clear" class="btn btn-primary shadow">Clear</button>
+            </div>
+        </form>
+        <div id="log" class="p-5"></div>
+        <script>
+            $(function(){
+                var logNumber = 1;
+                var log = function(_msg) {
+                    $('#log').prepend/*append*/('<p>' + logNumber + ':' + _msg + '</p>');
+                    logNumber++;
+                }
+                var isProcessed = false;
+
+                $("#clear").on("click", function(){ $('#log').children().remove(); $("#text").val(""); });
+                $("#text").on({
+                    "keypress" : function(e) {
+                        if(!e.ctrlKey && !e.altKey){
+                            // 半角入力の処理
+                            isProcessed = true;
+                            log('半角入力');
+                        }
+                    },
+                    "keydown" : function(e) {
+                        if(e.ctrlKey && e.keyCode == 90){
+                            // アンドゥの処理
+                            isProcessed = true;
+                            log('アンドゥ');
+                        }
+                        else if(e.ctrlKey && e.keyCode == 89){
+                            // リドゥの処理
+                            isProcessed = true;
+                            log('リドゥ');
+                        }
+                        if(e.keyCode == 229){
+                            // IE,Chromeのみ
+                            // IME入力中の処理 キャンセルしたい場合はここ
+                            log('IME入力中（キャンセル可）');
+                            //return false;
+                            isProcessed = true;
+                        }
+                    },
+                    "compositionstart" : function(){
+                        // IME入力開始時の処理
+                        isProcessed = true;
+                        log('IME入力開始');
+                    },
+                    "compositionupdate" : function(){
+                        // IME入力中の処理
+                        isProcessed = true;
+                        log('IME入力中');
+                    },
+                    "compositionend" : function(){
+                        // IME確定時の処理
+                        isProcessed = true;
+                        log('IME入力確定');
+                    },
+                    "paste" : function(e) {
+                        // ペーストの処理
+                        isProcessed = true;
+                        log('ペースト');
+                    },
+                    "cut" : function(e) {
+                        // カットの処理
+                        isProcessed = true;
+                        log('カット');
+                    },
+                    "drop" : function(e) {
+                        // ドロップの処理
+                        isProcessed = true;
+                        log('ドロップ');
+                    },
+                    "input" : function(e) {
+                        if(!isProcessed){
+                            // 右クリックメニュー アンドゥ・リドゥの処理
+                            // キーボード以外で何らかの文字入力がされた
+                            log('キーボード以外で入力');
+                        } else {
+                            isProcessed = false;
+                        }
+                    }
+                });
+            });
+            
+        </script>
+	</body>
+</html>

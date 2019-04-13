@@ -116,6 +116,14 @@ Chorme、Safariで動作確認済み。
 
 * [Link](https://kght6123.github.io/vue/vue-stopwatch.html)
 
+## IMEイベントテスト
+
+IMEのイベント発生を各端末でテストできる様に作成しました。
+
+Safariで動作確認済み。
+
+* [Link](https://kght6123.github.io/works/ime-event.html)
+
 ## 主なデバッグ方法
 
 * VSCodeの「View In Browser」プラグイン
