@@ -14,7 +14,6 @@ https://hackerthemes.com/bootstrap-cheatsheet/
 		<meta name="viewport" content="width=device-width, maximum-scale=1.0, minimum-scale=0.5,user-scalable=yes,initial-scale=1.0" />
 		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css">
 		<link rel="stylesheet" href="https://unpkg.com/jpn.css@latest/dist/bootstrap/jpn.min.css">
-		<link rel="stylesheet" href="./style/balloon.css">
 		<style type="text/css">
 			html {
 				-ms-overflow-style: -ms-autohiding-scrollbar;
@@ -45,73 +44,81 @@ https://hackerthemes.com/bootstrap-cheatsheet/
                     $('#log').prepend/*append*/('<p>' + logNumber + ':' + _msg + '</p>');
                     logNumber++;
                 }
+                var getValue = function(_target) {
+                    return $(_target).val() + ' ' + $("#text").val()
+                }
                 var isProcessed = false;
 
                 $("#clear").on("click", function(){ $('#log').children().remove(); $("#text").val(""); });
-                $("#text").on({
-                    "keypress" : function(e) {
-                        if(!e.ctrlKey && !e.altKey){
-                            // 半角入力の処理
-                            isProcessed = true;
-                            log('半角入力');
+                $("#text").on("keydown keyup compositionstart compositionupdate compositionend paste cut drop input", function(e) {
+                    switch (e.type) {
+                        case "keydown" : {
+                            if(e.ctrlKey && e.keyCode == 90){
+                                // アンドゥの処理
+                                isProcessed = true;
+                                log('['+e.type+'][アンドゥ] ' + getValue(e.target));
+                            }
+                            else if(e.ctrlKey && e.keyCode == 89){
+                                // リドゥの処理
+                                isProcessed = true;
+                                log('['+e.type+'][リドゥ] ' + getValue(e.target));
+                            }
+                            else{
+                                // Keydown
+                                log('['+e.type+'] ' + getValue(e.target));
+                            }
+                            break;
                         }
-                    },
-                    "keydown" : function(e) {
-                        if(e.ctrlKey && e.keyCode == 90){
-                            // アンドゥの処理
-                            isProcessed = true;
-                            log('アンドゥ');
+                        case "keyup" : {
+                            // Backspace？
+                            log('['+e.type+'] ' + getValue(e.target));
+                            break;
                         }
-                        else if(e.ctrlKey && e.keyCode == 89){
-                            // リドゥの処理
+                        case "compositionstart" : {
+                            // IME入力開始時の処理
                             isProcessed = true;
-                            log('リドゥ');
+                            log('['+e.type+'][IME入力開始] ' + getValue(e.target));
+                            break;
                         }
-                        if(e.keyCode == 229){
-                            // IE,Chromeのみ
-                            // IME入力中の処理 キャンセルしたい場合はここ
-                            log('IME入力中（キャンセル可）');
-                            //return false;
+                        case "compositionupdate" : {
+                            // IME入力中の処理
                             isProcessed = true;
+                            log('['+e.type+'][IME入力中] ' + getValue(e.target));
+                            break;
                         }
-                    },
-                    "compositionstart" : function(){
-                        // IME入力開始時の処理
-                        isProcessed = true;
-                        log('IME入力開始');
-                    },
-                    "compositionupdate" : function(){
-                        // IME入力中の処理
-                        isProcessed = true;
-                        log('IME入力中');
-                    },
-                    "compositionend" : function(){
-                        // IME確定時の処理
-                        isProcessed = true;
-                        log('IME入力確定');
-                    },
-                    "paste" : function(e) {
-                        // ペーストの処理
-                        isProcessed = true;
-                        log('ペースト');
-                    },
-                    "cut" : function(e) {
-                        // カットの処理
-                        isProcessed = true;
-                        log('カット');
-                    },
-                    "drop" : function(e) {
-                        // ドロップの処理
-                        isProcessed = true;
-                        log('ドロップ');
-                    },
-                    "input" : function(e) {
-                        if(!isProcessed){
-                            // 右クリックメニュー アンドゥ・リドゥの処理
-                            // キーボード以外で何らかの文字入力がされた
-                            log('キーボード以外で入力');
-                        } else {
-                            isProcessed = false;
+                        case "compositionend" : {
+                            // IME確定時の処理
+                            isProcessed = true;
+                            log('['+e.type+'][IME入力確定] ' + getValue(e.target));
+                            break;
+                        }
+                        case "paste" : {
+                            // ペーストの処理
+                            isProcessed = true;
+                            log('['+e.type+'][ペースト] ' + getValue(e.target));
+                            break;
+                        }
+                        case "cut" : {
+                            // カットの処理
+                            isProcessed = true;
+                            log('['+e.type+'][カット] ' + getValue(e.target));
+                            break;
+                        }
+                        case "drop" : {
+                            // ドロップの処理
+                            isProcessed = true;
+                            log('['+e.type+'][ドロップ] ' + getValue(e.target));
+                            break;
+                        }
+                        case "input" : {
+                            // 文字入力
+                            if(!isProcessed){
+                                // 右クリックメニュー アンドゥ・リドゥの処理
+                                log('['+e.type+'][] ' + getValue(e.target));
+                            } else　{
+                                log('['+e.type+'] ' + getValue(e.target));
+                                isProcessed = false;
+                            }
                         }
                     }
                 });
