@@ -1,0 +1,16 @@
+{
+  "scripts": {
+    "html": "marp  ./docs/20220303_toranoana.deno5/index.md",
+    "pdf": "marp --pdf ./docs/20220303_toranoana.deno5/index.md",
+    "pptx": "marp --pptx ./docs/20220303_toranoana.deno5/index.md",
+    "pngs": "marp --images png ./docs/20220303_toranoana.deno5/index.md",
+    "server": "marp --server --watch ./docs",
+    "watch": "marp --watch ./docs",
+    "preview": "marp --preview --server ./docs",
+    "themeset": "marp --theme-set ./themes -- themes.md; marp --server .",
+    "theme": "marp --theme ./themes/a.css -- theme.md; marp --server ."
+  },
+  "devDependencies": {
+    "@marp-team/marp-cli": "^1.7.0"
+  }
+}
