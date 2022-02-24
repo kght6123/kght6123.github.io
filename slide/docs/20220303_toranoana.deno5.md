@@ -28,7 +28,8 @@ Twitterのタイムライン表示をDenoで作ってみた
 ---
 
 ## 自己紹介
-古賀 広隆 [Twitter][twitter]/[Github][github]
+古賀 広隆（@kght6123）
+[Twitter][twitter]/[Github][github]
 
 ２児の父、声優の南條愛乃さん推しです。
 
@@ -68,8 +69,8 @@ OBSをmacで使うとき、Twitterのタイムラインを表示するプラグ�
 
 ## denoを採用した理由！
 
-- JavaScriptが得意
-- node.jsより手軽に使える
+### 1. 得意なnode.jsより手軽に使えそう
+### 2. 試しにdenoを開発に使ってみたいという思いから
 
 ![bg](../images/05_deno_love.png)
 
