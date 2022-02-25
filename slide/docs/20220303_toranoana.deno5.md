@@ -45,15 +45,14 @@ Twitterのタイムライン表示をDenoで作ってみた
 1. なぜ作ろうと思ったか？理由／経緯など
 2. denoを使用した理由とか
 3. 作成した機能の構成とか
-4. 苦労したところ
-5. 実際に動いている画面とか
-6. 最後に
+4. 実際に動いている画面とか
+5. 最後に
 
 ![bg left:40%](../images/01_deno_rain.png)
 
 ---
 
-## なぜ作ろうと思ったか？
+## 1. なぜ作ろうと思ったか？
 
 もっと、LT会やカンファレンスが盛り上がって欲しい
 ↓
@@ -67,308 +66,176 @@ OBSをmacで使うとき、Twitterのタイムラインを表示するプラグ�
 
 ---
 
-## denoを採用した理由！
+## 2. denoを採用した理由！
 
-### 1. 得意なnode.jsより手軽に使えそう
-### 2. 試しにdenoを開発に使ってみたいという思いから
+### 1. 得意なnode.jsより手軽に作れる
+### 2. 試しにdenoを開発に使ってみたい
+### 3. TypeScriptが簡単に使える
 
 ![bg](../images/05_deno_love.png)
 
 ---
-[![](https://mermaid.ink/img/pako:eNpVkE1qw0AMha8itEohvoAXhcZOsgmk0Ow8WQiPnBmS-WEsU4Ltu3ccU2i1kt77nhAasQ2ascRbomjgUisPuT6ayiTbi6P-CkXxPh1ZwAXPzwl2m2OA3oQYrb-9rfxugaAaTwvGIMb6-7xa1St_9jxB3ZwoSojXv87lO0ywb-ynyev_OyZxTh2ajsqOipYSVJReCG7RcXJkdT59XBSFYtixwjK3mjsaHqJQ-TmjQ9QkvNdWQsJS0sBbpEHC19O3v_PK1JbyI9wqzj8k-lxH)](https://mermaid.live/edit#pako:eNpVkE1qw0AMha8itEohvoAXhcZOsgmk0Ow8WQiPnBmS-WEsU4Ltu3ccU2i1kt77nhAasQ2ascRbomjgUisPuT6ayiTbi6P-CkXxPh1ZwAXPzwl2m2OA3oQYrb-9rfxugaAaTwvGIMb6-7xa1St_9jxB3ZwoSojXv87lO0ywb-ynyev_OyZxTh2ajsqOipYSVJReCG7RcXJkdT59XBSFYtixwjK3mjsaHqJQ-TmjQ9QkvNdWQsJS0sBbpEHC19O3v_PK1JbyI9wqzj8k-lxH)
+
+## 3. 作成した機能の構成！
 
 ---
 
-# How to write slides?
+<!-- _header: - -->
 
-Split pages by horizontal ruler (e.g. `---`). It's very simple.
+### denoの処理
 
-```markdown
-# Slide 1
+1. denoでTwitterAPIを使って最新のツイートを取得（ハッシュタグ等で検索）
+2. 取得した最新ツイートをJSONファイルに出力
 
-foobar
+上記を一定時間毎に繰り返す、
+バッチ的な役割。
+![bg right:55% fit](../drawio/tweet-deno-1.drawio.png)
 
 ---
 
-# Slide 2
+<!-- _header: - -->
 
-foobar
+### HTML側の処理
+1. WebサーバからOBS上に静的コンテンツファイル（HTMLやCSS、JS）を配信
+2. JSのFetch-APIで最新ツイートを含むJSONを取得
+3. HTML（OBS）上に表示
+
+![bg right:55% fit](../drawio/tweet-deno-2.drawio.png)
+
+---
+
+<!-- _header: - -->
+
+![bg](../drawio/tweet-deno.drawio.png)
+
+<!-- _footer: - -->
+
+---
+
+### なぜ、この構成になったのか？
+1. 前に使ったことあるCLIでTwitterのツイートを取得するツールを定期的に叩いて使おう
+2. HTMLとか作った後にツールが見つからない！ことが判明（非公開になった？）
+3. せっかくなので、Denoを使って簡易的に作ってみよう（イマココ）
+
+DenoをAPIサーバにしても良かったかも？
+
+![bg left:25%](../images/06_deno_giveup.png)
+
+---
+
+## 4. 実際に作ってみたOBSの画面
+
+---
+
+![bg fir](../images/03_deno_sleep.png)
+
+---
+
+## 5. さいごに！
+
+今回、Denoを使ってみて
+
+### 1. 使い慣れたJavaScriptのAPIや書き方が使えるのは、楽だった。
+### 2. importの書き方はちょっと戸惑う。
+### 3. 次も使える場面があれば、積極的に使ってみたいと感じました。
+
+TwitterのAPIの実行回数上限には気をつけましょう！
+
+---
+
+# ご清聴、ありがとうございました！
+![bg right:40% fit](../images/02_deno_happy.png)
+
+---
+
+# Appendix
+
+---
+oauth2-token.ts (1)
+```typescript
+import { encode, decode } from "https://deno.land/std/encoding/base64.ts";
+
+const auth = encode(
+  "TwitterのBasic認証キー"
+);
+
+console.log(auth);
 ```
-
 ---
+oauth2-token.ts (2)
+```typescript
+const response = await fetch(`https://api.twitter.com/oauth2/token`, {
+  method: "POST",
+  headers: new Headers({
+    Authorization: `Basic ${auth}`,
+    "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
+  }),
+  body: "grant_type=client_credentials",
+});
+const result = await response.json();
+console.log(result, result.access_token);
 
-# Directives
-
-Marp has extended syntax called **"Directives"** to support creating beautiful slides.
-
-Insert front-matter to the top of Markdown:
-
+await Deno.writeTextFile("./oauth2-token-result.json", JSON.stringify(result));
 ```
 ---
-theme: default
----
-```
+v11-tweets-search.ts (1)
+```typescript
+import { parse } from "https://deno.land/std@0.66.0/flags/mod.ts";
 
-or HTML comment to anywhere:
+console.log(Deno.args);
 
-```html
-<!-- theme: default -->
-```
+const parsedArgs = parse(Deno.args);
+console.log(parsedArgs);
+console.log(parsedArgs.o);
 
-https://marpit.marp.app/directives
-
----
-
-## [Global directives](https://marpit.marp.app/directives?id=global-directives)
-
-- `theme`: Choose theme
-- `size`: Choose slide size from `16:9` and `4:3` *(except Marpit framework)*
-- [`headingDivider`](https://marpit.marp.app/directives?id=heading-divider): Instruct to divide slide pages at before of specified heading levels
-
+const oauthTokenResult = JSON.parse(
+  await Deno.readTextFile("./oauth2-token-result.json")
+);
+console.log(oauthTokenResult.access_token);
 ```
 ---
-theme: gaia
-size: 4:3
----
-
-# Content
+v11-tweets-search.ts (2)
+```typescript
+const params = new URLSearchParams({
+  q: `#とらラボ #LT`, // #とらラボLTはNG、#LTはOK、たぶん、ハッシュタグ内に日本語と英語の混在がNG
+  count: "5",
+  lang: "ja",
+  locale: "ja",
+  result_type: "recent",
+  // since_id: '',
+});
 ```
-
-> Marp can use [built-in themes in Marp Core](https://github.com/marp-team/marp-core/tree/master/themes#readme): `default`, `gaia`, and `uncover`.
-
 ---
-
-## [Local directives](https://marpit.marp.app/directives?id=local-directives)
-
-These are the setting value per slide pages.
-
-- `paginate`: Show pagination by set `true`
-- `header`: Specify the contents for header
-- `footer`: Specify the contents for footer
-- `class`: Set HTML class for current slide
-- `color`: Set text color
-- `backgroundColor`: Set background color
-
+v11-tweets-search.ts (3)
+```typescript
+const execute = async () => {
+  const response = await fetch(
+    `https://api.twitter.com/1.1/search/tweets.json?${params}`,
+    {
+      method: "GET",
+      headers: new Headers({
+        Authorization: `Bearer ${oauthTokenResult.access_token}`,
+        "Content-Type": "application/json",
+      }),
+    }
+  );
+  const result = await response.json();
+  console.log(result);
+```
 ---
+v11-tweets-search.ts (4)
+```typescript
+  await Deno.writeTextFile(
+    `${parsedArgs.o ? parsedArgs.o : "."}/v11-tweets-search-result.json`,
+    JSON.stringify(result)
+  );
+};
+await execute();
 
-### Spot directives
-
-Local directives would apply to **defined page and following pages**.
-
-They can apply to single page by using underscore prefix such as `_class`.
-
-![bg right 95%](https://marpit.marp.app/assets/directives.png)
-
----
-
-### Example
-
-This page is using invert color scheme [defined in Marp built-in theme](https://github.com/marp-team/marp-core/tree/master/themes#readme).
-
-<!-- _class: invert -->
-
-```html
-<!-- _class: invert -->
-```
-
----
-
-# [Image syntax](https://marpit.marp.app/image-syntax)
-
-You can resize image size and apply filters through keywords: `width` (`w`), `height` (`h`), and filter CSS keywords.
-
-```markdown
-![width:100px height:100px](image.png)
-```
-
-```markdown
-![blur sepia:50%](filters.png)
-```
-
-Please refer [resizing image syntax](https://marpit.marp.app/image-syntax?id=resizing-image) and [a list of CSS filters](https://marpit.marp.app/image-syntax?id=image-filters).
-
-![w:100px h:100px](https://avatars1.githubusercontent.com/u/20685754?v=4) ![w:100 h:100 blur sepia:50%](https://avatars1.githubusercontent.com/u/20685754?v=4)
-
----
-
-# [Background image](https://marpit.marp.app/image-syntax?id=slide-backgrounds)
-
-You can set background image for a slide by using `bg` keyword.
-
-```markdown
-![bg opacity](https://yhatt-marp-cli-example.netlify.com/assets/gradient.jpg)
-```
-
-![bg opacity](https://yhatt-marp-cli-example.netlify.com/assets/gradient.jpg)
-
----
-
-## Multiple backgrounds ([Marpit's advanced backgrounds](https://marpit.marp.app/image-syntax?id=advanced-backgrounds))
-
-Marp can use multiple background images.
-
-```markdown
-![bg blur:3px](https://fakeimg.pl/800x600/fff/ccc/?text=A)
-![bg blur:3px](https://fakeimg.pl/800x600/eee/ccc/?text=B)
-![bg blur:3px](https://fakeimg.pl/800x600/ddd/ccc/?text=C)
-```
-
-Also can change alignment direction by including `vertical` keyword.
-
-![bg blur:3px](https://fakeimg.pl/800x600/fff/ccc/?text=A)
-![bg blur:3px](https://fakeimg.pl/800x600/eee/ccc/?text=B)
-![bg blur:3px](https://fakeimg.pl/800x600/ddd/ccc/?text=C)
-
----
-
-## [Split background](https://marpit.marp.app/image-syntax?id=split-backgrounds)
-
-Marp can use [Deckset](https://docs.deckset.com/English.lproj/Media/01-background-images.html#split-slides) style split background(s).
-
-Make a space for background by `bg` + `left` / `right` keywords.
-
-```markdown
-![bg right](image.jpg)
-```
-
-![bg right](https://images.unsplash.com/photo-1568488789544-e37edf90eb67?crop=entropy&cs=tinysrgb&fit=crop&fm=jpg&h=720&ixlib=rb-1.2.1&q=80&w=640)
-
-<!-- _footer: "*Photo by [Mohamed Nohassi](https://unsplash.com/@coopery?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText) on [Unsplash](https://unsplash.com/?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText)*" -->
-
----
-
-## [Fragmented list](https://marpit.marp.app/fragmented-list)
-
-Marp will parse a list with asterisk marker as the fragmented list for appearing contents one by one. (_**Only for exported HTML** by [Marp CLI][marp-cli] / [Marp for VS Code][marp-vscode]_)
-
-```markdown
-# Bullet list
-
-- One
-- Two
-- Three
-
----
-
-# Fragmented list
-
-* One
-* Two
-* Three
-```
-
----
-
-## Math typesetting (only for [Marp Core][marp-core])
-
-[KaTeX](https://katex.org/) math typesetting such as $ax^2+bc+c$ can use with [Pandoc's math syntax](https://pandoc.org/MANUAL.html#math).
-
-$$I_{xx}=\int\int_Ry^2f(x,y)\cdot{}dydx$$
-
-```tex
-$ax^2+bc+c$
-```
-```tex
-$$I_{xx}=\int\int_Ry^2f(x,y)\cdot{}dydx$$
-```
-
----
-
-## Auto-scaling (only for [Marp Core][marp-core])
-
-*Several built-in themes* are supported auto-scaling for code blocks and math typesettings.
-
-```text
-Too long code block will be scaled-down automatically. ------------>
-```
-```text
-Too long code block will be scaled-down automatically. ------------------------>
-```
-```text
-Too long code block will be scaled-down automatically. ------------------------------------------------>
-```
-
----
-
-##### <!--fit--> Auto-fitting header (only for [Marp Core][marp-core])
-##### <!--fit--> is available by annotating `<!--fit-->` in headings.
-
-<br />
-
-```html
-## <!--fit--> Auto-fitting header (only for Marp Core)
-```
-
----
-
-## [Theme CSS](https://marpit.marp.app/theme-css)
-
-Marp uses `<section>` as the container of each slide. And others are same as styling for plain Markdown. The customized theme can use in [Marp CLI][marp-cli] and [Marp for VS Code][marp-vscode].
-
-```css
-/* @theme your-theme */
-
-@import 'default';
-
-section {
-  /* Specify slide size */
-  width: 960px;
-  height: 720px;
+if (parsedArgs.f) {
+  setInterval(async () => {
+    await execute();
+  }, parsedArgs.f);
 }
 
-h1 {
-  font-size: 30px;
-  color: #c33;
-}
 ```
-
----
-
-## [Tweak style in Markdown](https://marpit.marp.app/theme-css?id=tweak-style-through-markdown)
-
-`<style>` tag in Markdown will work in the context of theme CSS.
-
-```markdown
----
-theme: default
----
-
-<style>
-section {
-  background: yellow;
-}
-</style>
-
-Re-painted yellow background, ha-ha.
-```
-
-> You can also add custom styling by class like `section.custom-class { ... }`.
-> Apply style through `<!-- _class: custom-class -->`.
-
----
-
-## [Scoped style](https://marpit.marp.app/theme-css?id=scoped-style)
-
-If you want one-shot styling for current page, you can use `<style scoped>`.
-
-```markdown
-<style scoped>
-a {
-  color: green;
-}
-</style>
-
-![Green link!](https://marp.app/)
-```
-
-<style scoped>
-a { color: green; }
-</style>
-
----
-
-# Enjoy writing slides! :v: <!--fit-->
-
-##### ![w:1em h:1em](https://avatars1.githubusercontent.com/u/20685754?v=4)  Marp: Markdown presentation ecosystem — https://marp.app/
-
-###### by Marp Team ([@marp-team][marp-team])
