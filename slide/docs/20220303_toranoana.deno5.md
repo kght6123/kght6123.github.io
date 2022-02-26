@@ -3,7 +3,7 @@ marp: true
 theme: gaia
 class: lead
 backgroundColor: #efefef
-backgroundImage: url(../images/texture171030IMGL0882.jpg)
+backgroundImage: url(../images/backgrounds/texture171030IMGL0882.jpg)
 color: #334155
 header: "Twitterのタイムライン表示をDenoで作ってみた"
 footer: "toranoana.deno #5"
@@ -16,7 +16,7 @@ style: |
 Twitterのタイムライン表示をDenoで作ってみた
 ===
 
-![h:250](../images/04_deno_winter.png) ![h:250](../images/2021Twitterlogo-blue.png)
+![h:250](../images/deno/04_deno_winter.png) ![h:250](../images/2021Twitterlogo-blue.png)
 
 ##### OBS上にTwitterのタイムラインを表示したい！
 
@@ -48,7 +48,7 @@ Twitterのタイムライン表示をDenoで作ってみた
 4. 実際に動いている画面とか
 5. 最後に
 
-![bg left:40%](../images/01_deno_rain.png)
+![bg left:40%](../images/deno/01_deno_rain.png)
 
 ---
 
@@ -62,7 +62,7 @@ OBSをmacで使うとき、Twitterのタイムラインを表示するプラグ�
 ↓
 自分でつくるか！
 
-![bg right:35%](../images/03_deno_sleep.png)
+![bg right:35%](../images/deno/03_deno_sleep.png)
 
 ---
 
@@ -72,7 +72,7 @@ OBSをmacで使うとき、Twitterのタイムラインを表示するプラグ�
 ### 2. 試しにdenoを開発に使ってみたい
 ### 3. TypeScriptが簡単に使える
 
-![bg](../images/05_deno_love.png)
+![bg](../images/deno/05_deno_love.png)
 
 ---
 
@@ -119,7 +119,7 @@ OBSをmacで使うとき、Twitterのタイムラインを表示するプラグ�
 
 DenoをAPIサーバにしても良かったかも？
 
-![bg left:25%](../images/06_deno_giveup.png)
+![bg left:25%](../images/deno/06_deno_giveup.png)
 
 ---
 
@@ -127,7 +127,7 @@ DenoをAPIサーバにしても良かったかも？
 
 ---
 
-![bg fir](../images/03_deno_sleep.png)
+![bg fir](../images/deno/03_deno_sleep.png)
 
 ---
 
@@ -144,7 +144,7 @@ TwitterのAPIの実行回数上限には気をつけましょう！
 ---
 
 # ご清聴、ありがとうございました！
-![bg right:40% fit](../images/02_deno_happy.png)
+![bg right:40% fit](../images/deno/02_deno_happy.png)
 
 ---
 
