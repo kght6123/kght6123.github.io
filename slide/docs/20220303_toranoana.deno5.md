@@ -18,7 +18,7 @@ Twitterのタイムライン表示をDenoで作ってみた
 
 ![h:250](../images/deno/04_deno_winter.png) ![h:250](../images/2021Twitterlogo-blue.png)
 
-##### OBS上にTwitterのタイムラインを表示したい！
+OBS上にTwitterのタイムラインを表示したい！
 
 ###### 虎の穴ラボ 古賀広隆 ([@kght6123][twitter])
 
