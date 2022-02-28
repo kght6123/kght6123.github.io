@@ -126,7 +126,7 @@ DenoをAPIサーバにしても良かったかも？
 
 ---
 
-![bg fir](../images/deno/03_deno_sleep.png)
+![bg fir](../images/screenshot/deno5-001.png)
 
 ---
 
