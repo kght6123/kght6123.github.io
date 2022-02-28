@@ -44,11 +44,11 @@ Tailwind CSSベースのコンポーネントライブラリ！で開発を高�
 1. [daisyUI](https://daisyui.com/)とは？
 2. クリーンなHTMLになる
 3. 細かいカスタマイズができる
-4. テーマが使える
-4. オススメのコンポーネント
-5. 最後に（気軽に試せる https://daisyui.com/tailwindplay）
+4. テーマが使える、作れる
+5. オススメのコンポーネント
+6. 最後に
 
-![bg left:40%](../images/deno/01_deno_rain.png)
+![bg left:40%](../images/flower/daisy/KIJ_kiiroihananotekusucya-.jpg)
 
 ---
 
@@ -61,7 +61,7 @@ UIの構築が楽になります。
 - テーマ（26種類）があり、カスタマイズもできる
 - ピュアCSSのコンポーネント（45個）が使える
 
-![bg right:35%](../images/deno/03_deno_sleep.png)
+![bg right:35%](../images/flower/daisy/mitte712012.jpg)
 
 ---
 
@@ -72,11 +72,11 @@ UIの構築が楽になります。
 
 HTMLのコードが短くてすっきりしやすくなる
 
-![bg](../images/deno/05_deno_love.png)
+![bg left:20%](../images/flower/daisy/shikun5V7A1678.jpg)
 
 ---
 
-### ユーティリティクラスのみのボタン（例）
+### Tailwind CSSのユーティリティクラスのみのボタン
 
 レスポンシブ、アニメーション、カーソル、疑似要素などさまざまなユーティリティを指定して、1つのボタンが作れる。
 
@@ -93,7 +93,7 @@ HTMLのコードが短くてすっきりしやすくなる
 
 ---
 
-### コンポーネントクラスのボタン（例）
+### コンポーネントクラスのボタン
 
 コンポーネントクラスのみで、1つのボタンが作れる。
 さらに、ユーティリティクラスを追加と、カスタマイズも可能です。
@@ -112,164 +112,225 @@ HTMLのコードが短くてすっきりしやすくなる
 - `@apply`にdaisyUIを使ってカスタムスタイルを追加できる。
 - CSS変数を利用して、daisyUIのCSS変数をカスタマイズできる。
 
----
-
-<!-- _header: - -->
-
-### denoの処理
-
-1. denoでTwitterAPIを使って最新のツイートを取得（ハッシュタグ等で検索）
-2. 取得した最新ツイートをJSONファイルに出力
-
-上記を一定時間毎に繰り返す、
-バッチ的な役割。
-![bg right:55% fit](../drawio/tweet-deno-1.drawio.png)
+![bg right:20%](../images/flower/daisy/GAK_kawabemagaret.jpg)
 
 ---
 
-<!-- _header: - -->
+### Tailwind CSSのユーティリティクラスを使う
 
-### HTML側の処理
-1. WebサーバからOBS上に静的コンテンツファイル（HTMLやCSS、JS）を配信
-2. JSのFetch-APIで最新ツイートを含むJSONを取得
-3. HTML（OBS）上に表示
-
-![bg right:55% fit](../drawio/tweet-deno-2.drawio.png)
-
----
-
-<!-- _header: - -->
-
-![bg](../drawio/tweet-deno.drawio.png)
-
-<!-- _footer: - -->
-
----
-
-### なぜ、この構成になったのか？
-1. 前に使ったことあるCLIでTwitterのツイートを取得するツールを定期的に叩いて使おう
-2. HTMLとか作った後にツールが見つからない！ことが判明（非公開になった？）
-3. せっかくなので、Denoを使って簡易的に作ってみよう（イマココ）
-
-DenoをAPIサーバにしても良かったかも？
-
-![bg left:25%](../images/deno/06_deno_giveup.png)
+```html
+<a class="btn btn-primary">Button</a>
+```
+↓
+```html
+<a class="btn btn-primary rounded-full">Button</a>
+```
+↓
+```html
+<a class="
+btn btn-primary 
+rounded-full shadow-md 
+border-4 border-primary-focus">Button</a>
+```
 
 ---
 
-## 4. 実際に作ってみたOBSの画面
+![h:150](../images/daisyui/button-1.png)
+↓
+![h:150](../images/daisyui/button-2.png)
+↓
+![h:150](../images/daisyui/button-3.png)
 
 ---
 
-![bg fir](../images/deno/03_deno_sleep.png)
+### Tailwind CSSの@applyを使う
+
+```css
+.btn-primary-border {
+  @apply btn btn-primary rounded-full shadow-md border-4 border-primary-focus;
+}
+```
+
+```html
+<a class="btn-primary-border">Button</a>
+```
+↓
+![h:150](../images/daisyui/button-3.png)
+
+※ あまり命名とか使い方はイケてないですが、例ということで・・・
 
 ---
 
-## 5. さいごに！
+### CSS変数を使う
 
-今回、Denoを使ってみて
+テーマごとにtailwind.config.jsへ記載する。
 
-### 1. 使い慣れたJavaScriptのAPIや書き方が使えるのは、楽だった。
-### 2. importの書き方はちょっと戸惑う。
-### 3. 次も使える場面があれば、積極的に使ってみたいと感じました。
+```js
+  daisyui: {
+    themes: [
+      {
+        mytheme: {
+          ...require("daisyui/src/colors/themes")["[data-theme=light]"],
+          "--rounded-btn": "0.25rem",
+        },
+      },
+    ],
+  },
+```
 
-TwitterのAPIの実行回数上限には気をつけましょう！
+---
+
+少し角ばったのボタンにできます。
+```html
+<a class="btn btn-primary">Button</a>
+```
+↓
+![h:150](../images/daisyui/button-4.png)
+
+[使えるCSS変数の一覧（公式）](https://daisyui.com/docs/themes/#:~:text=CSS%20variables%20in%20daisyUI%20themes)
+
+---
+
+## 4. テーマが使える！作れる！
+
+![bg left:30% brightness:1.3](../images/flower/daisy/Redsugar20207086.jpg)
+
+---
+
+### 別のテーマを使う
+
+デフォルトはブラウザの設定に合わせて、light または darkになる
+下記の設定でそれを変えることが可能
+```js
+  daisyui: {
+    themes: [
+      "light", // デフォルトのテーマ
+      "dark", // darkモードのテーマ
+      "cmyk", // 指定できるテーマ1
+      "black", // 指定できるテーマ2
+    ],
+  }
+```
+
+---
+
+#### ライトモードの場合
+
+```html
+<div class="container p-8">
+  <a class="btn btn-primary">Default</a>
+  <a class="btn btn-primary" data-theme="dark">Dark</a>
+  <a class="btn btn-primary" data-theme="cmyk">CMYK</a>
+  <a class="btn btn-primary" data-theme="black">Black</a>
+</div>
+```
+↓
+![h:150](../images/daisyui/button-5.png)
+
+---
+
+#### ダークモードの場合
+
+```html
+<div class="container p-8">
+  <a class="btn btn-primary">Default</a>
+  <a class="btn btn-primary" data-theme="dark">Dark</a>
+  <a class="btn btn-primary" data-theme="cmyk">CMYK</a>
+  <a class="btn btn-primary" data-theme="black">Black</a>
+</div>
+```
+↓
+![h:150](../images/daisyui/button-5-dark.png)
+
+---
+
+### オリジナルテーマを作る
+
+---
+
+```js
+themes: [
+  {
+    mytheme: {
+      ...require("daisyui/src/colors/themes")["[data-theme=light]"],
+      "primary": "#f43f5e",
+      "secondary": "#ec4899",
+      "accent": "#facc15",
+      "neutral": "#3D4451",
+      "base-100": "#FFFFFF",
+      "info": "#0369a1",
+      "success": "#4d7c0f",
+      "warning": "#a16207",
+      "error": "#9f1239",
+    },
+  }, // デフォルトをカスタムテーマに
+  "dark", // darkモードのテーマ
+],
+```
+
+---
+
+#### テーマジェネレーター
+
+公式から提供されています、視覚的に結果を確認しながらテーマを作成できるので、かなり便利です。
+
+https://daisyui.com/theme-generator/
+
+---
+
+![bg fit 80%](../images/daisyui/theme-generator.png)
+
+---
+
+## 5. オススメのコンポーネント
+
+---
+
+### モーダルウィンドウ
+
+CSSのみでボタンを押すとモーダルが開きます。
+
+```html
+<label for="my-modal" class="btn modal-button">open modal</label><!-- ボタン -->
+<input type="checkbox" id="my-modal" class="modal-toggle">
+<div class="modal">
+  <div class="modal-box">
+    <h3 class="font-bold text-lg">Congratulations
+       random Interner user!</h3>
+    <p class="py-4">You've been selected for a chance to
+       get one year of subscription to use Wikipedia for free!</p>
+    <div class="modal-action"><label for="my-modal" class="btn">Yay!</label></div>
+  </div>
+</div><!-- 引用元：https://daisyui.com/components/modal/# -->
+```
+
+---
+
+![bg fit](../images/daisyui/modal-open.png)
+
+---
+
+## 6. さいごに！
+
+今回、このLTでTailwind CSS＋daisyUIの魅力を上手く伝えられていれば、幸いです。
+
+また、下記のサイトでdaisyUIをオンライン実行することもできます、もし気になった方は、お試しください！
+https://daisyui.com/tailwindplay
 
 ---
 
 # ご清聴、ありがとうございました！
-![bg right:40% fit](../images/deno/02_deno_happy.png)
+![bg right:40%](../images/flower/daisy/KIJ_kiiroihananotekusucya-.jpg)
 
 ---
 
-# Appendix
+引用元
+
+https://daisyui.com/
+https://daisyui.com/components/modal/#
 
 ---
-oauth2-token.ts (1)
-```typescript
-import { encode, decode } from "https://deno.land/std/encoding/base64.ts";
 
-const auth = encode(
-  "TwitterのBasic認証キー"
-);
+他OSSプロジェクトでの導入事例
 
-console.log(auth);
-```
----
-oauth2-token.ts (2)
-```typescript
-const response = await fetch(`https://api.twitter.com/oauth2/token`, {
-  method: "POST",
-  headers: new Headers({
-    Authorization: `Basic ${auth}`,
-    "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
-  }),
-  body: "grant_type=client_credentials",
-});
-const result = await response.json();
-console.log(result, result.access_token);
-
-await Deno.writeTextFile("./oauth2-token-result.json", JSON.stringify(result));
-```
----
-v11-tweets-search.ts (1)
-```typescript
-import { parse } from "https://deno.land/std@0.66.0/flags/mod.ts";
-
-console.log(Deno.args);
-
-const parsedArgs = parse(Deno.args);
-console.log(parsedArgs);
-console.log(parsedArgs.o);
-
-const oauthTokenResult = JSON.parse(
-  await Deno.readTextFile("./oauth2-token-result.json")
-);
-console.log(oauthTokenResult.access_token);
-```
----
-v11-tweets-search.ts (2)
-```typescript
-const params = new URLSearchParams({
-  q: `#とらラボ #LT`, // #とらラボLTはNG、#LTはOK、たぶん、ハッシュタグ内に日本語と英語の混在がNG
-  count: "5",
-  lang: "ja",
-  locale: "ja",
-  result_type: "recent",
-  // since_id: '',
-});
-```
----
-v11-tweets-search.ts (3)
-```typescript
-const execute = async () => {
-  const response = await fetch(
-    `https://api.twitter.com/1.1/search/tweets.json?${params}`,
-    {
-      method: "GET",
-      headers: new Headers({
-        Authorization: `Bearer ${oauthTokenResult.access_token}`,
-        "Content-Type": "application/json",
-      }),
-    }
-  );
-  const result = await response.json();
-  console.log(result);
-```
----
-v11-tweets-search.ts (4)
-```typescript
-  await Deno.writeTextFile(
-    `${parsedArgs.o ? parsedArgs.o : "."}/v11-tweets-search-result.json`,
-    JSON.stringify(result)
-  );
-};
-await execute();
-
-if (parsedArgs.f) {
-  setInterval(async () => {
-    await execute();
-  }, parsedArgs.f);
-}
-
-```
+- [Mermaid Live Editor](https://mermaid.live/)
