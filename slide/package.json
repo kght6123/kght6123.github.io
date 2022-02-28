@@ -1,9 +1,9 @@
 {
   "scripts": {
-    "html": "marp ./docs/20220303_toranoana.deno5/index.md",
-    "pdf": "marp --allow-local-files --pdf ./docs/20220303_toranoana.deno5/index.md",
-    "pptx": "marp --allow-local-files  --pptx ./docs/20220303_toranoana.deno5/index.md",
-    "pngs": "marp --allow-local-files  --images png ./docs/20220303_toranoana.deno5/index.md",
+    "html": "marp ./docs/20220303_toranoana.deno5.md && marp ./docs/20220316_itbookslt3.md && marp ./docs/20220323_RD-Study-CSS-Framework.md",
+    "pdf": "marp --allow-local-files --pdf ./docs/20220303_toranoana.deno5.md",
+    "pptx": "marp --allow-local-files  --pptx ./docs/20220303_toranoana.deno5.md",
+    "pngs": "marp --allow-local-files  --images png ./docs/20220303_toranoana.deno5.md",
     "server": "marp --server --allow-local-files --watch ./docs",
     "watch": "marp --allow-local-files --watch ./docs",
     "preview": "marp --preview --server --allow-local-files ./docs",
