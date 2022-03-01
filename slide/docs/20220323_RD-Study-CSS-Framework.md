@@ -318,6 +318,28 @@ https://daisyui.com/tailwindplay
 
 ---
 
+### 同人誌について
+
+今回、発表した「Tailwind CSS」や「daisyUI」の内容も含む同人誌を[Booth](https://kght6123.booth.pm/items/3039023)、[技術書典](https://techbookfest.org/product/4652225471184896)で頒布中です！
+
+![h:200](../images/qrcode/QR_915220.png)
+
+![bg right:35% fit](../images/screenshot/itbookslt3-003.png)
+
+---
+
+### 商業版について
+
+商業版がインプレスR&D様から技術の泉シリーズとして刊行されました。
+製本はカラーです。
+ぜひ、購入後にレビューをお願いします🙏
+
+[Amazon](https://www.amazon.co.jp/dp/4295600237/)
+![h:200](../images/qrcode/QR_915529.png)
+![bg right:35% fit](../images/screenshot/itbookslt3-002.png)
+
+---
+
 # ご清聴、ありがとうございました！
 ![bg right:40%](../images/flower/daisy/KIJ_kiiroihananotekusucya-.jpg)
 
