@@ -32,7 +32,7 @@ Tailwind CSSベースのコンポーネントライブラリ！で開発を高�
 
 ## 自己紹介
 古賀 広隆（@kght6123）
-[Twitter][twitter]/[Github][github]
+[Twitter][twitter]/[GitHub][github]
 
 とらのあな通販のコスト削減関連の開発に携わっています。2児の父です。
 
