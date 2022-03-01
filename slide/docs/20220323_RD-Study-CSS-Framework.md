@@ -1,5 +1,8 @@
 ---
 marp: true
+title: "daisyUIについて"
+description: "ラクスR&D Meetup - CSSフレームワークの登壇資料です。"
+image: ../images/ogp/20220323_RD-Study-CSS-Framework.png
 theme: gaia
 class: lead
 backgroundColor: #efefef

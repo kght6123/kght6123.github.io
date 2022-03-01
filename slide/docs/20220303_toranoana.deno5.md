@@ -1,5 +1,8 @@
 ---
 marp: true
+title: "Twitterのタイムライン表示をDenoで作ってみた"
+description: "toranoana.deno #5 の登壇資料です。"
+image: ../images/ogp/20220303_toranoana.deno5.png
 theme: gaia
 class: lead
 backgroundColor: #efefef
