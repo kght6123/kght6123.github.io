@@ -52,10 +52,9 @@ Tailwind CSSベースのコンポーネントライブラリ！で開発を高�
 
 ---
 
-## 1. daisyUIとは？
+## 1. daisyUI（plugin）とは？
 
-Tailwind CSSのコンポーネントライブラリ（プラグイン）
-UIの構築が楽になります。
+Tailwind CSSのコンポーネント集で、CSSの記述が楽になる下記の特徴があります。
 
 - HTMLをきれいに保てる
 - テーマ（26種類）があり、カスタマイズもできる
@@ -324,13 +323,13 @@ https://daisyui.com/tailwindplay
 
 ---
 
-引用元
+他OSSプロジェクトでの導入事例（参考）
 
-https://daisyui.com/
-https://daisyui.com/components/modal/#
+- [Mermaid Live Editor](https://mermaid.live/)
 
 ---
 
-他OSSプロジェクトでの導入事例
+ソースコードの引用／流用元
 
-- [Mermaid Live Editor](https://mermaid.live/)
+https://daisyui.com/
+https://daisyui.com/components/modal/#
