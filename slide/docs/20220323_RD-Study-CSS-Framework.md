@@ -1,8 +1,8 @@
 ---
 marp: true
-title: "daisyUIについて"
+title: "daisyUIについて 〜Tailwind CSSベースのコンポーネントライブラリ！で開発を高速化！〜"
 description: "ラクスR&D Meetup - CSSフレームワークの登壇資料です。"
-image: ../images/ogp/20220323_RD-Study-CSS-Framework.png
+image: https://kght6123.github.io/slide/images/ogp/20220323_RD-Study-CSS-Framework.png
 theme: gaia
 class: lead
 backgroundColor: #efefef
