@@ -28,6 +28,12 @@ Tailwind CSSベースのコンポーネントライブラリ！で開発を高�
 [twitter]: https://twitter.com/kght6123
 [github]: https://github.com/kght6123
 
+<!--
+Tailwind CSSはPost CSSのプラグインのため、PostCSSの他のPluginと組み合わせて動かすこともできます。
+daisyUIはそのTailwind CSSのプラグインとして動かす。
+意図してないですが、今回のMeetupのテーマに合うものになったので、ぜひ、見ていただけたらと思います。
+-->
+
 ---
 
 ## 自己紹介
@@ -39,6 +45,10 @@ Tailwind CSSベースのコンポーネントライブラリ！で開発を高�
 フロントエンド、サーバサイドが主な担当です。
 
 ![bg right](../images/miko.png)
+
+<!-- 
+今日も子供の声がはいることがあるかもしれません。ご了承ください。
+ -->
 
 ---
 
