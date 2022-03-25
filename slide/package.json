@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "html": "marp ./docs/20220303_toranoana.deno5.md && marp ./docs/20220316_itbookslt3.md && marp ./docs/20220323_RD-Study-CSS-Framework.md",
+    "html": "marp ./docs/20220303_toranoana.deno5.md && marp ./docs/20220316_itbookslt3.md && marp ./docs/20220323_RD-Study-CSS-Framework.md && marp ./docs/20220325_example.md",
     "pdf": "marp --allow-local-files --pdf ./docs/20220303_toranoana.deno5.md",
     "pptx": "marp --allow-local-files  --pptx ./docs/20220303_toranoana.deno5.md",
     "pngs": "marp --allow-local-files  --images png ./docs/20220303_toranoana.deno5.md",
